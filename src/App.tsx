@@ -74,6 +74,7 @@ function App() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           name: formData.name,
@@ -82,13 +83,13 @@ function App() {
         })
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        throw new Error('Failed to create checkout session');
+        throw new Error(responseData.error || 'Failed to create checkout session');
       }
 
-      const { url } = await response.json();
-
-      window.location.href = url;
+      window.location.href = responseData.url;
     } catch (error) {
       console.error('Error:', error);
       setSubmitStatus('error');
