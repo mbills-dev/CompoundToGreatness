@@ -28,6 +28,8 @@ Deno.serve(async (req: Request) => {
 
     const { name, email, signupId } = await req.json();
 
+    const origin = req.headers.get("origin") || req.headers.get("referer")?.replace(/\/$/, "") || "https://bwvlnxpttbmuubtfdkrq.supabase.co";
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       line_items: [
@@ -37,8 +39,8 @@ Deno.serve(async (req: Request) => {
         },
       ],
       mode: "payment",
-      success_url: `${req.headers.get("origin")}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/#signup`,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/#start`,
       customer_email: email,
       metadata: {
         signupId,
