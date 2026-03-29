@@ -152,10 +152,6 @@ function App() {
           </a>
         </div>
 
-        <div className={`absolute bottom-12 left-1/2 -translate-x-1/2 animate-float transition-opacity duration-1000 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-             style={{ transitionDelay: '700ms' }}>
-          <div className="w-1 h-16 bg-gradient-to-b from-neon to-transparent rounded-full"></div>
-        </div>
       </section>
 
       <section className="relative py-32 px-6 bg-gradient-to-b from-black to-zinc-950">
