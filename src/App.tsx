@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Target, ArrowRight, Zap } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
-import JourneyMap from './components/JourneyMap';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -188,11 +187,6 @@ function App() {
         </div>
       </section>
 
-      <section className="relative py-32 px-6 bg-gradient-to-b from-zinc-950 to-black">
-        <div className="max-w-6xl mx-auto reveal-scale">
-          <JourneyMap />
-        </div>
-      </section>
 
       <section className="relative py-32 px-6">
         <div className="max-w-6xl mx-auto">
