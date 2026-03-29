@@ -1,5 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   ChevronLeft,
   Flag,
@@ -78,49 +77,12 @@ const JOURNEY_STEPS: JourneyStep[] = [
 
 const CURVE_COLOR = "#ccff00";
 
-const Confetti = ({ x, y, active }: { x: number, y: number, active: boolean }) => {
-  if (!active) return null;
-  return (
-    <g>
-      {[...Array(20)].map((_, i) => (
-        <motion.circle
-          key={i}
-          cx={x}
-          cy={y}
-          r={Math.random() * 3 + 1}
-          fill={i % 2 === 0 ? "#ccff00" : "#fff"}
-          initial={{ x: 0, y: 0, opacity: 1 }}
-          animate={{
-            x: (Math.random() - 0.5) * 200,
-            y: (Math.random() - 0.5) * 200,
-            opacity: 0,
-            scale: 0
-          }}
-          transition={{ duration: 2, repeat: Infinity, delay: Math.random() * 2 }}
-        />
-      ))}
-    </g>
-  );
-};
-
-const TrophyCelebration = ({ x, y, active }: { x: number, y: number, active: boolean }) => {
-  if (!active) return null;
-  return (
-    <motion.g
-      initial={{ scale: 0, opacity: 0, y: 0 }}
-      animate={{ scale: 1, opacity: 1, y: -60 }}
-      transition={{ type: "spring", damping: 12 }}
-    >
-      <circle cx={x} cy={y} r="30" fill="#ccff00" />
-      <Trophy x={x - 12} y={y - 12} className="w-6 h-6 text-black" />
-    </motion.g>
-  );
-};
-
 export default function JourneyMap() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
+  const [cardVisible, setCardVisible] = useState(true);
+  const svgRef = useRef<SVGSVGElement>(null);
 
   const currentStep = JOURNEY_STEPS[currentStepIndex];
 
@@ -162,20 +124,28 @@ export default function JourneyMap() {
   const goToStep = (index: number) => {
     if (isMoving) return;
     setIsMoving(true);
-    setCurrentStepIndex(index);
-    setTimeout(() => setIsMoving(false), 2500);
+    setCardVisible(false);
+    setTimeout(() => {
+      setCurrentStepIndex(index);
+      setCardVisible(true);
+      setIsMoving(false);
+    }, 400);
   };
 
   const nextStep = () => goToStep((currentStepIndex + 1) % JOURNEY_STEPS.length);
   const prevStep = () => goToStep((currentStepIndex - 1 + JOURNEY_STEPS.length) % JOURNEY_STEPS.length);
 
   useEffect(() => {
-    let interval: any;
+    let interval: ReturnType<typeof setInterval>;
     if (isAutoPlaying) {
       interval = setInterval(nextStep, 6000);
     }
     return () => clearInterval(interval);
   }, [isAutoPlaying, currentStepIndex]);
+
+  const pathLength = currentStep.day === 0
+    ? 0
+    : pathMetrics.lengths[Math.min(currentStep.day - 1, pathMetrics.lengths.length - 1)] / pathMetrics.total;
 
   return (
     <div className="w-full h-[600px] bg-[#050505] text-white font-sans overflow-hidden flex flex-col selection:bg-[#ccff00] selection:text-black rounded-3xl border border-white/5 shadow-2xl relative">
@@ -205,27 +175,29 @@ export default function JourneyMap() {
       </header>
 
       <main className="flex-1 relative overflow-hidden bg-black">
-        <motion.svg
+        <svg
+          ref={svgRef}
           viewBox={currentStep.viewBox}
-          className="w-full h-full"
-          animate={{ viewBox: currentStep.viewBox }}
-          transition={{ duration: 2.5, ease: [0.4, 0, 0.2, 1] }}
+          className="w-full h-full transition-all duration-[2500ms] ease-in-out"
+          style={{ transition: 'all 2.5s cubic-bezier(0.4, 0, 0.2, 1)' }}
         >
           <defs>
             <radialGradient id="glow" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#ccff00" stopOpacity="0.2" />
               <stop offset="100%" stopColor="#ccff00" stopOpacity="0" />
             </radialGradient>
+            <clipPath id="pathClip">
+              <rect x="-200" y="-200" width={`${(pathLength) * 1400}`} height="1000" />
+            </clipPath>
           </defs>
 
-          <motion.path
+          <path
             d={pathData}
             fill="none"
             stroke="#ccff00"
             strokeWidth="4"
             strokeLinecap="round"
-            animate={{ pathLength: currentStep.day === 0 ? 0 : pathMetrics.lengths[currentStep.day - 1] / pathMetrics.total }}
-            transition={{ duration: 2.5, ease: [0.4, 0, 0.2, 1] }}
+            clipPath="url(#pathClip)"
           />
 
           {JOURNEY_STEPS.filter(s => !s.isFullMap).map((step) => {
@@ -234,49 +206,44 @@ export default function JourneyMap() {
             if (step.day > currentStep.day) return null;
             return (
               <g key={step.id}>
-                {isActive && <motion.circle cx={x} cy={y} r="40" fill="url(#glow)" initial={{ scale: 0 }} animate={{ scale: 1 }} />}
-                {step.id === 'emergence' && <><Confetti x={x} y={y} active={isActive} /><TrophyCelebration x={x} y={y} active={isActive} /></>}
+                {isActive && <circle cx={x} cy={y} r="40" fill="url(#glow)" />}
                 <circle cx={x} cy={y} r="12" fill="rgba(5,5,5,0.8)" stroke={isActive ? CURVE_COLOR : 'rgba(204,255,0,0.3)'} strokeWidth="1" />
                 <circle cx={x} cy={y} r="3" fill={isActive ? CURVE_COLOR : 'rgba(204,255,0,0.5)'} />
-                <text x={x + 20} y={y + 30} className={`text-[11px] font-black uppercase italic tracking-tight ${isActive ? 'fill-[#ccff00]' : 'fill-[#ccff00]/40'}`}>{step.title}</text>
+                <text x={x + 20} y={y + 30} fill={isActive ? '#ccff00' : 'rgba(204,255,0,0.4)'} fontSize="11" fontWeight="900" fontStyle="italic">{step.title}</text>
               </g>
             );
           })}
-        </motion.svg>
+        </svg>
 
         <div className="absolute top-6 left-6 right-6 md:top-12 md:left-12 md:right-auto md:max-w-md z-10">
-          <AnimatePresence mode="wait">
-            {!isMoving && (
-              <motion.div
-                key={currentStep.id}
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                transition={{ duration: 0.5, ease: "circOut" }}
-                className="bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-2xl"
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-[#ccff00] flex items-center justify-center text-black">
-                    {currentStep.id === 'start' && <MapIcon className="w-5 h-5" />}
-                    {currentStep.id === 'commitment' && <Flag className="w-5 h-5" />}
-                    {currentStep.id === 'void' && <Info className="w-5 h-5" />}
-                    {currentStep.id === 'shift' && <Zap className="w-5 h-5" />}
-                    {currentStep.id === 'emergence' && <Trophy className="w-5 h-5" />}
-                    {currentStep.id === 'end' && <Trophy className="w-5 h-5" />}
-                  </div>
-                  <h2 className="text-xl md:text-3xl font-black uppercase italic leading-none tracking-tight">{currentStep.title}</h2>
-                </div>
-                <p className="text-white/60 leading-relaxed mb-6 text-xs md:text-sm font-medium">{currentStep.description}</p>
-                <div className="flex items-center gap-2">
-                  <button onClick={prevStep} className="p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/5"><ChevronLeft className="w-4 h-4 text-white/60" /></button>
-                  <button onClick={nextStep} className="flex-1 flex items-center justify-between p-3 px-6 rounded-xl bg-[#ccff00] text-black font-black uppercase italic transition-all hover:scale-[1.02] active:scale-[0.98]">
-                    <span className="text-xs md:text-sm">{currentStepIndex === 0 ? 'Start Journey' : currentStepIndex === JOURNEY_STEPS.length - 1 ? 'Restart Protocol' : 'Next Phase'}</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div
+            style={{
+              opacity: cardVisible ? 1 : 0,
+              transform: cardVisible ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.95)',
+              transition: 'opacity 0.5s ease, transform 0.5s ease',
+            }}
+            className="bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-2xl"
+          >
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-[#ccff00] flex items-center justify-center text-black">
+                {currentStep.id === 'start' && <MapIcon className="w-5 h-5" />}
+                {currentStep.id === 'commitment' && <Flag className="w-5 h-5" />}
+                {currentStep.id === 'void' && <Info className="w-5 h-5" />}
+                {currentStep.id === 'shift' && <Zap className="w-5 h-5" />}
+                {currentStep.id === 'emergence' && <Trophy className="w-5 h-5" />}
+                {currentStep.id === 'end' && <Trophy className="w-5 h-5" />}
+              </div>
+              <h2 className="text-xl md:text-3xl font-black uppercase italic leading-none tracking-tight">{currentStep.title}</h2>
+            </div>
+            <p className="text-white/60 leading-relaxed mb-6 text-xs md:text-sm font-medium">{currentStep.description}</p>
+            <div className="flex items-center gap-2">
+              <button onClick={prevStep} className="p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/5"><ChevronLeft className="w-4 h-4 text-white/60" /></button>
+              <button onClick={nextStep} className="flex-1 flex items-center justify-between p-3 px-6 rounded-xl bg-[#ccff00] text-black font-black uppercase italic transition-all hover:scale-[1.02] active:scale-[0.98]">
+                <span className="text-xs md:text-sm">{currentStepIndex === 0 ? 'Start Journey' : currentStepIndex === JOURNEY_STEPS.length - 1 ? 'Restart Protocol' : 'Next Phase'}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
       </main>
 
