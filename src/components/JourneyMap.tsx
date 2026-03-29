@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronLeft,
   Flag,
@@ -77,19 +78,49 @@ const JOURNEY_STEPS: JourneyStep[] = [
 
 const CURVE_COLOR = "#ccff00";
 
-function usePrevious<T>(value: T): T | undefined {
-  const ref = useRef<T>(undefined);
-  useEffect(() => { ref.current = value; }, [value]);
-  return ref.current;
-}
+const Confetti = ({ x, y, active }: { x: number, y: number, active: boolean }) => {
+  if (!active) return null;
+  return (
+    <g>
+      {[...Array(20)].map((_, i) => (
+        <motion.circle
+          key={i}
+          cx={x}
+          cy={y}
+          r={Math.random() * 3 + 1}
+          fill={i % 2 === 0 ? "#ccff00" : "#fff"}
+          initial={{ x: 0, y: 0, opacity: 1 }}
+          animate={{
+            x: (Math.random() - 0.5) * 200,
+            y: (Math.random() - 0.5) * 200,
+            opacity: 0,
+            scale: 0
+          }}
+          transition={{ duration: 2, repeat: Infinity, delay: Math.random() * 2 }}
+        />
+      ))}
+    </g>
+  );
+};
+
+const TrophyCelebration = ({ x, y, active }: { x: number, y: number, active: boolean }) => {
+  if (!active) return null;
+  return (
+    <motion.g
+      initial={{ scale: 0, opacity: 0, y: 0 }}
+      animate={{ scale: 1, opacity: 1, y: -60 }}
+      transition={{ type: "spring", damping: 12 }}
+    >
+      <circle cx={x} cy={y} r="30" fill="#ccff00" />
+      <Trophy x={x - 12} y={y - 12} className="w-6 h-6 text-black" />
+    </motion.g>
+  );
+};
 
 export default function JourneyMap() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
-  const [cardVisible, setCardVisible] = useState(true);
-  const [animatedPathLength, setAnimatedPathLength] = useState(0);
-  const prevStepIndex = usePrevious(currentStepIndex);
 
   const currentStep = JOURNEY_STEPS[currentStepIndex];
 
@@ -117,8 +148,8 @@ export default function JourneyMap() {
     const lengths = [0];
     for (let i = 1; i < curvePoints.length; i++) {
       const d = Math.sqrt(
-        Math.pow(curvePoints[i][0] - curvePoints[i - 1][0], 2) +
-        Math.pow(curvePoints[i][1] - curvePoints[i - 1][1], 2)
+        Math.pow(curvePoints[i][0] - curvePoints[i-1][0], 2) +
+        Math.pow(curvePoints[i][1] - curvePoints[i-1][1], 2)
       );
       total += d;
       lengths.push(total);
@@ -128,96 +159,23 @@ export default function JourneyMap() {
 
   const getPointAtDay = (day: number): [number, number] => curvePoints[day] || [0, 0];
 
-  const targetPathLength = useMemo(() => {
-    if (currentStep.day === 0) return 0;
-    const idx = Math.min(currentStep.day - 1, pathMetrics.lengths.length - 1);
-    return pathMetrics.lengths[idx] / pathMetrics.total;
-  }, [currentStep.day, pathMetrics]);
-
-  useEffect(() => {
-    const start = animatedPathLength;
-    const end = targetPathLength;
-    if (start === end) return;
-    const duration = 2500;
-    const startTime = performance.now();
-    let raf: number;
-
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-      setAnimatedPathLength(start + (end - start) * eased);
-      if (t < 1) raf = requestAnimationFrame(animate);
-    };
-
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
-  }, [targetPathLength]);
-
-  const totalPathLength = useMemo(() => {
-    const svgPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    svgPath.setAttribute('d', pathData);
-    return svgPath.getTotalLength() || 2000;
-  }, [pathData]);
-
-  const strokeDashoffset = (1 - animatedPathLength) * totalPathLength;
-
   const goToStep = (index: number) => {
     if (isMoving) return;
     setIsMoving(true);
-    setCardVisible(false);
-    setTimeout(() => {
-      setCurrentStepIndex(index);
-      setCardVisible(true);
-      setIsMoving(false);
-    }, 400);
+    setCurrentStepIndex(index);
+    setTimeout(() => setIsMoving(false), 2500);
   };
 
   const nextStep = () => goToStep((currentStepIndex + 1) % JOURNEY_STEPS.length);
   const prevStep = () => goToStep((currentStepIndex - 1 + JOURNEY_STEPS.length) % JOURNEY_STEPS.length);
 
   useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
+    let interval: any;
     if (isAutoPlaying) {
       interval = setInterval(nextStep, 6000);
     }
     return () => clearInterval(interval);
   }, [isAutoPlaying, currentStepIndex]);
-
-  const [currentViewBox, setCurrentViewBox] = useState(currentStep.viewBox);
-  const viewBoxRef = useRef<{ start: string; end: string; startTime: number; raf: number } | null>(null);
-
-  useEffect(() => {
-    const parseVB = (vb: string) => vb.split(' ').map(Number);
-    const serializeVB = (vals: number[]) => vals.map(v => v.toFixed(2)).join(' ');
-
-    const from = parseVB(currentViewBox);
-    const to = parseVB(currentStep.viewBox);
-
-    if (from.join(' ') === to.join(' ')) return;
-
-    const duration = 2500;
-    const startTime = performance.now();
-
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
-      const t = Math.min(elapsed / duration, 1);
-      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      const interpolated = from.map((f, i) => f + (to[i] - f) * eased);
-      setCurrentViewBox(serializeVB(interpolated));
-      if (t < 1) {
-        viewBoxRef.current = { start: serializeVB(from), end: currentStep.viewBox, startTime, raf: requestAnimationFrame(animate) };
-      }
-    };
-
-    if (viewBoxRef.current?.raf) cancelAnimationFrame(viewBoxRef.current.raf);
-    const raf = requestAnimationFrame(animate);
-    viewBoxRef.current = { start: serializeVB(from), end: currentStep.viewBox, startTime, raf };
-
-    return () => {
-      if (viewBoxRef.current?.raf) cancelAnimationFrame(viewBoxRef.current.raf);
-    };
-  }, [currentStep.viewBox]);
 
   return (
     <div className="w-full h-[600px] bg-[#050505] text-white font-sans overflow-hidden flex flex-col selection:bg-[#ccff00] selection:text-black rounded-3xl border border-white/5 shadow-2xl relative">
@@ -239,20 +197,19 @@ export default function JourneyMap() {
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
             className={`flex items-center gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full text-[8px] md:text-[10px] font-black tracking-widest transition-all border ${isAutoPlaying ? 'bg-[#ccff00] text-black border-[#ccff00]' : 'bg-white/5 text-white/60 border-white/10 hover:bg-white/10'}`}
           >
-            <RefreshCw className={`w-3 h-3 ${isAutoPlaying ? 'animate-spin' : ''}`} />
+            {isAutoPlaying ? <RefreshCw className="w-3 h-3 animate-spin" /> : <Zap className="w-3 h-3" />}
             <span className="hidden xs:inline">{isAutoPlaying ? 'AUTO-SEQUENCE' : 'AUTO-PLAY'}</span>
           </button>
-          <button onClick={() => goToStep(0)} className="p-1.5 md:p-2 rounded-full bg-white/5 text-white/40 hover:text-white border border-white/10">
-            <Maximize2 className="w-3.5 h-3.5" />
-          </button>
+          <button onClick={() => goToStep(0)} className="p-1.5 md:p-2 rounded-full bg-white/5 text-white/40 hover:text-white border border-white/10"><Maximize2 className="w-3.5 h-3.5" /></button>
         </div>
       </header>
 
       <main className="flex-1 relative overflow-hidden bg-black">
-        <svg
-          viewBox={currentViewBox}
+        <motion.svg
+          viewBox={currentStep.viewBox}
           className="w-full h-full"
-          style={{ transition: 'none' }}
+          animate={{ viewBox: currentStep.viewBox }}
+          transition={{ duration: 2.5, ease: [0.4, 0, 0.2, 1] }}
         >
           <defs>
             <radialGradient id="glow" cx="50%" cy="50%" r="50%">
@@ -261,14 +218,14 @@ export default function JourneyMap() {
             </radialGradient>
           </defs>
 
-          <path
+          <motion.path
             d={pathData}
             fill="none"
-            stroke={CURVE_COLOR}
+            stroke="#ccff00"
             strokeWidth="4"
             strokeLinecap="round"
-            strokeDasharray={totalPathLength}
-            strokeDashoffset={strokeDashoffset}
+            animate={{ pathLength: currentStep.day === 0 ? 0 : pathMetrics.lengths[currentStep.day - 1] / pathMetrics.total }}
+            transition={{ duration: 2.5, ease: [0.4, 0, 0.2, 1] }}
           />
 
           {JOURNEY_STEPS.filter(s => !s.isFullMap).map((step) => {
@@ -277,88 +234,49 @@ export default function JourneyMap() {
             if (step.day > currentStep.day) return null;
             return (
               <g key={step.id}>
-                {isActive && (
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r="40"
-                    fill="url(#glow)"
-                    style={{
-                      opacity: isActive ? 1 : 0,
-                      transition: 'opacity 0.6s ease'
-                    }}
-                  />
-                )}
-                {step.id === 'emergence' && isActive && (
-                  <>
-                    {[...Array(16)].map((_, i) => (
-                      <circle
-                        key={i}
-                        cx={x + (i % 2 === 0 ? 1 : -1) * ((i * 17) % 80)}
-                        cy={y - ((i * 23) % 80)}
-                        r={(i % 3) + 1.5}
-                        fill={i % 2 === 0 ? "#ccff00" : "#fff"}
-                        style={{ opacity: 0.7 - (i * 0.04) }}
-                      />
-                    ))}
-                    <circle cx={x} cy={y - 50} r="24" fill="#ccff00" />
-                    <text x={x - 8} y={y - 43} fontSize="18" fill="black" fontWeight="bold">★</text>
-                  </>
-                )}
+                {isActive && <motion.circle cx={x} cy={y} r="40" fill="url(#glow)" initial={{ scale: 0 }} animate={{ scale: 1 }} />}
+                {step.id === 'emergence' && <><Confetti x={x} y={y} active={isActive} /><TrophyCelebration x={x} y={y} active={isActive} /></>}
                 <circle cx={x} cy={y} r="12" fill="rgba(5,5,5,0.8)" stroke={isActive ? CURVE_COLOR : 'rgba(204,255,0,0.3)'} strokeWidth="1" />
                 <circle cx={x} cy={y} r="3" fill={isActive ? CURVE_COLOR : 'rgba(204,255,0,0.5)'} />
-                <text
-                  x={x + 20}
-                  y={y + 30}
-                  fontSize="11"
-                  fontWeight="900"
-                  fontStyle="italic"
-                  fill={isActive ? '#ccff00' : 'rgba(204,255,0,0.4)'}
-                  style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}
-                >
-                  {step.title}
-                </text>
+                <text x={x + 20} y={y + 30} className={`text-[11px] font-black uppercase italic tracking-tight ${isActive ? 'fill-[#ccff00]' : 'fill-[#ccff00]/40'}`}>{step.title}</text>
               </g>
             );
           })}
-        </svg>
+        </motion.svg>
 
         <div className="absolute top-6 left-6 right-6 md:top-12 md:left-12 md:right-auto md:max-w-md z-10">
-          <div
-            style={{
-              opacity: cardVisible ? 1 : 0,
-              transform: cardVisible ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.97)',
-              transition: 'opacity 0.4s ease, transform 0.4s ease',
-            }}
-            className="bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-2xl"
-          >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-[#ccff00] flex items-center justify-center text-black">
-                {currentStep.id === 'start' && <MapIcon className="w-5 h-5" />}
-                {currentStep.id === 'commitment' && <Flag className="w-5 h-5" />}
-                {currentStep.id === 'void' && <Info className="w-5 h-5" />}
-                {currentStep.id === 'shift' && <Zap className="w-5 h-5" />}
-                {currentStep.id === 'emergence' && <Trophy className="w-5 h-5" />}
-                {currentStep.id === 'end' && <Trophy className="w-5 h-5" />}
-              </div>
-              <h2 className="text-xl md:text-3xl font-black uppercase italic leading-none tracking-tight">{currentStep.title}</h2>
-            </div>
-            <p className="text-white/60 leading-relaxed mb-6 text-xs md:text-sm font-medium">{currentStep.description}</p>
-            <div className="flex items-center gap-2">
-              <button onClick={prevStep} className="p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/5">
-                <ChevronLeft className="w-4 h-4 text-white/60" />
-              </button>
-              <button
-                onClick={nextStep}
-                className="flex-1 flex items-center justify-between p-3 px-6 rounded-xl bg-[#ccff00] text-black font-black uppercase italic transition-all hover:scale-[1.02] active:scale-[0.98]"
+          <AnimatePresence mode="wait">
+            {!isMoving && (
+              <motion.div
+                key={currentStep.id}
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                transition={{ duration: 0.5, ease: "circOut" }}
+                className="bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-2xl md:rounded-[2rem] shadow-2xl"
               >
-                <span className="text-xs md:text-sm">
-                  {currentStepIndex === 0 ? 'Start Journey' : currentStepIndex === JOURNEY_STEPS.length - 1 ? 'Restart Protocol' : 'Next Phase'}
-                </span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-[#ccff00] flex items-center justify-center text-black">
+                    {currentStep.id === 'start' && <MapIcon className="w-5 h-5" />}
+                    {currentStep.id === 'commitment' && <Flag className="w-5 h-5" />}
+                    {currentStep.id === 'void' && <Info className="w-5 h-5" />}
+                    {currentStep.id === 'shift' && <Zap className="w-5 h-5" />}
+                    {currentStep.id === 'emergence' && <Trophy className="w-5 h-5" />}
+                    {currentStep.id === 'end' && <Trophy className="w-5 h-5" />}
+                  </div>
+                  <h2 className="text-xl md:text-3xl font-black uppercase italic leading-none tracking-tight">{currentStep.title}</h2>
+                </div>
+                <p className="text-white/60 leading-relaxed mb-6 text-xs md:text-sm font-medium">{currentStep.description}</p>
+                <div className="flex items-center gap-2">
+                  <button onClick={prevStep} className="p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/5"><ChevronLeft className="w-4 h-4 text-white/60" /></button>
+                  <button onClick={nextStep} className="flex-1 flex items-center justify-between p-3 px-6 rounded-xl bg-[#ccff00] text-black font-black uppercase italic transition-all hover:scale-[1.02] active:scale-[0.98]">
+                    <span className="text-xs md:text-sm">{currentStepIndex === 0 ? 'Start Journey' : currentStepIndex === JOURNEY_STEPS.length - 1 ? 'Restart Protocol' : 'Next Phase'}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </main>
 
