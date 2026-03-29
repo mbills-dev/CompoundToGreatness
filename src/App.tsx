@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Target, ArrowRight, Zap } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
+import JourneyMap from './components/JourneyMap';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -203,16 +204,7 @@ function App() {
 
       <section className="relative py-32 px-6 bg-gradient-to-b from-zinc-950 to-black">
         <div className="max-w-6xl mx-auto reveal-scale">
-          <div className="relative w-full h-[600px] bg-zinc-900/50 rounded-xl overflow-hidden shadow-2xl shadow-neon/10 border border-neon/10">
-            <iframe
-              src="https://ais-pre-dnmwudhi3lro6vt6uou4jk-319127725657.us-west2.run.app?embed=true"
-              className="w-full h-full border-none"
-              title="Compound to Greatness Journey"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
+          <JourneyMap />
         </div>
       </section>
 
