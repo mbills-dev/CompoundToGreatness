@@ -56,13 +56,14 @@ function App() {
     try {
       const { data: signup, error: signupError } = await supabase
         .from('beta_signups')
-        .insert([
+        .upsert(
           {
             name: formData.name,
             email: formData.email,
             payment_status: 'pending'
-          }
-        ])
+          },
+          { onConflict: 'email' }
+        )
         .select()
         .maybeSingle();
 
