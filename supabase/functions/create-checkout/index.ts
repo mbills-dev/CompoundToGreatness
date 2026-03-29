@@ -32,14 +32,7 @@ Deno.serve(async (req: Request) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: "Compound to Greatness - Lifetime Access",
-              description: "Beta lifetime access to the 77-day identity transformation challenge",
-            },
-            unit_amount: 799,
-          },
+          price: "price_1TGKnMBBbbxqlK8j4rtOwaJa",
           quantity: 1,
         },
       ],
