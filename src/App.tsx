@@ -54,21 +54,6 @@ function App() {
     setSubmitStatus('idle');
 
     try {
-      const { data: signup, error: signupError } = await supabase
-        .from('beta_signups')
-        .upsert(
-          {
-            name: formData.name,
-            email: formData.email,
-            payment_status: 'pending'
-          },
-          { onConflict: 'email' }
-        )
-        .select()
-        .maybeSingle();
-
-      if (signupError) throw signupError;
-
       const checkoutUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-checkout`;
 
       const response = await fetch(checkoutUrl, {
@@ -80,7 +65,6 @@ function App() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          signupId: signup?.id
         })
       });
 

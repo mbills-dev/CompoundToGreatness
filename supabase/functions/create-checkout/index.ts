@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import Stripe from "npm:stripe@17.5.0";
+import { createClient } from "npm:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -17,18 +18,34 @@ Deno.serve(async (req: Request) => {
 
   try {
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-
     if (!stripeKey) {
       throw new Error("Stripe secret key not configured");
     }
+
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const stripe = new Stripe(stripeKey, {
       apiVersion: "2024-12-18.acacia",
     });
 
-    const { name, email, signupId } = await req.json();
+    const { name, email } = await req.json();
 
-    const origin = req.headers.get("origin") || req.headers.get("referer")?.replace(/\/$/, "") || "https://bwvlnxpttbmuubtfdkrq.supabase.co";
+    const { data: signup, error: signupError } = await supabase
+      .from("beta_signups")
+      .upsert(
+        { name, email, payment_status: "pending" },
+        { onConflict: "email" }
+      )
+      .select()
+      .maybeSingle();
+
+    if (signupError) {
+      throw new Error(`DB error: ${signupError.message}`);
+    }
+
+    const origin = req.headers.get("origin") || req.headers.get("referer")?.replace(/\/$/, "") || "https://compoundtogreatness.com";
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -43,7 +60,7 @@ Deno.serve(async (req: Request) => {
       cancel_url: `${origin}/#start`,
       customer_email: email,
       metadata: {
-        signupId,
+        signupId: signup?.id ?? null,
         name,
         email,
       },
