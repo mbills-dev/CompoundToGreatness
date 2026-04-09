@@ -336,9 +336,14 @@ function App() {
             </div>
             <span className="text-sm font-black tracking-tight">COMPOUND TO GREATNESS</span>
           </div>
-          <p className="text-gray-600 text-sm font-light">
-            © 2026 — Transform your identity, one day at a time.
-          </p>
+          <div className="flex flex-col items-center md:items-end gap-1">
+            <p className="text-gray-600 text-sm font-light">
+              © 2026 — Transform your identity, one day at a time.
+            </p>
+            <p className="text-gray-700 text-xs font-light tracking-wide">
+              A product of Lumière Holdings LLC
+            </p>
+          </div>
         </div>
       </footer>
     </div>
