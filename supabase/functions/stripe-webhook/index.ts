@@ -8,61 +8,67 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
 };
 
-async function addSubscriberToKit(email: string, name: string, kitApiKey: string, kitApiSecret: string) {
-  const currentMonth = new Date().toISOString().slice(0, 7);
-  const tags = ["beta-paid", "beta-user", `joined-${currentMonth}`];
+async function getOrCreateTagId(tagName: string, kitApiKey: string): Promise<number> {
+  const listRes = await fetch(`https://api.convertkit.com/v3/tags?api_key=${kitApiKey}`);
+  if (!listRes.ok) throw new Error(`Failed to list Kit tags: ${await listRes.text()}`);
+  const { tags } = await listRes.json();
 
-  const kitUrl = "https://api.convertkit.com/v3/tags";
+  const existing = tags.find((t: { id: number; name: string }) => t.name === tagName);
+  if (existing) return existing.id;
 
-  for (const tag of tags) {
-    const tagResponse = await fetch(`${kitUrl}/${tag}/subscribe`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        api_key: kitApiKey,
-        api_secret: kitApiSecret,
-        email: email,
-        first_name: name,
-      }),
-    });
+  const createRes = await fetch("https://api.convertkit.com/v3/tags", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ api_key: kitApiKey, tag: { name: tagName } }),
+  });
+  if (!createRes.ok) throw new Error(`Failed to create Kit tag "${tagName}": ${await createRes.text()}`);
+  const { id } = await createRes.json();
+  return id;
+}
 
-    if (!tagResponse.ok) {
-      const errorText = await tagResponse.text();
-      throw new Error(`Failed to tag ${tag}: ${errorText}`);
-    }
-  }
+async function tagSubscriber(tagId: number, email: string, name: string, kitApiKey: string) {
+  const res = await fetch(`https://api.convertkit.com/v3/tags/${tagId}/subscribe`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ api_key: kitApiKey, email, first_name: name }),
+  });
+  if (!res.ok) throw new Error(`Failed to tag subscriber in Kit (tag ${tagId}): ${await res.text()}`);
+  return res.json();
+}
 
-  const subscribersResponse = await fetch(`https://api.convertkit.com/v3/subscribers?api_secret=${kitApiSecret}&email_address=${encodeURIComponent(email)}`);
-
-  if (subscribersResponse.ok) {
-    const data = await subscribersResponse.json();
-    if (data.subscribers && data.subscribers.length > 0) {
-      return data.subscribers[0].id.toString();
-    }
-  }
-
+async function getKitSubscriberId(email: string, kitApiSecret: string): Promise<string | null> {
+  const res = await fetch(
+    `https://api.convertkit.com/v3/subscribers?api_secret=${kitApiSecret}&email_address=${encodeURIComponent(email)}`
+  );
+  if (!res.ok) return null;
+  const data = await res.json();
+  if (data.subscribers?.length > 0) return data.subscribers[0].id.toString();
   return null;
 }
 
-async function logKitFailure(supabase: any, signupId: string, email: string, errorMessage: string) {
+async function addSubscriberToKit(
+  email: string,
+  name: string,
+  kitApiKey: string,
+  kitApiSecret: string,
+  tags: string[]
+) {
+  for (const tagName of tags) {
+    const tagId = await getOrCreateTagId(tagName, kitApiKey);
+    await tagSubscriber(tagId, email, name, kitApiKey);
+  }
+  return await getKitSubscriberId(email, kitApiSecret);
+}
+
+async function logKitFailure(supabase: ReturnType<typeof createClient>, signupId: string, email: string, errorMessage: string) {
   await supabase
     .from("kit_sync_failures")
-    .insert({
-      signup_id: signupId,
-      email: email,
-      error_message: errorMessage,
-      retry_count: 0,
-    });
+    .insert({ signup_id: signupId, email, error_message: errorMessage, retry_count: 0 });
 }
 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, {
-      status: 200,
-      headers: corsHeaders,
-    });
+    return new Response(null, { status: 200, headers: corsHeaders });
   }
 
   try {
@@ -77,14 +83,10 @@ Deno.serve(async (req: Request) => {
       throw new Error("Missing required environment variables");
     }
 
-    const stripe = new Stripe(stripeKey, {
-      apiVersion: "2024-12-18.acacia",
-    });
+    const stripe = new Stripe(stripeKey, { apiVersion: "2024-12-18.acacia" });
 
     const signature = req.headers.get("stripe-signature");
-    if (!signature) {
-      throw new Error("No signature found");
-    }
+    if (!signature) throw new Error("No signature found");
 
     const body = await req.text();
     const event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
@@ -94,13 +96,15 @@ Deno.serve(async (req: Request) => {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
       const signupId = session.metadata?.signupId;
+      const metaEmail = session.metadata?.email;
+      const metaName = session.metadata?.name;
 
       if (signupId) {
         const { data: signup } = await supabase
           .from("beta_signups")
           .select("email, name")
           .eq("id", signupId)
-          .single();
+          .maybeSingle();
 
         await supabase
           .from("beta_signups")
@@ -110,13 +114,18 @@ Deno.serve(async (req: Request) => {
           })
           .eq("id", signupId);
 
-        if (kitApiKey && kitApiSecret && signup) {
+        const email = signup?.email ?? metaEmail;
+        const name = signup?.name ?? metaName ?? "";
+
+        if (kitApiKey && kitApiSecret && email) {
           try {
+            const currentMonth = new Date().toISOString().slice(0, 7);
             const kitSubscriberId = await addSubscriberToKit(
-              signup.email,
-              signup.name,
+              email,
+              name,
               kitApiKey,
-              kitApiSecret
+              kitApiSecret,
+              ["beta-user", "beta-paid", `joined-${currentMonth}`]
             );
 
             if (kitSubscriberId) {
@@ -124,12 +133,12 @@ Deno.serve(async (req: Request) => {
                 .from("beta_signups")
                 .update({ kit_subscriber_id: kitSubscriberId })
                 .eq("id", signupId);
-
-              console.log(`Successfully tagged ${signup.email} in Kit with subscriber ID ${kitSubscriberId}`);
             }
+
+            console.log(`Successfully tagged ${email} in Kit`);
           } catch (kitError) {
             console.error("Kit API error:", kitError);
-            await logKitFailure(supabase, signupId, signup.email, kitError.message);
+            await logKitFailure(supabase, signupId, email, kitError.message);
           }
         }
       }
@@ -137,24 +146,13 @@ Deno.serve(async (req: Request) => {
 
     return new Response(
       JSON.stringify({ received: true }),
-      {
-        headers: {
-          ...corsHeaders,
-          "Content-Type": "application/json",
-        },
-      }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (error) {
     console.error("Webhook error:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
-      {
-        status: 400,
-        headers: {
-          ...corsHeaders,
-          "Content-Type": "application/json",
-        },
-      }
+      { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
 });
