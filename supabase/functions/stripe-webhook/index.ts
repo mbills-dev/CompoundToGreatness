@@ -71,7 +71,7 @@ Deno.serve(async (req: Request) => {
     const supabaseUrl = Deno.env.get("SUPABASE_URL");
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
     const kitApiKey = Deno.env.get("KIT_API_KEY");
-    const kitApiSecret = Deno.env.get("KIT_API_SECRET");
+    const kitApiSecret = Deno.env.get("KIT_SECRET_KEY");
 
     if (!stripeKey || !webhookSecret || !supabaseUrl || !supabaseServiceKey) {
       throw new Error("Missing required environment variables");
