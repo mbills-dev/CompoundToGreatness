@@ -48,7 +48,6 @@ Deno.serve(async (req: Request) => {
     const origin = req.headers.get("origin") || req.headers.get("referer")?.replace(/\/$/, "") || "https://compoundtogreatness.com";
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
       line_items: [
         {
           price: "price_1TGKnMBBbbxqlK8j4rtOwaJa",
