@@ -112,19 +112,19 @@ function App() {
         <div className="relative max-w-6xl mx-auto pt-32 pb-20">
           <div className="space-y-8 mb-16">
             <div className={`inline-block transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <div className="text-neon text-sm font-black tracking-widest mb-6">BETA ACCESS</div>
+              <div className="text-neon text-sm font-black tracking-widest mb-6">FOUNDING MEMBER PRE-SALE</div>
             </div>
 
             <h1 className={`text-6xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tighter transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
                 style={{ transitionDelay: '100ms' }}>
               77 DAYS.<br />
-              <span className="text-neon inline-block hover:scale-105 transition-transform duration-300">ONE IDENTITY.</span><br />
+              <span className="text-neon inline-block hover:scale-105 transition-transform duration-300">COMPOUNDED.</span><br />
               ZERO EXCUSES.
             </h1>
 
             <p className={`text-xl md:text-2xl text-gray-400 max-w-2xl font-light leading-relaxed transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
                style={{ transitionDelay: '300ms' }}>
-              Stop chasing habits. Start building identity. The only 77-day challenge that transforms who you are, not just what you do.
+              Goals are outputs. You can't chase an output. C2G reverse-engineers your goal into the exact daily inputs that produce it — then you commit to the inputs until the result shows up. Small inputs don't add up. They multiply.
             </p>
           </div>
 
@@ -146,17 +146,17 @@ function App() {
             <div className="space-y-8 reveal-left">
               <div className="text-neon text-sm font-black tracking-widest">THE CHALLENGE</div>
               <h2 className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter">
-                WHO ARE YOU BECOMING?
+                GOALS ARE OUTPUTS.
               </h2>
               <div className="space-y-6 text-lg text-gray-400 font-light leading-relaxed">
                 <p>
-                  Most people track habits. Winners build identities.
+                  Most people set a goal, commit to the goal, and chase it. That's backwards. A goal is an output — outputs aren't chased. They're produced.
                 </p>
                 <p>
-                  77 days is the scientifically-proven timeframe to rewire your brain and cement lasting change. Not 21 days. Not 30 days. 77 days of relentless commitment.
+                  C2G reverse-engineers your goal into the exact daily inputs that produce it — what you'll do, when you'll do it, where you'll do it. Not a wish. A repeatable system.
                 </p>
                 <p>
-                  This isn't about checking boxes. It's about proving to yourself, every single day, that you are who you say you are.
+                  Then you commit to the inputs, not the outcome, for 77 days — long enough for compounding to bend the curve. And in the process of doing it, you become someone new. Be it. Do it. Have it.
                 </p>
               </div>
             </div>
@@ -166,14 +166,14 @@ function App() {
                    style={{ transitionDelay: '0ms' }}>
                 <div className="text-6xl font-black text-neon mb-4">77</div>
                 <div className="text-xl font-black mb-2">DAYS TO REWIRE</div>
-                <div className="text-gray-400 font-light">The exact timeframe science says you need to form permanent neural pathways.</div>
+                <div className="text-gray-400 font-light">Past the point where motivation quits and the system takes over. That's escape velocity.</div>
               </div>
 
               <div className="bg-zinc-900 border-l-4 border-neon-light p-8 hover:bg-zinc-800 hover:scale-105 hover:shadow-xl hover:shadow-neon-light/10 transition-all duration-300"
                    style={{ transitionDelay: '100ms' }}>
-                <div className="text-6xl font-black text-neon-light mb-4">100%</div>
-                <div className="text-xl font-black mb-2">IDENTITY-BASED</div>
-                <div className="text-gray-400 font-light">Every action reinforces who you're becoming, not just what you're doing.</div>
+                <div className="text-6xl font-black text-neon-light mb-4">1.01⁷⁷</div>
+                <div className="text-xl font-black mb-2">THE MATH</div>
+                <div className="text-gray-400 font-light">1% better every day for 77 days doesn't add up. It multiplies.</div>
               </div>
 
               <div className="bg-zinc-900 border-l-4 border-white p-8 hover:bg-zinc-800 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300"
@@ -255,13 +255,14 @@ function App() {
           </div>
 
           <p className="text-2xl text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
-            The question isn't what. It's who. Who do you need to become to get what you want? And are you willing to prove it every single day for 77 days?
+            You just haven't done it long enough to see it work. Most people quit in the Zero Evidence Zone — the flat part of the curve where the work is real but the results aren't visible yet. 77 days carries you through it.
           </p>
 
           <div className="pt-8 reveal-scale">
             <div className="inline-block bg-zinc-900 border border-neon/30 px-8 py-4 hover:border-neon/60 hover:shadow-lg hover:shadow-neon/20 transition-all duration-300 hover:scale-105">
-              <div className="text-sm font-black text-gray-500 mb-2">EARLY ACCESS</div>
-              <div className="text-4xl font-black text-neon">LIMITED SPOTS</div>
+              <div className="text-sm font-black text-gray-500 mb-2">FOUNDING MEMBER — LIMITED SPOTS</div>
+              <div className="text-4xl font-black text-neon">$38.50/YEAR</div>
+              <div className="text-sm font-light text-gray-400 mt-2">50% off the $77 launch price. Locked in for as long as you stay.</div>
             </div>
           </div>
         </div>
@@ -275,7 +276,7 @@ function App() {
               <span className="text-neon">77 DAYS</span>
             </h2>
             <p className="text-xl text-gray-400 font-light">
-              Join the beta. Begin your transformation today.
+              Become a founding member. Lock in $38.50/year — half the launch price — get beta access now, and be first in line when the app goes live.
             </p>
           </div>
 
@@ -313,11 +314,15 @@ function App() {
                 <span className="animate-pulse">PROCESSING...</span>
               ) : (
                 <>
-                  BEGIN TRANSFORMATION
+                  LOCK IN MY SPOT — $38.50/YR
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </>
               )}
             </button>
+
+            <p className="text-xs text-gray-600 font-light text-center leading-relaxed">
+              Founding membership is $38.50/year, renewing annually at your locked-in founding rate until cancelled. Cancel anytime. The mobile app is currently in beta — founding members get TestFlight access now and full access at public launch.
+            </p>
 
             {submitStatus === 'error' && (
               <div className="bg-red-500/10 border border-red-500/20 p-6 text-red-500 text-center font-medium animate-fade-in-up">
