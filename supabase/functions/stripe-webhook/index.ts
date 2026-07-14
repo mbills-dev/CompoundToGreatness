@@ -110,7 +110,7 @@ Deno.serve(async (req: Request) => {
           .from("beta_signups")
           .update({
             payment_status: "completed",
-            stripe_payment_id: session.payment_intent as string,
+            stripe_payment_id: (session.subscription ?? session.payment_intent) as string,
           })
           .eq("id", signupId);
 
@@ -125,7 +125,7 @@ Deno.serve(async (req: Request) => {
               name,
               kitApiKey,
               kitApiSecret,
-              ["beta-user", "beta-paid", `joined-${currentMonth}`]
+              ["founding-member", "founding-member-paid", `joined-${currentMonth}`]
             );
 
             if (kitSubscriberId) {

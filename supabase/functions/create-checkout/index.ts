@@ -68,8 +68,8 @@ Deno.serve(async (req: Request) => {
     // Tag as beta-user immediately on form submit, before checkout
     if (kitApiKey) {
       try {
-        await tagSubscriberInKit(email, name, "beta-user", kitApiKey);
-        console.log(`Tagged ${email} as beta-user in Kit`);
+        await tagSubscriberInKit(email, name, "founding-member", kitApiKey);
+        console.log(`Tagged ${email} as founding-member in Kit`);
       } catch (kitError) {
         // Non-fatal: log but don't block checkout
         console.error("Kit pre-checkout tag error:", kitError);
@@ -81,11 +81,11 @@ Deno.serve(async (req: Request) => {
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
-          price: "price_1TGKnMBBbbxqlK8j4rtOwaJa",
+          price: "price_1TtEMGBBbbxqlK8jeCKQ4hrw",
           quantity: 1,
         },
       ],
-      mode: "payment",
+      mode: "subscription",
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/#start`,
       customer_email: email,
