@@ -255,7 +255,7 @@ function App() {
           </div>
 
           <p className="text-2xl text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
-            You just haven't done it long enough to see it work. Most people quit in the Zero Evidence Zone — the flat part of the curve where the work is real but the results aren't visible yet. 77 days carries you through it.
+            Or at least, you know the destination. Some goals need the inputs reverse-engineered — that's the system. But knowing was never the hard part. Doing it long enough is. Most people quit in the Zero Evidence Zone — the flat part of the curve where the work is real but the results aren't visible yet. 77 days carries you through it.
           </p>
 
           <div className="pt-8 reveal-scale">
