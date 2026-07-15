@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Target, ArrowRight, Zap } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
+import CompoundCurve from './components/CompoundCurve';
 
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
@@ -241,6 +242,20 @@ function App() {
                 Share your journey. Get real support. Let your circle hold you to your standard.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative py-32 px-6 bg-black">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16 reveal">
+            <div className="text-neon text-sm font-black tracking-widest mb-6">THE CURVE</div>
+            <h2 className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter">
+              COMPOUNDING<br />LOOKS LIKE FAILURE.<br /><span className="text-neon">UNTIL IT DOESN'T.</span>
+            </h2>
+          </div>
+          <div className="reveal">
+            <CompoundCurve />
           </div>
         </div>
       </section>
