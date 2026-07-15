@@ -117,6 +117,32 @@ Deno.serve(async (req: Request) => {
         const email = signup?.email ?? metaEmail;
         const name = signup?.name ?? metaName ?? "";
 
+        const appSupabaseUrl = Deno.env.get("C2G_APP_SUPABASE_URL");
+        const appServiceKey = Deno.env.get("C2G_APP_SERVICE_ROLE_KEY");
+        if (appSupabaseUrl && appServiceKey && email) {
+          try {
+            const fmRes = await fetch(`${appSupabaseUrl}/rest/v1/founding_members?on_conflict=email`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "apikey": appServiceKey,
+                "Authorization": `Bearer ${appServiceKey}`,
+                "Prefer": "resolution=merge-duplicates",
+              },
+              body: JSON.stringify({
+                email,
+                stripe_customer_id: session.customer as string,
+                stripe_subscription_id: (session.subscription ?? null) as string | null,
+                purchased_at: new Date().toISOString(),
+              }),
+            });
+            if (!fmRes.ok) {
+              console.error("Failed to register founding member in app project:", await fmRes.text());
+            }
+          } catch (fmError) {
+            console.error("Founding member sync error:", fmError);
+          }
+        }
         if (kitApiKey && kitApiSecret && email) {
           try {
             const currentMonth = new Date().toISOString().slice(0, 7);
