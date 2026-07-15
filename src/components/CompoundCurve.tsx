@@ -6,11 +6,16 @@ const B = Math.log((H - 50) / A) / W;
 const DAY_X = (day: number) => (day / 77) * W;
 const CURVE_Y = (x: number) => H - A * Math.exp(B * x);
 
-function pathFrom(offsetY: number): string {
+function pathFrom(off: number): string {
   const pts: string[] = [];
   for (let d = 0; d <= 77; d++) {
     const x = DAY_X(d);
-    pts.push(`${x.toFixed(1)},${(CURVE_Y(x) + offsetY).toFixed(1)}`);
+    const y = CURVE_Y(x);
+    const slope = -A * B * Math.exp(B * x);
+    const len = Math.sqrt(1 + slope * slope);
+    const ox = x + (off * slope) / len;
+    const oy = y - off / len;
+    pts.push(`${ox.toFixed(1)},${oy.toFixed(1)}`);
   }
   return `M ${pts.join(' L ')}`;
 }
@@ -27,7 +32,7 @@ export default function CompoundCurve() {
     <div className="w-full">
       <svg viewBox="-60 -70 1280 780" className="w-full h-auto" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <path id="zonePath" d={pathFrom(-42)} fill="none" />
+          <path id="zonePath" d={pathFrom(42)} fill="none" />
         </defs>
 
         <path
