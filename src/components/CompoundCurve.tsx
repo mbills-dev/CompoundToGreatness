@@ -76,6 +76,3 @@ export default function CompoundCurve() {
     </div>
   );
 }
-
-
-export default CompoundCurve
