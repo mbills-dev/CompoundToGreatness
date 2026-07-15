@@ -118,16 +118,14 @@ Deno.serve(async (req: Request) => {
         const name = signup?.name ?? metaName ?? "";
 
         const appSupabaseUrl = Deno.env.get("C2G_APP_SUPABASE_URL");
-        const appServiceKey = Deno.env.get("C2G_APP_SERVICE_ROLE_KEY");
-        if (appSupabaseUrl && appServiceKey && email) {
+        const appWebhookSecret = Deno.env.get("C2G_APP_WEBHOOK_SECRET");
+        if (appSupabaseUrl && appWebhookSecret && email) {
           try {
-            const fmRes = await fetch(`${appSupabaseUrl}/rest/v1/founding_members?on_conflict=email`, {
+            const fmRes = await fetch(`${appSupabaseUrl}/functions/v1/register-founding-member`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "apikey": appServiceKey,
-                "Authorization": `Bearer ${appServiceKey}`,
-                "Prefer": "resolution=merge-duplicates",
+                "x-webhook-secret": appWebhookSecret,
               },
               body: JSON.stringify({
                 email,
