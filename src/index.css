@@ -167,3 +167,11 @@
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 2.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
 }
+
+.curve-fade {
+  opacity: 0;
+}
+.reveal.active .curve-fade {
+  opacity: 1;
+  transition: opacity 1s ease 2.4s;
+}
