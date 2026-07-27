@@ -320,21 +320,22 @@ function App() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-neon hover:bg-neon-light disabled:bg-zinc-700 text-black px-8 py-6 font-black text-xl tracking-wide transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-neon/50 disabled:scale-100 flex items-center justify-center gap-3 group"
+              className="w-full bg-neon hover:bg-neon-light disabled:bg-zinc-700 text-black px-8 py-6 font-black transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-neon/50 disabled:scale-100 flex items-center justify-center gap-3 group"
             >
               {isSubmitting ? (
-                <span className="animate-pulse">PROCESSING...</span>
+                <span className="animate-pulse text-xl tracking-wide">PROCESSING...</span>
               ) : (
                 <>
-                  LOCK IN MY SPOT — $3.21/MO
+                  <div className="flex flex-col items-center">
+                    <span className="text-xl tracking-wide">LOCK IN MY SPOT — $3.21/MO</span>
+                    <span className="text-xs font-medium normal-case tracking-normal text-black/60 mt-1">
+                      $38.50 billed annually
+                    </span>
+                  </div>
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </>
               )}
             </button>
-
-            <p className="text-sm text-gray-500 font-medium text-center -mt-2">
-              $38.50 billed annually
-            </p>
 
             <p className="text-xs text-gray-600 font-light text-center leading-relaxed">
               Founding membership is $3.21/month ($38.50/year, billed annually), renewing at your locked-in founding rate until cancelled. Cancel anytime. The mobile app is currently in beta — founding members get TestFlight access now and full access at public launch.
