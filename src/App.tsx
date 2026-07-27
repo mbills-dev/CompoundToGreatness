@@ -288,7 +288,7 @@ function App() {
               <span className="text-neon">77 DAYS</span>
             </h2>
             <p className="text-xl text-gray-400 font-light">
-              Become a founding member. Lock in $3.21/mo ($38.50/year) — half the launch price — get beta access now, and be first in line when the app goes live.
+              Become a founding member. Lock in $3.21/mo — half the launch price — get beta access now, and be first in line when the app goes live.
             </p>
           </div>
 
@@ -331,6 +331,10 @@ function App() {
                 </>
               )}
             </button>
+
+            <p className="text-sm text-gray-500 font-medium text-center -mt-2">
+              $38.50 billed annually
+            </p>
 
             <p className="text-xs text-gray-600 font-light text-center leading-relaxed">
               Founding membership is $3.21/month ($38.50/year, billed annually), renewing at your locked-in founding rate until cancelled. Cancel anytime. The mobile app is currently in beta — founding members get TestFlight access now and full access at public launch.
