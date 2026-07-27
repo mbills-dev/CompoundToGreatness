@@ -110,10 +110,10 @@ function App() {
         <div className="relative max-w-6xl mx-auto pt-32 pb-20">
           <div className="space-y-8 mb-16">
             <div className={`inline-block transition-all duration-700 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <div className="text-neon text-sm font-black tracking-widest mb-6">FOUNDING MEMBER PRE-SALE</div>
+              <div className="text-neon text-xs sm:text-sm font-black tracking-wide sm:tracking-widest mb-6">FOUNDING MEMBER PRE-SALE</div>
             </div>
 
-            <h1 className={`text-6xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tighter transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
+            <h1 className={`text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black leading-[0.9] tracking-tighter transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
                 style={{ transitionDelay: '100ms' }}>
               77 DAYS.<br />
               <span className="text-neon inline-block hover:scale-105 transition-transform duration-300">COMPOUNDED.</span><br />
@@ -128,7 +128,7 @@ function App() {
 
           <a
             href="#start"
-            className={`inline-flex items-center gap-4 bg-neon hover:bg-neon-light text-black px-12 py-5 font-black text-lg tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-neon/50 group ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
+            className={`inline-flex items-center gap-3 sm:gap-4 bg-neon hover:bg-neon-light text-black px-6 py-4 sm:px-12 sm:py-5 font-black text-sm sm:text-lg tracking-wide transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-neon/50 group ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}
             style={{ transitionDelay: '500ms' }}
           >
             BEGIN YOUR TRANSFORMATION
@@ -143,7 +143,7 @@ function App() {
           <div className="grid lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8 reveal-left">
               <div className="text-neon text-sm font-black tracking-widest">THE CHALLENGE</div>
-              <h2 className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter">
+              <h2 className="text-3xl sm:text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter">
                 GOALS ARE OUTPUTS.
               </h2>
               <div className="space-y-6 text-lg text-gray-400 font-light leading-relaxed">
@@ -162,21 +162,21 @@ function App() {
             <div className="space-y-6 reveal-right">
               <div className="bg-zinc-900 border-l-4 border-neon p-8 hover:bg-zinc-800 hover:scale-105 hover:shadow-xl hover:shadow-neon/10 transition-all duration-300"
                    style={{ transitionDelay: '0ms' }}>
-                <div className="text-6xl font-black text-neon mb-4">77</div>
+                <div className="text-5xl sm:text-6xl font-black text-neon mb-4">77</div>
                 <div className="text-xl font-black mb-2">DAYS TO REWIRE</div>
                 <div className="text-gray-400 font-light">Past the point where motivation quits and the system takes over. That's escape velocity.</div>
               </div>
 
               <div className="bg-zinc-900 border-l-4 border-neon-light p-8 hover:bg-zinc-800 hover:scale-105 hover:shadow-xl hover:shadow-neon-light/10 transition-all duration-300"
                    style={{ transitionDelay: '100ms' }}>
-                <div className="text-6xl font-black text-neon-light mb-4">1.01⁷⁷</div>
+                <div className="text-5xl sm:text-6xl font-black text-neon-light mb-4">1.01⁷⁷</div>
                 <div className="text-xl font-black mb-2">THE MATH</div>
                 <div className="text-gray-400 font-light">1% better every day for 77 days doesn't add up. It multiplies.</div>
               </div>
 
               <div className="bg-zinc-900 border-l-4 border-white p-8 hover:bg-zinc-800 hover:scale-105 hover:shadow-xl hover:shadow-white/10 transition-all duration-300"
                    style={{ transitionDelay: '200ms' }}>
-                <div className="text-6xl font-black text-white mb-4">∞</div>
+                <div className="text-5xl sm:text-6xl font-black text-white mb-4">∞</div>
                 <div className="text-xl font-black mb-2">COMPOUNDING RESULTS</div>
                 <div className="text-gray-400 font-light">Small daily wins that stack into massive transformation.</div>
               </div>
@@ -190,7 +190,7 @@ function App() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20 reveal">
             <div className="text-neon text-sm font-black tracking-widest mb-6">THE SYSTEM</div>
-            <h2 className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter mb-8">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter mb-8">
               BUILT FOR<br />TRANSFORMATION
             </h2>
           </div>
@@ -247,7 +247,7 @@ function App() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 reveal">
             <div className="text-neon text-sm font-black tracking-widest mb-6">THE CURVE</div>
-            <h2 className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter">
               COMPOUNDING<br />LOOKS LIKE FAILURE.<br /><span className="text-neon">UNTIL IT DOESN'T.</span>
             </h2>
           </div>
@@ -261,7 +261,7 @@ function App() {
         <div className="max-w-4xl mx-auto text-center space-y-12 reveal">
           <div>
             <div className="text-neon text-sm font-black tracking-widest mb-6">THE TRUTH</div>
-            <h2 className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter">
               YOU ALREADY KNOW<br />WHAT TO DO
             </h2>
           </div>
@@ -283,7 +283,7 @@ function App() {
       <section id="start" className="relative py-32 px-6">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-16 reveal">
-            <h2 className="text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter mb-6">
+            <h2 className="text-3xl sm:text-5xl md:text-7xl font-black leading-[0.95] tracking-tighter mb-6">
               START YOUR<br />
               <span className="text-neon">77 DAYS</span>
             </h2>
@@ -300,7 +300,7 @@ function App() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 required
-                className="w-full px-8 py-6 bg-zinc-900 border-2 border-zinc-800 focus:border-neon text-white text-lg font-medium placeholder-gray-600 focus:outline-none transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-neon/20"
+                className="w-full px-6 py-4 sm:px-8 sm:py-6 bg-zinc-900 border-2 border-zinc-800 focus:border-neon text-white text-base sm:text-lg font-medium placeholder-gray-600 focus:outline-none transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-neon/20"
                 placeholder="FULL NAME"
               />
             </div>
@@ -312,7 +312,7 @@ function App() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 required
-                className="w-full px-8 py-6 bg-zinc-900 border-2 border-zinc-800 focus:border-neon text-white text-lg font-medium placeholder-gray-600 focus:outline-none transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-neon/20"
+                className="w-full px-6 py-4 sm:px-8 sm:py-6 bg-zinc-900 border-2 border-zinc-800 focus:border-neon text-white text-base sm:text-lg font-medium placeholder-gray-600 focus:outline-none transition-all duration-300 focus:scale-[1.02] focus:shadow-lg focus:shadow-neon/20"
                 placeholder="EMAIL"
               />
             </div>
@@ -320,7 +320,7 @@ function App() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-neon hover:bg-neon-light disabled:bg-zinc-700 text-black px-8 py-6 font-black transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-neon/50 disabled:scale-100 flex items-center justify-center gap-3 group"
+              className="w-full bg-neon hover:bg-neon-light disabled:bg-zinc-700 text-black px-6 py-4 sm:px-8 sm:py-6 font-black transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-neon/50 disabled:scale-100 flex items-center justify-center gap-3 group"
             >
               {isSubmitting ? (
                 <span className="animate-pulse text-xl tracking-wide">PROCESSING...</span>
