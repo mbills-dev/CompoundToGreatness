@@ -65,17 +65,6 @@ Deno.serve(async (req: Request) => {
 
     if (signupError) throw new Error(`DB error: ${signupError.message}`);
 
-    // Tag as beta-user immediately on form submit, before checkout
-    if (kitApiKey) {
-      try {
-        await tagSubscriberInKit(email, name, "founding-member", kitApiKey);
-        console.log(`Tagged ${email} as founding-member in Kit`);
-      } catch (kitError) {
-        // Non-fatal: log but don't block checkout
-        console.error("Kit pre-checkout tag error:", kitError);
-      }
-    }
-
     const origin = req.headers.get("origin") || req.headers.get("referer")?.replace(/\/$/, "") || "https://compoundtogreatness.com";
 
     const session = await stripe.checkout.sessions.create({
@@ -95,6 +84,17 @@ Deno.serve(async (req: Request) => {
         email,
       },
     });
+
+    // Tag as beta-user in the background — never block checkout on this.
+    if (kitApiKey) {
+      const kitPromise = tagSubscriberInKit(email, name, "founding-member", kitApiKey)
+        .then(() => console.log(`Tagged ${email} as founding-member in Kit`))
+        .catch((kitError) => console.error("Kit pre-checkout tag error:", kitError));
+      // Keep the function instance alive long enough for the background tag to finish.
+      if (typeof EdgeRuntime !== "undefined" && typeof EdgeRuntime.waitUntil === "function") {
+        EdgeRuntime.waitUntil(kitPromise);
+      }
+    }
 
     return new Response(
       JSON.stringify({ url: session.url }),
