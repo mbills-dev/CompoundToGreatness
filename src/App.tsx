@@ -89,10 +89,7 @@ function App() {
       }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-6 flex items-center justify-between">
           <div className={`flex items-center gap-3 transition-all duration-700 ${isLoaded ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-            <div className="w-10 h-10 bg-neon rounded-full flex items-center justify-center transition-transform hover:scale-110 hover:rotate-12 duration-300">
-              <Target className="w-6 h-6 text-black" />
-            </div>
-            <span className="text-xl font-black tracking-tight">COMPOUND TO GREATNESS</span>
+            <img src="/c2g-wordmark.png" alt="Compound to Greatness" className="h-8 w-auto transition-transform hover:scale-105 duration-300" />
           </div>
           <a
             href="#start"
@@ -276,8 +273,8 @@ function App() {
           <div className="pt-8 reveal-scale">
             <div className="inline-block bg-zinc-900 border border-neon/30 px-8 py-4 hover:border-neon/60 hover:shadow-lg hover:shadow-neon/20 transition-all duration-300 hover:scale-105">
               <div className="text-sm font-black text-gray-500 mb-2">FOUNDING MEMBER — LIMITED SPOTS</div>
-              <div className="text-4xl font-black text-neon">$38.50/YEAR</div>
-              <div className="text-sm font-light text-gray-400 mt-2">50% off the $77 launch price. Locked in for as long as you stay.</div>
+              <div className="text-4xl font-black text-neon">$3.21/MO</div>
+              <div className="text-sm font-light text-gray-400 mt-2">$38.50 billed annually — 50% off the $77 launch price. Locked in for as long as you stay.</div>
             </div>
           </div>
         </div>
@@ -291,7 +288,7 @@ function App() {
               <span className="text-neon">77 DAYS</span>
             </h2>
             <p className="text-xl text-gray-400 font-light">
-              Become a founding member. Lock in $38.50/year — half the launch price — get beta access now, and be first in line when the app goes live.
+              Become a founding member. Lock in $3.21/mo ($38.50/year) — half the launch price — get beta access now, and be first in line when the app goes live.
             </p>
           </div>
 
@@ -329,14 +326,14 @@ function App() {
                 <span className="animate-pulse">PROCESSING...</span>
               ) : (
                 <>
-                  LOCK IN MY SPOT — $38.50/YR
+                  LOCK IN MY SPOT — $3.21/MO
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </>
               )}
             </button>
 
             <p className="text-xs text-gray-600 font-light text-center leading-relaxed">
-              Founding membership is $38.50/year, renewing annually at your locked-in founding rate until cancelled. Cancel anytime. The mobile app is currently in beta — founding members get TestFlight access now and full access at public launch.
+              Founding membership is $3.21/month ($38.50/year, billed annually), renewing at your locked-in founding rate until cancelled. Cancel anytime. The mobile app is currently in beta — founding members get TestFlight access now and full access at public launch.
             </p>
 
             {submitStatus === 'error' && (
@@ -351,10 +348,7 @@ function App() {
       <footer className="py-16 px-6 border-t border-zinc-900">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-8 h-8 bg-neon rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-12">
-              <Target className="w-5 h-5 text-black" />
-            </div>
-            <span className="text-sm font-black tracking-tight">COMPOUND TO GREATNESS</span>
+            <img src="/c2g-wordmark.png" alt="Compound to Greatness" className="h-6 w-auto transition-all duration-300 group-hover:scale-105" />
           </div>
           <div className="flex flex-col items-center md:items-end gap-1">
             <p className="text-gray-600 text-sm font-light">
