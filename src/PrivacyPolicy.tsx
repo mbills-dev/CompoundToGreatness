@@ -206,8 +206,8 @@ function PrivacyPolicy() {
             </p>
             <div className="bg-zinc-900/50 border border-zinc-800 p-6 space-y-2">
               <p className="text-base font-black text-white tracking-wide">Lumière Holdings LLC</p>
-              <p className="text-base text-gray-400 font-light">Email: [insert business contact email]</p>
-              <p className="text-base text-gray-400 font-light">Phone: [insert business contact phone number]</p>
+              <p className="text-base text-gray-400 font-light">Email: info@compoundtogreatness.com</p>
+              <p className="text-base text-gray-400 font-light">Phone: 314-626-4807</p>
             </div>
           </section>
         </div>
