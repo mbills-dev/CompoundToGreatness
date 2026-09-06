@@ -368,6 +368,12 @@ function App() {
             >
               Privacy Policy
             </a>
+            <a
+              href="/terms"
+              className="text-gray-600 hover:text-neon text-xs font-light tracking-wide transition-colors duration-300"
+            >
+              Terms & Conditions
+            </a>
           </div>
         </div>
       </footer>
