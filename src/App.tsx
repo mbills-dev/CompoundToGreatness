@@ -362,6 +362,12 @@ function App() {
             <p className="text-gray-700 text-xs font-light tracking-wide">
               A product of Lumière Holdings LLC
             </p>
+            <a
+              href="/privacy"
+              className="text-gray-600 hover:text-neon text-xs font-light tracking-wide transition-colors duration-300 mt-1"
+            >
+              Privacy Policy
+            </a>
           </div>
         </div>
       </footer>
