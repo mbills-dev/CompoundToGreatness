@@ -19,6 +19,7 @@ const SECTIONS = [
         items: [
           'Profile photo — optional, uploaded by you from your photo library or camera.',
           'Daily completion photos — optional evidence photos you may attach to a day\'s activities as part of your accountability record.',
+          'Any photos you upload remain your own property. We do not share, license, or use your photos for any purpose beyond operating the App\'s features — they are visible only to you and, if you choose to enable a watcher connection, to the specific person(s) you\'ve invited.',
         ],
       },
       {
