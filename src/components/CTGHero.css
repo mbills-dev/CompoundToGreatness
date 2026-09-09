@@ -128,7 +128,7 @@
   font-weight: 900;
   font-size: clamp(68px, 6.8vw, 128px);
   line-height: .84;
-  letter-spacing: -.028em;
+  letter-spacing: -.005em;
   text-transform: uppercase;
 }
 .ctgHero__title span { display: block; }
@@ -237,7 +237,7 @@
   }
 
   .ctgHero__eyebrow { font-size: 10px; margin-bottom: 18px; }
-  .ctgHero__title { font-size: clamp(54px, 15vw, 80px); line-height: .85; }
+  .ctgHero__title { font-size: clamp(54px, 15vw, 80px); line-height: .84; }
   .ctgHero__script { font-size: 28px; margin: 20px 0 18px; }
   .ctgHero__body { font-size: 16px; margin-bottom: 26px; }
 
