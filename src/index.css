@@ -19,31 +19,54 @@ h1, h2 {
   font-weight: 900;
 }
 
-/*
- * Handwritten accent font.
- * Northwell is a licensed font — upload the files to public/fonts/ and
- * uncomment the @font-face block below to activate it. The .handwritten
- * class is ready and will pick it up automatically.
- */
-/*
+/* === Northwell font family (licensed) === */
 @font-face {
   font-family: 'Northwell';
-  src: url('/fonts/Northwell-Alt.woff2') format('woff2'),
-       url('/fonts/Northwell-Alt.woff') format('woff');
+  src: url('/fonts/Northwell.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
-*/
+@font-face {
+  font-family: 'Northwell Alt';
+  src: url('/fonts/Northwell_Alt.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Northwell Swash';
+  src: url('/fonts/Northwell_Swash.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Northwell Clean';
+  src: url('/fonts/Northwell_Clean.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Northwell Clean Alt';
+  src: url('/fonts/Northwell_Clean_Alt.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Northwell Clean Swash';
+  src: url('/fonts/Northwell_Clean_Swash.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 .handwritten {
-  /* When Northwell is uploaded, this uses it. Until then, the fallback
-     chain avoids substituting a random script font — it stays in a
-     light, italic Inter style so the layout is intact and the class
-     is ready to be swapped. */
-  font-family: 'Northwell', 'Inter', sans-serif;
-  font-weight: 300;
-  font-style: italic;
+  font-family: 'Northwell Clean', 'Northwell', cursive;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* === Layout primitives === */

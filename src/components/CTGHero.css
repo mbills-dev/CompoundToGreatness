@@ -137,7 +137,7 @@
 .ctgHero__script {
   margin: 26px 0 24px;
   color: var(--ctg-lime);
-  font-family: Northwell, "Segoe Script", "Brush Script MT", cursive;
+  font-family: 'Northwell Clean', 'Northwell', cursive;
   font-size: clamp(28px, 2.1vw, 42px);
   line-height: 1.05;
   transform: rotate(-1deg);
