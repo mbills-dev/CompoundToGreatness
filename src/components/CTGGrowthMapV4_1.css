@@ -1,0 +1,299 @@
+:root {
+  --ctg-lime: #CCFF00;
+  --ctg-ink: #050505;
+  --ctg-paper: #F5F4EF;
+  --ctg-copy: #30302D;
+}
+
+.ctgGrowthV41 {
+  background: var(--ctg-paper);
+  color: var(--ctg-ink);
+  overflow: hidden;
+}
+
+.ctgGrowthV41__inner {
+  width: min(1520px, calc(100% - 80px));
+  min-height: 820px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(440px, 0.82fr) minmax(720px, 1.4fr);
+  align-items: center;
+  gap: 40px;
+  padding: 78px 0 76px;
+}
+
+.ctgGrowthV41__copy {
+  max-width: 560px;
+  align-self: center;
+}
+
+.ctgGrowthV41__headline {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(58px, 4.7vw, 88px);
+  font-weight: 900;
+  line-height: .82;
+  letter-spacing: -.004em;
+  text-transform: uppercase;
+}
+
+.ctgGrowthV41__headline > span {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+}
+
+.ctgGrowthV41__brushWord {
+  position: relative;
+  z-index: 1;
+}
+
+.ctgGrowthV41__brush {
+  position: absolute;
+  left: -2%;
+  bottom: -.09em;
+  width: 104%;
+  height: .31em;
+  color: var(--ctg-lime);
+  z-index: -1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ctgGrowthV41__subhead {
+  margin: 36px 0 0;
+  font-family: Inter, sans-serif;
+  font-size: clamp(20px, 1.35vw, 27px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.02em;
+}
+
+.ctgGrowthV41__body {
+  max-width: 520px;
+  margin: 22px 0 0;
+  font-family: Inter, sans-serif;
+  font-size: clamp(17px, 1.05vw, 21px);
+  font-weight: 450;
+  line-height: 1.52;
+  color: var(--ctg-copy);
+}
+
+.ctgGrowthV41__map {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ctgGrowthV41__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 650px;
+  overflow: visible;
+}
+
+.ctgGrowthV41__curve {
+  stroke: var(--ctg-lime);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1.9s cubic-bezier(.22, 1, .36, 1);
+}
+
+.ctgGrowthV41__zoneBracket,
+.ctgGrowthV41__zoneCap {
+  stroke: var(--ctg-ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  fill: none;
+  opacity: .78;
+}
+
+.ctgGrowthV41__zoneBracket {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset .75s cubic-bezier(.22, 1, .36, 1) .26s;
+}
+
+.ctgGrowthV41__zoneCap {
+  opacity: 0;
+  transition: opacity .25s ease .62s;
+}
+
+.ctgGrowthV41__nodeRing,
+.ctgGrowthV41__nodeDot,
+.ctgGrowthV41__pulse,
+.ctgGrowthV41__pointLabel,
+.ctgGrowthV41__zoneLabel {
+  opacity: 0;
+}
+
+.ctgGrowthV41__nodeRing {
+  fill: var(--ctg-paper);
+  stroke: var(--ctg-lime);
+  stroke-width: 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.ctgGrowthV41__nodeDot {
+  fill: var(--ctg-ink);
+}
+
+.ctgGrowthV41__pulse {
+  fill: none;
+  stroke: var(--ctg-lime);
+  stroke-width: 2;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.ctgGrowthV41__pointLabel,
+.ctgGrowthV41__zoneLabel {
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-weight: 900;
+  fill: var(--ctg-ink);
+}
+
+.ctgGrowthV41__pointLabel {
+  font-size: 18px;
+  letter-spacing: .01em;
+}
+
+.ctgGrowthV41__zoneLabel {
+  font-size: 15px;
+  letter-spacing: .18em;
+}
+
+.ctgGrowthV41.is-active .ctgGrowthV41__curve,
+.ctgGrowthV41.is-active .ctgGrowthV41__zoneBracket {
+  stroke-dashoffset: 0;
+}
+
+.ctgGrowthV41.is-active .ctgGrowthV41__zoneCap,
+.ctgGrowthV41.is-active .ctgGrowthV41__nodeRing,
+.ctgGrowthV41.is-active .ctgGrowthV41__nodeDot,
+.ctgGrowthV41.is-active .ctgGrowthV41__pointLabel,
+.ctgGrowthV41.is-active .ctgGrowthV41__zoneLabel {
+  opacity: 1;
+}
+
+.ctgGrowthV41__nodeRing--1,
+.ctgGrowthV41__nodeDot--1,
+.ctgGrowthV41__label--commitment { transition: opacity .3s ease .08s; }
+
+.ctgGrowthV41__zoneLabel--zero { transition: opacity .3s ease .36s; }
+
+.ctgGrowthV41__nodeRing--2,
+.ctgGrowthV41__nodeDot--2,
+.ctgGrowthV41__label--void { transition: opacity .3s ease .78s; }
+
+.ctgGrowthV41__nodeRing--3,
+.ctgGrowthV41__nodeDot--3,
+.ctgGrowthV41__label--shift { transition: opacity .3s ease 1.12s; }
+
+.ctgGrowthV41__zoneLabel--momentum { transition: opacity .3s ease 1.25s; }
+
+.ctgGrowthV41__nodeRing--4,
+.ctgGrowthV41__nodeDot--4,
+.ctgGrowthV41__label--emergence { transition: opacity .3s ease 1.68s; }
+
+.ctgGrowthV41.is-active .ctgGrowthV41__pulse {
+  opacity: 1;
+  animation: ctgGrowthV41Pulse .5s ease 2s 1 both;
+}
+
+@keyframes ctgGrowthV41Pulse {
+  0% { transform: scale(1); opacity: .8; }
+  60% { transform: scale(1.7); opacity: 0; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+@media (max-width: 1180px) {
+  .ctgGrowthV41__inner {
+    width: min(100% - 48px, 1200px);
+    grid-template-columns: .9fr 1.1fr;
+    min-height: 760px;
+    gap: 20px;
+  }
+
+  .ctgGrowthV41__headline {
+    font-size: clamp(54px, 5.6vw, 76px);
+  }
+
+  .ctgGrowthV41__pointLabel { font-size: 16px; }
+  .ctgGrowthV41__zoneLabel { font-size: 13px; }
+}
+
+@media (max-width: 860px) {
+  .ctgGrowthV41__inner {
+    width: calc(100% - 32px);
+    min-height: auto;
+    display: block;
+    padding: 78px 0 66px;
+  }
+
+  .ctgGrowthV41__copy { max-width: 100%; }
+
+  .ctgGrowthV41__headline {
+    font-size: clamp(50px, 15vw, 74px);
+    line-height: .83;
+  }
+
+  .ctgGrowthV41__subhead {
+    margin-top: 32px;
+    font-size: 21px;
+  }
+
+  .ctgGrowthV41__body {
+    font-size: 17px;
+    max-width: 95%;
+  }
+
+  .ctgGrowthV41__map {
+    margin-top: 44px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+  }
+
+  .ctgGrowthV41__map::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ctgGrowthV41__svg {
+    width: 920px;
+    max-width: none;
+    flex: 0 0 920px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctgGrowthV41__curve,
+  .ctgGrowthV41__zoneBracket {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+
+  .ctgGrowthV41__zoneCap,
+  .ctgGrowthV41__nodeRing,
+  .ctgGrowthV41__nodeDot,
+  .ctgGrowthV41__pointLabel,
+  .ctgGrowthV41__zoneLabel {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  .ctgGrowthV41__pulse {
+    display: none !important;
+  }
+}
