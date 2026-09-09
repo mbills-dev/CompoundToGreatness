@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ArrowDownRight, ArrowRight, Check, Menu, X } from 'lucide-react';
+import { ArrowRight, Check, Menu, X } from 'lucide-react';
+import CTGHero from './components/CTGHero';
 
 const appScreens = [
   { src: '/assets/app-screenshots/IMG_3641.png', alt: 'Today view showing the daily Success Stack' },
@@ -62,27 +63,7 @@ function App() {
       </nav>
 
       <main id="top">
-        <section className="hero-section">
-          <div className="hero-photo" aria-hidden="true" />
-          <div className="hero-overlay" aria-hidden="true" />
-          <div className="hero-content">
-            <div className={`eyebrow hero-reveal ${isLoaded ? 'is-visible' : ''}`}>DISCIPLINE TODAY.<br />A GREATER TOMORROW.</div>
-            <h1 className={`hero-title hero-reveal ${isLoaded ? 'is-visible' : ''}`}>
-              BECOME<br /><span>1% BETTER.</span><br />EVERY DAY.
-            </h1>
-            <div className={`handwritten hero-reveal ${isLoaded ? 'is-visible' : ''}`}>Small steps.<br />Massive change.</div>
-            <p className={`hero-copy hero-reveal ${isLoaded ? 'is-visible' : ''}`}>
-              The daily habit and mindset app to help you build a stronger, healthier, more fulfilled you.
-            </p>
-            <div className={`hero-actions hero-reveal ${isLoaded ? 'is-visible' : ''}`}>
-              <a href="#start" className="button button-primary">Join Waitlist <ArrowRight size={18} /></a>
-              <a href="#app" className="app-store-badge"><span className="apple-glyph">●</span><span><small>COMING SOON ON THE</small><strong>App Store</strong></span></a>
-            </div>
-          </div>
-          <div className={`hero-phone hero-reveal ${isLoaded ? 'is-visible' : ''}`}></div>
-          <a href="#method" className="scroll-cue"><ArrowDownRight size={17} /> Scroll to explore</a>
-        </section>
-
+        <CTGHero />
         <section id="method" className="statement-section section-light">
           <div className="section-kicker">THE POWER OF CONSISTENCY</div>
           <div className="statement-grid">

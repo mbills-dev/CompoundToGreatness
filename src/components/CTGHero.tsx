@@ -7,7 +7,7 @@ export default function CTGHero() {
 
       <header className="ctgHero__nav">
         <a href="/" className="ctgHero__brand" aria-label="Compound to Greatness home">
-          <span className="ctgHero__brandMark">↗</span>
+          <img src="/logo-mark.png" alt="" className="ctgHero__brandMarkImg" />
           <span>
             <strong>COMPOUND TO</strong>
             <strong>GREATNESS</strong>
@@ -16,14 +16,13 @@ export default function CTGHero() {
 
         <nav className="ctgHero__navLinks" aria-label="Primary navigation">
           <a href="#app">The App</a>
-          <a href="#why-it-works">Why It Works</a>
+          <a href="#method">Why It Works</a>
           <a href="#features">Features</a>
-          <a href="#community">Community</a>
-          <a href="#about">About</a>
+          <a href="#start">About</a>
         </nav>
 
-        <a className="ctgHero__topCta" href="#download">
-          GET THE APP <span aria-hidden="true">→</span>
+        <a className="ctgHero__topCta" href="#start">
+          JOIN WAITLIST <span aria-hidden="true">→</span>
         </a>
       </header>
 
@@ -44,10 +43,10 @@ export default function CTGHero() {
             progress, and become the person your goals require.
           </p>
 
-          <a id="download" className="ctgHero__appStore" href="#">
-            <span className="ctgHero__apple" aria-hidden="true"></span>
+          <a id="download" className="ctgHero__appStore" href="#start">
+            <span className="ctgHero__apple" aria-hidden="true">●</span>
             <span>
-              <small>Download on the</small>
+              <small>COMING SOON ON THE</small>
               <strong>App Store</strong>
             </span>
           </a>
@@ -56,14 +55,14 @@ export default function CTGHero() {
         <div className="ctgHero__visual" aria-label="Compound to Greatness app preview">
           <img
             className="ctgHero__handPhone"
-            src="/ctg-phone-hand.png"
+            src="/assets/images/ctg-hero-background.png"
             alt=""
             aria-hidden="true"
           />
 
           <div className="ctgHero__realScreen">
             <img
-              src="/ctg-today-screen.png"
+              src="/assets/images/ctg-today-screen.png"
               alt="Compound to Greatness Today screen showing My Compass, progress, and the Success Stack."
             />
           </div>
