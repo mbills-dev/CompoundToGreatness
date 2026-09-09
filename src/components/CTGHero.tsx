@@ -21,7 +21,7 @@ export default function CTGHero() {
           <a href="#start">About</a>
         </nav>
 
-        <a className="ctgHero__topCta" href="#download">
+        <a className="ctgHero__topCta" href="#download" aria-label="Get the Compound to Greatness app">
           GET THE APP <span aria-hidden="true">→</span>
         </a>
       </header>
@@ -47,7 +47,7 @@ export default function CTGHero() {
             <img
               className="ctgHero__appStoreBadge"
               src="/assets/images/Download_on_the_App_Store_Badge.svg.webp"
-              alt="Download on the App Store"
+              alt="Download Compound to Greatness on the App Store"
             />
           </a>
         </div>
