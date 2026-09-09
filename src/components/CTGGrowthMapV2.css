@@ -52,10 +52,10 @@
 
 .ctgGrowth__brush{
   position:absolute;
-  left:-1%;
+  left:-4%;
   bottom:-.10em;
-  width:102%;
-  height:.30em;
+  width:108%;
+  height:.32em;
   color:var(--ctg-lime);
   z-index:-1;
   pointer-events:none;
@@ -87,6 +87,8 @@
   align-items:center;
   justify-content:center;
   min-width:0;
+  position:relative;
+  left:40px;
 }
 
 .ctgGrowth__svg{
@@ -108,22 +110,21 @@
   transition:stroke-dashoffset 1.9s cubic-bezier(.22,1,.36,1);
 }
 
-.ctgGrowth__zoneGuide{
+.ctgGrowth__zoneBracket{
   stroke:var(--ctg-lime);
   stroke-width:1.5;
   stroke-linecap:round;
+  stroke-linejoin:round;
   fill:none;
   vector-effect:non-scaling-stroke;
-  opacity:.85;
-  stroke-dasharray:1;
-  stroke-dashoffset:1;
+  opacity:0;
 }
 
-.ctgGrowth__zoneGuide--zero{
-  transition:stroke-dashoffset .65s cubic-bezier(.22,1,.36,1) .28s;
+.ctgGrowth__zoneBracket--zero{
+  transition:opacity .5s ease .35s;
 }
-.ctgGrowth__zoneGuide--momentum{
-  transition:stroke-dashoffset .75s cubic-bezier(.22,1,.36,1) 1.1s;
+.ctgGrowth__zoneBracket--momentum{
+  transition:opacity .5s ease 1.2s;
 }
 
 .ctgGrowth__nodeRing,
@@ -159,7 +160,7 @@
 }
 
 .ctgGrowth__pointLabel{
-  font-size:18px;
+  font-size:16px;
   letter-spacing:.01em;
 }
 
@@ -168,9 +169,12 @@
   letter-spacing:.18em;
 }
 
-.ctgGrowth.is-active .ctgGrowth__curve,
-.ctgGrowth.is-active .ctgGrowth__zoneGuide{
+.ctgGrowth.is-active .ctgGrowth__curve{
   stroke-dashoffset:0;
+}
+
+.ctgGrowth.is-active .ctgGrowth__zoneBracket{
+  opacity:.4;
 }
 
 .ctgGrowth.is-active .ctgGrowth__nodeRing,
@@ -206,8 +210,8 @@
     gap:20px;
   }
   .ctgGrowth__headline{font-size:clamp(54px,5.6vw,76px)}
-  .ctgGrowth__pointLabel{font-size:16px}
-  .ctgGrowth__zoneLabel{font-size:13px}
+  .ctgGrowth__pointLabel{font-size:14px}
+  .ctgGrowth__zoneLabel{font-size:12px}
 }
 
 @media(max-width:860px){
@@ -229,6 +233,7 @@
     overflow-x:auto;
     overflow-y:hidden;
     scrollbar-width:none;
+    left:0;
   }
   .ctgGrowth__map::-webkit-scrollbar{display:none}
   .ctgGrowth__svg{
@@ -239,9 +244,12 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  .ctgGrowth__curve,
-  .ctgGrowth__zoneGuide{
+  .ctgGrowth__curve{
     stroke-dashoffset:0!important;
+    transition:none!important;
+  }
+  .ctgGrowth__zoneBracket{
+    opacity:.4!important;
     transition:none!important;
   }
   .ctgGrowth__nodeRing,

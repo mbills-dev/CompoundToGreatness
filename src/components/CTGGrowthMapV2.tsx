@@ -45,24 +45,32 @@ export default function CTGGrowthMapV2() {
               DOESN’T.
               <svg
                 className="ctgGrowth__brush"
-                viewBox="0 0 420 50"
+                viewBox="0 0 460 52"
                 preserveAspectRatio="none"
                 aria-hidden="true"
               >
                 <path
-                  d="M8 28 C78 18 130 32 205 23 C276 14 336 30 412 17"
+                  d="M4 31 C50 24 100 35 160 26 C225 17 290 32 350 21 C400 14 440 26 456 18"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="15"
+                  strokeWidth="13"
                   strokeLinecap="round"
                 />
                 <path
-                  d="M18 34 C90 28 160 37 236 30 C302 23 353 31 401 27"
+                  d="M6 35 C55 30 110 38 170 31 C235 25 300 35 360 28 C410 23 445 30 454 26"
                   fill="none"
                   stroke="currentColor"
-                  strokeWidth="5"
+                  strokeWidth="6"
                   strokeLinecap="round"
-                  opacity=".5"
+                  opacity=".45"
+                />
+                <path
+                  d="M10 26 C60 20 120 30 180 22 C245 14 310 28 370 19 C415 13 445 22 452 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  opacity=".6"
                 />
               </svg>
             </span>
@@ -102,16 +110,14 @@ export default function CTGGrowthMapV2() {
             />
 
             <path
-              className="ctgGrowth__zoneGuide ctgGrowth__zoneGuide--zero"
-              pathLength="1"
-              d="M118 462 C215 458 318 458 430 450"
+              className="ctgGrowth__zoneBracket ctgGrowth__zoneBracket--zero"
+              d="M55 471 L55 478 L475 478 L475 471"
               fill="none"
             />
 
             <path
-              className="ctgGrowth__zoneGuide ctgGrowth__zoneGuide--momentum"
-              pathLength="1"
-              d="M758 396 C801 346 830 287 852 223 C868 177 882 132 894 90"
+              className="ctgGrowth__zoneBracket ctgGrowth__zoneBracket--momentum"
+              d="M738 425 L745 425 L930 52 L923 52"
               fill="none"
             />
 
@@ -134,27 +140,27 @@ export default function CTGGrowthMapV2() {
               <circle className="ctgGrowth__pulse" r="10" />
             </g>
 
-            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--commitment" x="25" y="535">
+            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--commitment" x="22" y="542">
               THE COMMITMENT
             </text>
-            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--void" x="447" y="525">
+            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--void" x="440" y="532">
               THE VOID
             </text>
-            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--shift" x="690" y="467">
+            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--shift" x="675" y="478">
               THE SHIFT
             </text>
-            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--emergence" x="760" y="51">
+            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--emergence" x="752" y="48">
               THE EMERGENCE
             </text>
 
-            <text className="ctgGrowth__zoneLabel ctgGrowth__zoneLabel--zero" x="185" y="446">
+            <text className="ctgGrowth__zoneLabel ctgGrowth__zoneLabel--zero" x="180" y="466">
               ZERO EVIDENCE ZONE
             </text>
             <text
               className="ctgGrowth__zoneLabel ctgGrowth__zoneLabel--momentum"
-              x="810"
-              y="310"
-              transform="rotate(-58 810 310)"
+              x="837"
+              y="240"
+              transform="rotate(-50 837 240)"
             >
               MOMENTUM ZONE
             </text>
