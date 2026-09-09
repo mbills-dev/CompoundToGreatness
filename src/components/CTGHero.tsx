@@ -21,8 +21,8 @@ export default function CTGHero() {
           <a href="#start">About</a>
         </nav>
 
-        <a className="ctgHero__topCta" href="#start">
-          JOIN WAITLIST <span aria-hidden="true">→</span>
+        <a className="ctgHero__topCta" href="#download">
+          GET THE APP <span aria-hidden="true">→</span>
         </a>
       </header>
 
@@ -43,29 +43,21 @@ export default function CTGHero() {
             progress, and become the person your goals require.
           </p>
 
-          <a id="download" className="ctgHero__appStore" href="#start">
-            <span className="ctgHero__apple" aria-hidden="true">●</span>
-            <span>
-              <small>COMING SOON ON THE</small>
-              <strong>App Store</strong>
-            </span>
+          <a id="download" className="ctgHero__appStoreLink" href="#download">
+            <img
+              className="ctgHero__appStoreBadge"
+              src="/assets/images/Download_on_the_App_Store_Badge.svg.webp"
+              alt="Download on the App Store"
+            />
           </a>
         </div>
 
         <div className="ctgHero__visual" aria-label="Compound to Greatness app preview">
           <img
             className="ctgHero__handPhone"
-            src="/assets/images/ChatGPT_Image_Sep_8,_2026,_07_24_34_PM.png"
-            alt=""
-            aria-hidden="true"
+            src="/assets/images/ChatGPT_Image_Sep_8,_2026,_09_57_52_PM.png"
+            alt="Compound to Greatness app in hand"
           />
-
-          <div className="ctgHero__realScreen">
-            <img
-              src="/assets/images/ctg-today-screen.png"
-              alt="Compound to Greatness Today screen showing My Compass, progress, and the Success Stack."
-            />
-          </div>
         </div>
       </div>
 
