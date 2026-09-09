@@ -79,11 +79,7 @@ function App() {
               <a href="#app" className="app-store-badge"><span className="apple-glyph">●</span><span><small>COMING SOON ON THE</small><strong>App Store</strong></span></a>
             </div>
           </div>
-          <div className={`hero-phone hero-reveal ${isLoaded ? 'is-visible' : ''}`}>
-            <div className="phone-frame">
-
-            </div>
-          </div>
+          <div className={`hero-phone hero-reveal ${isLoaded ? 'is-visible' : ''}`}></div>
           <a href="#method" className="scroll-cue"><ArrowDownRight size={17} /> Scroll to explore</a>
         </section>
 
