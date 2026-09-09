@@ -173,11 +173,12 @@
 
 .ctgHero__handPhone {
   width: 100%;
-  max-width: min(42vw, 620px);
+  max-width: min(44vw, 651px);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 28px 50px rgba(0,0,0,.5));
   display: block;
+  transform: translateX(-2.2vw);
 }
 
 .ctgHero__categories {
@@ -214,7 +215,7 @@
     gap: 24px;
   }
   .ctgHero__title { font-size: clamp(56px, 8vw, 88px); }
-  .ctgHero__handPhone { max-width: min(50vw, 540px); }
+  .ctgHero__handPhone { max-width: min(50vw, 540px); transform: none; }
   .ctgHero__categories { width: 100%; grid-template-columns: repeat(4,1fr); }
   .ctgHero__categories span:nth-child(n+5) { display: none; }
 }
