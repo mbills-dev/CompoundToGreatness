@@ -31,6 +31,19 @@
   transform: scale(1.02);
 }
 
+.ctgHero__navBar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.ctgHero__navBar--scrolled {
+  background: rgba(5, 5, 5, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
 .ctgHero__nav {
   width: min(1460px, calc(100% - 64px));
   height: 104px;

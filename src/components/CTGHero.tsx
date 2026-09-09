@@ -1,30 +1,42 @@
+import { useEffect, useState } from "react";
 import "./CTGHero.css";
 
 export default function CTGHero() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <section className="ctgHero" aria-labelledby="ctgHeroTitle">
       <div className="ctgHero__background" aria-hidden="true" />
 
-      <header className="ctgHero__nav">
-        <a href="/" className="ctgHero__brand" aria-label="Compound to Greatness home">
-          <img src="/logo-mark.png" alt="" className="ctgHero__brandMarkImg" />
-          <span>
-            <strong>COMPOUND TO</strong>
-            <strong>GREATNESS</strong>
-          </span>
-        </a>
+      <div className={`ctgHero__navBar ${scrolled ? "ctgHero__navBar--scrolled" : ""}`}>
+        <header className="ctgHero__nav">
+          <a href="/" className="ctgHero__brand" aria-label="Compound to Greatness home">
+            <img src="/logo-mark.png" alt="" className="ctgHero__brandMarkImg" />
+            <span>
+              <strong>COMPOUND TO</strong>
+              <strong>GREATNESS</strong>
+            </span>
+          </a>
 
-        <nav className="ctgHero__navLinks" aria-label="Primary navigation">
-          <a href="#app">The App</a>
-          <a href="#method">Why It Works</a>
-          <a href="#features">Features</a>
-          <a href="#start">About</a>
-        </nav>
+          <nav className="ctgHero__navLinks" aria-label="Primary navigation">
+            <a href="#app">The App</a>
+            <a href="#method">Why It Works</a>
+            <a href="#features">Features</a>
+            <a href="#start">About</a>
+          </nav>
 
-        <a className="ctgHero__topCta" href="#download" aria-label="Get the Compound to Greatness app">
-          GET THE APP <span aria-hidden="true">→</span>
-        </a>
-      </header>
+          <a className="ctgHero__topCta" href="#download" aria-label="Get the Compound to Greatness app">
+            GET THE APP <span aria-hidden="true">→</span>
+          </a>
+        </header>
+      </div>
 
       <div className="ctgHero__content">
         <div className="ctgHero__copy">

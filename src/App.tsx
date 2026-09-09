@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { ArrowRight, Check, Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, Check } from 'lucide-react';
 import CTGHero from './components/CTGHero';
 
 const appScreens = [
@@ -13,12 +13,6 @@ function App() {
   const [formData, setFormData] = useState({ name: '', email: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'error'>('idle');
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(true);
-  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,23 +39,6 @@ function App() {
 
   return (
     <div className="site-shell">
-      <nav className={`site-nav ${isLoaded ? 'site-nav-visible' : ''}`} aria-label="Primary navigation">
-        <a href="#top" className="brand-lockup" aria-label="Compound to Greatness home">
-          <img src="/logo-mark.png" alt="" className="brand-mark" />
-          <span>COMPOUND<br /><strong>TO GREATNESS</strong></span>
-        </a>
-        <div className={`nav-links ${menuOpen ? 'nav-links-open' : ''}`}>
-          <a href="#app" onClick={() => setMenuOpen(false)}>The App</a>
-          <a href="#method" onClick={() => setMenuOpen(false)}>Why It Works</a>
-          <a href="#features" onClick={() => setMenuOpen(false)}>Features</a>
-          <a href="#start" onClick={() => setMenuOpen(false)}>About</a>
-        </div>
-        <a href="#start" className="nav-cta">Join Waitlist <ArrowRight size={15} /></a>
-        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close menu' : 'Open menu'} aria-expanded={menuOpen}>
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </nav>
-
       <main id="top">
         <CTGHero />
         <section id="method" className="statement-section section-light">
