@@ -90,9 +90,8 @@ export default function CTGGrowthMapV2() {
             className="ctgGrowth__svg"
             viewBox="0 0 980 600"
             role="img"
-            aria-labelledby="ctg-growth-title ctg-growth-desc"
+            aria-label="Compound to Greatness Growth Map"
           >
-            <title id="ctg-growth-title">Compound to Greatness Growth Map</title>
             <desc id="ctg-growth-desc">
               The journey moves from The Commitment through the Zero Evidence Zone,
               The Void, The Shift, the Momentum Zone, and The Emergence.
@@ -104,8 +103,8 @@ export default function CTGGrowthMapV2() {
               d="M65 500
                  C210 500 350 498 485 490
                  C590 484 670 468 726 430
-                 C785 390 824 326 850 252
-                 C875 182 895 112 910 58"
+                 C780 396 820 340 850 275
+                 C880 205 902 130 910 95"
               fill="none"
             />
 
@@ -117,7 +116,7 @@ export default function CTGGrowthMapV2() {
 
             <path
               className="ctgGrowth__zoneBracket ctgGrowth__zoneBracket--momentum"
-              d="M738 425 L745 425 L930 52 L923 52"
+              d="M742 452 L749 452 L924 87 L917 87"
               fill="none"
             />
 
@@ -134,7 +133,7 @@ export default function CTGGrowthMapV2() {
               <circle className="ctgGrowth__nodeRing ctgGrowth__nodeRing--3" r="10" />
               <circle className="ctgGrowth__nodeDot ctgGrowth__nodeDot--3" r="3.2" />
             </g>
-            <g transform="translate(910 58)">
+            <g transform="translate(910 95)">
               <circle className="ctgGrowth__nodeRing ctgGrowth__nodeRing--4" r="10" />
               <circle className="ctgGrowth__nodeDot ctgGrowth__nodeDot--4" r="3.2" />
               <circle className="ctgGrowth__pulse" r="10" />
@@ -149,7 +148,7 @@ export default function CTGGrowthMapV2() {
             <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--shift" x="675" y="478">
               THE SHIFT
             </text>
-            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--emergence" x="752" y="48">
+            <text className="ctgGrowth__pointLabel ctgGrowth__pointLabel--emergence" x="752" y="85">
               THE EMERGENCE
             </text>
 
@@ -158,9 +157,9 @@ export default function CTGGrowthMapV2() {
             </text>
             <text
               className="ctgGrowth__zoneLabel ctgGrowth__zoneLabel--momentum"
-              x="837"
-              y="240"
-              transform="rotate(-50 837 240)"
+              x="843"
+              y="275"
+              transform="rotate(-48 843 275)"
             >
               MOMENTUM ZONE
             </text>
