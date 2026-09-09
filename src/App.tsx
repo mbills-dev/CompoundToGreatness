@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import CTGHero from './components/CTGHero';
-import CTGGrowthMapV2 from './components/CTGGrowthMapV2';
+import CTGGrowthMapV3 from './components/CTGGrowthMapV3';
 
 const appScreens = [
   { src: '/assets/app-screenshots/IMG_3641.png', alt: 'Today view showing the daily Success Stack' },
@@ -42,7 +42,7 @@ function App() {
     <div className="site-shell">
       <main id="top">
         <CTGHero />
-        <CTGGrowthMapV2 />
+        <CTGGrowthMapV3 />
 
         <section id="app" className="app-showcase section-dark">
           <div className="showcase-copy">
