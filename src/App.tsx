@@ -81,7 +81,7 @@ function App() {
           </div>
           <div className={`hero-phone hero-reveal ${isLoaded ? 'is-visible' : ''}`}>
             <div className="phone-frame">
-              <img src={appScreens[0].src} alt={appScreens[0].alt} />
+
             </div>
           </div>
           <a href="#method" className="scroll-cue"><ArrowDownRight size={17} /> Scroll to explore</a>
