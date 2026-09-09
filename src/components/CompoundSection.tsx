@@ -12,25 +12,27 @@ interface MapLabel {
   rotate?: number;
 }
 
-const CURVE_D = "M 20 560 C 200 559, 380 557, 520 548 S 700 500, 760 430 S 820 240, 840 60";
+const CURVE_D = "M 30 560 C 180 559, 360 557, 480 552 S 620 525, 660 500 S 740 380, 770 250 S 820 100, 840 60";
 
 const NODES = [
-  { x: 20,  y: 560, delay: 200 },
-  { x: 480, y: 553, delay: 800 },
-  { x: 660, y: 515, delay: 1100 },
+  { x: 30,  y: 560, delay: 200 },
+  { x: 480, y: 552, delay: 800 },
+  { x: 660, y: 500, delay: 1100 },
   { x: 840, y: 60,  delay: 1700 },
 ];
 
+const ZERO_EVIDENCE_GUIDE_D = "M 70 535 C 200 533, 350 530, 460 527";
+
+const MOMENTUM_GUIDE_D = "M 680 470 C 710 400, 740 300, 760 210";
+
 const LABELS: MapLabel[] = [
-  { name: "THE COMMITMENT",     x: 20,  y: 560, pos: "above", delay: 200 },
-  { name: "ZERO EVIDENCE ZONE", x: 250, y: 548, pos: "above", delay: 500 },
-  { name: "THE VOID",           x: 480, y: 553, pos: "above", delay: 800 },
-  { name: "THE SHIFT",          x: 660, y: 515, pos: "below", delay: 1100 },
-  { name: "MOMENTUM ZONE",      x: 770, y: 360, pos: "left",  delay: 1400, rotate: -32 },
+  { name: "THE COMMITMENT",     x: 30,  y: 560, pos: "above", delay: 200 },
+  { name: "ZERO EVIDENCE ZONE", x: 265, y: 527, pos: "above", delay: 500 },
+  { name: "THE VOID",           x: 480, y: 552, pos: "above", delay: 800 },
+  { name: "THE SHIFT",          x: 660, y: 500, pos: "below", delay: 1100 },
+  { name: "MOMENTUM ZONE",      x: 725, y: 350, pos: "left",  delay: 1400, rotate: -38 },
   { name: "THE EMERGENCE",      x: 840, y: 60,  pos: "right", delay: 1700 },
 ];
-
-const ZONE_BRACKET = { x1: 60, x2: 460, y: 525 };
 
 export default function CompoundSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -90,15 +92,28 @@ export default function CompoundSection() {
               preserveAspectRatio="xMidYMid meet"
               aria-hidden="true"
             >
-              {/* Zero Evidence Zone bracket */}
+              {/* Zero Evidence Zone — thin guide along the flat section */}
               <path
-                className={`cg-bracket ${visible ? "is-drawn" : ""}`}
-                d={`M ${ZONE_BRACKET.x1} ${ZONE_BRACKET.y} L ${ZONE_BRACKET.x2} ${ZONE_BRACKET.y}`}
+                className={`cg-guide cg-guide--zero ${visible ? "is-drawn" : ""}`}
+                d={ZERO_EVIDENCE_GUIDE_D}
                 fill="none"
                 stroke="#CCFF00"
                 strokeWidth="1.5"
                 strokeLinecap="round"
-                opacity="0.35"
+                pathLength={1}
+                vectorEffect="non-scaling-stroke"
+              />
+
+              {/* Momentum Zone — thin guide along the steep section */}
+              <path
+                className={`cg-guide cg-guide--momentum ${visible ? "is-drawn" : ""}`}
+                d={MOMENTUM_GUIDE_D}
+                fill="none"
+                stroke="#CCFF00"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                pathLength={1}
+                vectorEffect="non-scaling-stroke"
               />
 
               {/* Main exponential curve */}
@@ -113,7 +128,7 @@ export default function CompoundSection() {
                 vectorEffect="non-scaling-stroke"
               />
 
-              {/* Milestone nodes */}
+              {/* Four milestone nodes only */}
               {NODES.map((n, i) => (
                 <g
                   key={i}

@@ -89,17 +89,28 @@
   overflow: visible;
 }
 
-/* Zero Evidence Zone bracket */
-.cg-bracket {
-  opacity: 0;
-  transition: opacity 800ms ease-out 400ms;
+/* === Zone Guide Lines === */
+
+.cg-guide {
+  opacity: 0.4;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
 }
 
-.cg-bracket.is-drawn {
-  opacity: 0.35;
+.cg-guide--zero {
+  transition: stroke-dashoffset 1000ms cubic-bezier(0.22, 1, 0.36, 1) 400ms;
 }
 
-/* Curve draw animation */
+.cg-guide--momentum {
+  transition: stroke-dashoffset 900ms cubic-bezier(0.22, 1, 0.36, 1) 1200ms;
+}
+
+.cg-guide.is-drawn {
+  stroke-dashoffset: 0;
+}
+
+/* === Main Curve === */
+
 .cg-curve {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
@@ -110,7 +121,8 @@
   stroke-dashoffset: 0;
 }
 
-/* Milestone nodes */
+/* === Milestone Nodes === */
+
 .cg-node {
   opacity: 0;
   transition: opacity 400ms ease-out;
@@ -279,8 +291,8 @@
     transition: none;
   }
 
-  .cg-bracket {
-    opacity: 0.35;
+  .cg-guide {
+    stroke-dashoffset: 0;
     transition: none;
   }
 
