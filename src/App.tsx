@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import CTGHero from './components/CTGHero';
+import CompoundSection from './components/CompoundSection';
 
 const appScreens = [
   { src: '/assets/app-screenshots/IMG_3641.png', alt: 'Today view showing the daily Success Stack' },
@@ -41,17 +42,7 @@ function App() {
     <div className="site-shell">
       <main id="top">
         <CTGHero />
-        <section id="method" className="statement-section section-light">
-          <div className="section-kicker">THE POWER OF CONSISTENCY</div>
-          <div className="statement-grid">
-            <h2>SMALL ACTIONS.<br /><span>MASSIVE CHANGE.</span></h2>
-            <div className="statement-body">
-              <p>You don’t transform overnight. You compound.</p>
-              <p>Take consistent action and watch the results accelerate over time. C2G turns the person you want to become into a simple, repeatable system for today.</p>
-            </div>
-          </div>
-          <div className="curve-line" aria-hidden="true"><span>Day 1<br /><b>The start</b></span><i /><i /><i /><span>Day 45<br /><b>Breakthrough</b></span><i className="curve-rise" /><span>Day 77<br /><b>A new you</b></span></div>
-        </section>
+        <CompoundSection />
 
         <section id="app" className="app-showcase section-dark">
           <div className="showcase-copy">

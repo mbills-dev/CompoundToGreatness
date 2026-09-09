@@ -1,0 +1,202 @@
+/* === Compound Philosophy Section === */
+
+.compound-section {
+  background: #F5F4EF;
+  padding: 140px 2rem 150px;
+}
+
+.compound-container {
+  max-width: 1460px;
+  margin: 0 auto;
+}
+
+.compound-header {
+  margin-bottom: 80px;
+}
+
+.compound-headline {
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-weight: 900;
+  font-size: clamp(48px, 7vw, 92px);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  color: #050505;
+  margin: 0 0 32px;
+  text-transform: uppercase;
+}
+
+.compound-copy {
+  font-family: Inter, sans-serif;
+  font-size: clamp(18px, 1.4vw, 22px);
+  line-height: 1.6;
+  color: #333333;
+  max-width: 560px;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* === Curve === */
+
+.compound-curve-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+}
+
+.compound-curve {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.compound-curve-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.compound-curve-path.is-drawn {
+  stroke-dashoffset: 0;
+}
+
+/* === Milestones === */
+
+.compound-milestone {
+  position: absolute;
+  pointer-events: none;
+}
+
+.compound-milestone-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #CCFF00;
+  border: 3px solid #050505;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
+  transition-delay: var(--ms-delay, 0ms);
+}
+
+.compound-milestone.is-visible .compound-milestone-dot {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.compound-milestone-labels {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(-50%) translateY(8px);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+  transition-delay: calc(var(--ms-delay, 0ms) + 100ms);
+}
+
+.compound-milestone--below .compound-milestone-labels {
+  top: 14px;
+}
+
+.compound-milestone--above .compound-milestone-labels {
+  bottom: 14px;
+}
+
+.compound-milestone.is-visible .compound-milestone-labels {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.compound-milestone-day {
+  display: block;
+  font-family: Inter, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #050505;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.compound-milestone-label {
+  display: block;
+  font-family: Inter, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: #050505;
+}
+
+/* === Mobile === */
+
+@media (max-width: 768px) {
+  .compound-section {
+    padding: 80px 1.5rem 90px;
+  }
+
+  .compound-header {
+    margin-bottom: 48px;
+  }
+
+  .compound-headline {
+    font-size: clamp(36px, 10vw, 56px);
+  }
+
+  .compound-copy {
+    font-size: 17px;
+  }
+
+  .compound-curve-wrap {
+    aspect-ratio: 1.3 / 1;
+  }
+
+  .compound-curve-path {
+    stroke-width: 4px;
+  }
+
+  .compound-milestone-dot {
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+  }
+
+  .compound-milestone-day {
+    font-size: 9px;
+    margin-bottom: 2px;
+  }
+
+  .compound-milestone-label {
+    font-size: 12px;
+  }
+
+  .compound-milestone--below .compound-milestone-labels {
+    top: 10px;
+  }
+
+  .compound-milestone--above .compound-milestone-labels {
+    bottom: 10px;
+  }
+}
+
+/* === Reduced motion === */
+
+@media (prefers-reduced-motion: reduce) {
+  .compound-curve-path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .compound-milestone-dot {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    transition: none;
+  }
+
+  .compound-milestone-labels {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    transition: none;
+  }
+}
