@@ -31,6 +31,99 @@
   transform: scale(1.02);
 }
 
+/* === Hero entrance animations === */
+.ctgHero-enter {
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ctgHero-enter--nav {
+  --enter-y: -8px;
+  animation: ctgFadeY 600ms 50ms forwards;
+  animation-timing-function: ease-out;
+}
+
+.ctgHero-enter--eyebrow {
+  --enter-y: 10px;
+  animation: ctgFadeY 500ms 150ms forwards;
+}
+
+.ctgHero-enter--line1 {
+  --enter-y: 24px;
+  animation: ctgFadeY 650ms 220ms forwards;
+}
+
+.ctgHero-enter--line2 {
+  --enter-y: 24px;
+  animation: ctgFadeY 650ms 300ms forwards, ctgLimeGlow 1200ms 950ms forwards;
+}
+
+.ctgHero-enter--line3 {
+  --enter-y: 24px;
+  animation: ctgFadeY 650ms 380ms forwards;
+}
+
+.ctgHero-enter--script {
+  --enter-y: 10px;
+  animation: ctgFadeRotate 600ms 520ms forwards;
+}
+
+.ctgHero-enter--body {
+  --enter-y: 12px;
+  animation: ctgFadeY 550ms 610ms forwards;
+}
+
+.ctgHero-enter--badge {
+  --enter-y: 10px;
+  animation: ctgFadeY 500ms 690ms forwards;
+}
+
+.ctgHero-enter--visual {
+  --enter-x: 28px;
+  animation: ctgFadeX 900ms 260ms forwards;
+}
+
+.ctgHero-enter--categories {
+  --enter-y: 12px;
+  animation: ctgFadeCat 550ms 800ms forwards;
+}
+
+.ctgHero-enter--background {
+  animation: ctgBgEnter 1400ms 0ms forwards;
+}
+
+@keyframes ctgFadeY {
+  from { opacity: 0; transform: translateY(var(--enter-y)); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ctgFadeX {
+  from { opacity: 0; transform: translateX(var(--enter-x)); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes ctgFadeRotate {
+  from { opacity: 0; transform: translateY(var(--enter-y)) rotate(-1deg); }
+  to   { opacity: 1; transform: translateY(0) rotate(-1deg); }
+}
+
+@keyframes ctgFadeCat {
+  from { opacity: 0; transform: translateX(-50%) translateY(var(--enter-y)); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes ctgLimeGlow {
+  0%   { text-shadow: 0 0 0 rgba(204,255,0,0); }
+  60%  { text-shadow: 0 0 20px rgba(204,255,0,0.10); }
+  100% { text-shadow: 0 0 10px rgba(204,255,0,0.04); }
+}
+
+@keyframes ctgBgEnter {
+  from { opacity: .85; transform: scale(1.015); }
+  to   { opacity: 1; transform: scale(1.02); }
+}
+
 .ctgHero__navBar {
   position: sticky;
   top: 0;
@@ -274,4 +367,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
+
+  .ctgHero-enter {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .ctgHero-enter--script { transform: rotate(-1deg) !important; }
+  .ctgHero-enter--categories { transform: translateX(-50%) !important; }
+  .ctgHero__background { opacity: 1 !important; transform: scale(1.02) !important; }
 }
