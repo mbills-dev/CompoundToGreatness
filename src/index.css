@@ -152,9 +152,9 @@ h1, h2 {
 .hero-photo {
   position: absolute;
   inset: 0;
-  background-image: url('/aa9e9053-be2d-43b8-ab23-688aec929458.png');
+  background-image: url('/ChatGPT_Image_Sep_8,_2026,_07_02_38_PM.png');
   background-size: cover;
-  background-position: right center;
+  background-position: center center;
   z-index: 0;
 }
 
