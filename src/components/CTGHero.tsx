@@ -55,7 +55,7 @@ export default function CTGHero() {
         <div className="ctgHero__visual" aria-label="Compound to Greatness app preview">
           <img
             className="ctgHero__handPhone"
-            src="/assets/images/ctg-hero-background.png"
+            src="/assets/images/ChatGPT_Image_Sep_8,_2026,_07_24_34_PM.png"
             alt=""
             aria-hidden="true"
           />
