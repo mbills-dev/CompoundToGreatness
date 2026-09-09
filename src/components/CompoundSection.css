@@ -1,202 +1,306 @@
-/* === Compound Philosophy Section === */
+/* === CTG Growth Map Section === */
 
-.compound-section {
+.cg-section {
   background: #F5F4EF;
-  padding: 140px 2rem 150px;
+  padding: 140px 2rem 160px;
 }
 
-.compound-container {
-  max-width: 1460px;
+.cg-container {
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-.compound-header {
-  margin-bottom: 80px;
+/* === Header === */
+
+.cg-header {
+  max-width: 760px;
+  margin-bottom: 90px;
 }
 
-.compound-headline {
+.cg-headline {
   font-family: "Inter Tight", Inter, sans-serif;
   font-weight: 900;
-  font-size: clamp(48px, 7vw, 92px);
+  font-size: clamp(44px, 6.5vw, 88px);
   line-height: 0.88;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
   color: #050505;
-  margin: 0 0 32px;
+  margin: 0 0 36px;
   text-transform: uppercase;
 }
 
-.compound-copy {
+.cg-headline-mark {
+  position: relative;
+  display: inline-block;
+}
+
+.cg-headline-mark::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 5px;
+  background: #CCFF00;
+  opacity: 0.85;
+  border-radius: 2px;
+}
+
+.cg-secondary {
   font-family: Inter, sans-serif;
-  font-size: clamp(18px, 1.4vw, 22px);
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 600;
+  color: #050505;
+  margin: 0 0 28px;
+  line-height: 1.3;
+}
+
+.cg-copy {
+  font-family: Inter, sans-serif;
+  font-size: clamp(17px, 1.3vw, 20px);
   line-height: 1.6;
   color: #333333;
-  max-width: 560px;
+  max-width: 600px;
   margin: 0;
   font-weight: 400;
 }
 
-/* === Curve === */
+/* === Growth Map === */
 
-.compound-curve-wrap {
+.cg-map {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 1;
+  aspect-ratio: 1200 / 520;
 }
 
-.compound-curve {
+.cg-map-svg {
   width: 100%;
   height: 100%;
   display: block;
+  overflow: visible;
 }
 
-.compound-curve-path {
+/* guide lines */
+.cg-guide {
+  stroke: #050505;
+  stroke-width: 1;
+  opacity: 0.07;
+  stroke-dasharray: 6 8;
+}
+
+/* curve draw animation */
+.cg-curve {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  transition: stroke-dashoffset 1600ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: stroke-dashoffset 2000ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.compound-curve-path.is-drawn {
+.cg-curve.is-drawn {
   stroke-dashoffset: 0;
 }
 
-/* === Milestones === */
+/* zone nodes */
+.cg-node {
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+  transform-box: fill-box;
+  transform-origin: center;
+}
 
-.compound-milestone {
+.cg-node.is-pulse {
+  animation: cgPulse 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes cgPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* node staggered reveal via nth-child within the SVG */
+.cg-map-svg.is-visible .cg-node:nth-child(4) { transition-delay: 200ms; }
+.cg-map-svg.is-visible .cg-node:nth-child(5) { transition-delay: 500ms; }
+.cg-map-svg.is-visible .cg-node:nth-child(6) { transition-delay: 800ms; }
+.cg-map-svg.is-visible .cg-node:nth-child(7) { transition-delay: 1100ms; }
+.cg-map-svg.is-visible .cg-node:nth-child(8) { transition-delay: 1400ms; }
+.cg-map-svg.is-visible .cg-node:nth-child(9) { transition-delay: 1700ms; }
+
+/* === Zone Labels === */
+
+.cg-zone {
   position: absolute;
   pointer-events: none;
-}
-
-.compound-milestone-dot {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #CCFF00;
-  border: 3px solid #050505;
-  transform: translate(-50%, -50%) scale(0);
   opacity: 0;
-  transition: opacity 400ms ease-out, transform 400ms ease-out;
-  transition-delay: var(--ms-delay, 0ms);
+  transform: translateY(8px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+  transition-delay: var(--z-delay, 0ms);
 }
 
-.compound-milestone.is-visible .compound-milestone-dot {
+.cg-zone.is-visible {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translateY(0) rotate(var(--z-rotate, 0deg));
 }
 
-.compound-milestone-labels {
-  position: absolute;
-  left: 0;
+.cg-zone--above {
   text-align: center;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateX(-50%) translateY(8px);
-  transition: opacity 500ms ease-out, transform 500ms ease-out;
-  transition-delay: calc(var(--ms-delay, 0ms) + 100ms);
+  transform: translate(-50%, -100%) translateY(8px);
 }
 
-.compound-milestone--below .compound-milestone-labels {
-  top: 14px;
+.cg-zone--above.is-visible {
+  transform: translate(-50%, -100%) translateY(0) rotate(var(--z-rotate, 0deg));
 }
 
-.compound-milestone--above .compound-milestone-labels {
-  bottom: 14px;
+.cg-zone--below {
+  text-align: center;
+  transform: translate(-50%, 14px);
 }
 
-.compound-milestone.is-visible .compound-milestone-labels {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+.cg-zone--below.is-visible {
+  transform: translate(-50%, 14px) rotate(var(--z-rotate, 0deg));
 }
 
-.compound-milestone-day {
+.cg-zone--left {
+  text-align: left;
+  transform: translate(16px, -50%) translateY(8px);
+}
+
+.cg-zone--left.is-visible {
+  transform: translate(16px, -50%) translateY(0) rotate(var(--z-rotate, 0deg));
+}
+
+.cg-zone--right {
+  text-align: right;
+  transform: translate(calc(-100% - 16px), -50%) translateY(8px);
+}
+
+.cg-zone--right.is-visible {
+  transform: translate(calc(-100% - 16px), -50%) translateY(0) rotate(var(--z-rotate, 0deg));
+}
+
+.cg-zone-name {
   display: block;
   font-family: Inter, sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
   color: #050505;
   text-transform: uppercase;
+  white-space: nowrap;
   margin-bottom: 4px;
 }
 
-.compound-milestone-label {
+.cg-zone-desc {
   display: block;
   font-family: Inter, sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  color: #050505;
+  font-size: 13px;
+  font-weight: 400;
+  color: #666;
+  line-height: 1.4;
+  max-width: 200px;
 }
 
 /* === Mobile === */
 
 @media (max-width: 768px) {
-  .compound-section {
-    padding: 80px 1.5rem 90px;
+  .cg-section {
+    padding: 80px 1.25rem 90px;
   }
 
-  .compound-header {
-    margin-bottom: 48px;
+  .cg-header {
+    margin-bottom: 56px;
   }
 
-  .compound-headline {
-    font-size: clamp(36px, 10vw, 56px);
+  .cg-headline {
+    font-size: clamp(32px, 9vw, 48px);
   }
 
-  .compound-copy {
-    font-size: 17px;
+  .cg-secondary {
+    font-size: 18px;
   }
 
-  .compound-curve-wrap {
-    aspect-ratio: 1.3 / 1;
+  .cg-copy {
+    font-size: 16px;
   }
 
-  .compound-curve-path {
-    stroke-width: 4px;
+  /* Taller curve on mobile for drama */
+  .cg-map {
+    aspect-ratio: 1 / 1.05;
   }
 
-  .compound-milestone-dot {
-    width: 10px;
-    height: 10px;
-    border-width: 2px;
+  .cg-guide {
+    stroke-dasharray: 4 6;
   }
 
-  .compound-milestone-day {
-    font-size: 9px;
+  .cg-zone-name {
+    font-size: 10px;
+    letter-spacing: 0.08em;
     margin-bottom: 2px;
   }
 
-  .compound-milestone-label {
-    font-size: 12px;
+  .cg-zone-desc {
+    font-size: 11px;
+    max-width: 140px;
   }
 
-  .compound-milestone--below .compound-milestone-labels {
-    top: 10px;
+  /* Reposition zones for mobile to avoid overlap */
+  .cg-zone--above {
+    transform: translate(-50%, -100%) translateY(8px);
   }
 
-  .compound-milestone--above .compound-milestone-labels {
-    bottom: 10px;
+  .cg-zone--left {
+    transform: translate(10px, -50%) translateY(8px);
+  }
+
+  .cg-zone--left.is-visible {
+    transform: translate(10px, -50%) translateY(0) rotate(var(--z-rotate, 0deg));
   }
 }
 
-/* === Reduced motion === */
+@media (max-width: 480px) {
+  .cg-zone-desc {
+    display: none;
+  }
+
+  .cg-zone-name {
+    font-size: 9px;
+  }
+}
+
+/* === Reduced Motion === */
 
 @media (prefers-reduced-motion: reduce) {
-  .compound-curve-path {
+  .cg-curve {
     stroke-dashoffset: 0;
     transition: none;
   }
 
-  .compound-milestone-dot {
+  .cg-zone {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: none;
     transition: none;
   }
 
-  .compound-milestone-labels {
+  .cg-zone--above {
+    transform: translate(-50%, -100%);
+  }
+
+  .cg-zone--below {
+    transform: translate(-50%, 14px);
+  }
+
+  .cg-zone--left {
+    transform: translate(16px, -50%);
+  }
+
+  .cg-zone--right {
+    transform: translate(calc(-100% - 16px), -50%);
+  }
+
+  .cg-node {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
     transition: none;
+  }
+
+  .cg-node.is-pulse {
+    animation: none;
   }
 }
