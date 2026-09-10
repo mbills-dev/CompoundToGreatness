@@ -1,9 +1,9 @@
 import "./ProgressCompoundingSection.css";
 
 const principles = [
-  { number: "01", title: "SHOW UP", copy: "Complete your Success Stack every day." },
-  { number: "02", title: "DON'T MISS", copy: "Miss a day and your 77-day challenge starts over." },
-  { number: "03", title: "GO PUBLIC", copy: "Share your progress. Build accountability. Become the proof." },
+  { number: "01", title: "COMMIT", copy: "Choose the daily inputs that move your life forward." },
+  { number: "02", title: "DON'T MISS", copy: "Complete them every day for 77 days. Miss one, start over." },
+  { number: "03", title: "BUILD PROOF", copy: "Watch your calendar fill as consistency becomes identity." },
 ];
 
 export default function ProgressCompoundingSection() {
@@ -13,23 +13,28 @@ export default function ProgressCompoundingSection() {
         <div className="progress-compounding-section__copy">
           <div className="progress-compounding-section__kicker">THE 77-DAY CHALLENGE</div>
           <h2 id="progress-compounding-heading" className="progress-compounding-section__headline">
-            DON&apos;T BREAK
+            DON&apos;T
             <br />
-            THE CHAIN.
+            BREAK
+            <br />
+            THE
+            <br />
+            CHAIN.
           </h2>
           <div className="progress-compounding-section__annotation">Watch the wins stack up.</div>
+          <div className="progress-compounding-section__stakes">MISS A DAY. START OVER.</div>
           <p className="progress-compounding-section__body">
-            77 days. Complete your Success Stack every day. Miss a day and you start over. Share your journey.
-            Build the proof. Hardwire the inputs until winning becomes who you are.
+            For 77 days, complete the inputs you committed to. Miss a day and the challenge resets. Every
+            completed day becomes proof that you&apos;re becoming the person who follows through.
           </p>
         </div>
 
         <div className="progress-compounding-section__visual">
-          <div className="progress-compounding-section__visual-label">PROGRESS / DAY 43</div>
+          <div className="progress-compounding-section__visual-label">THE 77-DAY CHALLENGE / PROGRESS</div>
           <div className="progress-compounding-section__screen-crop">
             <img
-              src="/assets/app-screenshots/IMG_3644.png"
-              alt="Compound to Greatness 77-day progress screen showing Day 43, 55 percent progress, completed days, and the progress grid"
+              src="/assets/images/ctg-77-day-progress-wall.PNG"
+              alt="Compound to Greatness 77-day challenge calendar showing completed days, today's progress, milestone Day 60, and final Day 77"
               loading="lazy"
             />
           </div>
