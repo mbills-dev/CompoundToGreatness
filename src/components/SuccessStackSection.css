@@ -1,0 +1,206 @@
+.success-stack-section {
+  background: #F5F4EF;
+  color: #050505;
+  padding: 7.5rem 3.5rem 6.75rem;
+  overflow: hidden;
+}
+
+.success-stack-section__main {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(520px, 1.18fr);
+  align-items: center;
+  gap: 5rem;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.success-stack-section__copy {
+  max-width: 520px;
+  padding-bottom: 3rem;
+}
+
+.success-stack-section__kicker,
+.success-stack-section__visual-label {
+  color: #4D4D48;
+  font-family: Inter, sans-serif;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.success-stack-section__headline {
+  margin: 1.6rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(3.5rem, 6vw, 6rem);
+  font-weight: 900;
+  letter-spacing: -.065em;
+  line-height: .86;
+}
+
+.success-stack-section__annotation {
+  display: inline-block;
+  margin: 1.75rem 0 0 1rem;
+  color: #5F7600;
+  font-family: "Northwell Clean", "Northwell", cursive;
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  line-height: 1;
+  transform: rotate(-5deg);
+}
+
+.success-stack-section__body {
+  max-width: 410px;
+  margin: 1.5rem 0 0;
+  color: #4D4D48;
+  font-family: Inter, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.success-stack-section__visual {
+  position: relative;
+  min-width: 0;
+  padding-top: 1rem;
+}
+
+.success-stack-section__visual-label {
+  margin: 0 0 .85rem 3rem;
+  color: #5F7600;
+}
+
+.success-stack-section__screen-crop {
+  width: min(100%, 680px);
+  height: 1010px;
+  margin-left: auto;
+  overflow: hidden;
+  background: #050505;
+  box-shadow: -24px 24px 0 #CCFF00;
+}
+
+.success-stack-section__screen-crop img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.success-stack-section__principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3.5rem;
+  max-width: 1320px;
+  margin: 7.5rem auto 0;
+}
+
+.success-stack-section__principle {
+  min-width: 0;
+}
+
+.success-stack-section__principle-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.success-stack-section__principle-number {
+  color: #5F7600;
+  font-family: Inter, sans-serif;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.success-stack-section__principle-rule {
+  height: 1px;
+  flex: 1;
+  background: #C9C8C0;
+}
+
+.success-stack-section__principle h3 {
+  margin: 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  line-height: 1;
+}
+
+.success-stack-section__principle p {
+  max-width: 260px;
+  margin: .8rem 0 0;
+  color: #5C5C56;
+  font-family: Inter, sans-serif;
+  font-size: .95rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 1024px) {
+  .success-stack-section {
+    padding: 6rem 2rem 5.5rem;
+  }
+
+  .success-stack-section__main {
+    grid-template-columns: minmax(0, .9fr) minmax(390px, 1.1fr);
+    gap: 3rem;
+  }
+
+  .success-stack-section__headline {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  .success-stack-section__screen-crop {
+    height: 820px;
+  }
+}
+
+@media (max-width: 720px) {
+  .success-stack-section {
+    padding: 5rem 1.5rem 4.5rem;
+  }
+
+  .success-stack-section__main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3rem;
+  }
+
+  .success-stack-section__copy {
+    max-width: 100%;
+    padding-bottom: 0;
+  }
+
+  .success-stack-section__headline {
+    font-size: clamp(3.2rem, 15vw, 5rem);
+  }
+
+  .success-stack-section__body {
+    max-width: 430px;
+  }
+
+  .success-stack-section__visual {
+    padding-top: 0;
+  }
+
+  .success-stack-section__visual-label {
+    margin-left: 0;
+  }
+
+  .success-stack-section__screen-crop {
+    width: calc(100% - .75rem);
+    height: 720px;
+    margin-left: 0;
+    box-shadow: .75rem .75rem 0 #CCFF00;
+  }
+
+  .success-stack-section__principles {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-top: 5rem;
+  }
+
+  .success-stack-section__principle p {
+    max-width: 340px;
+  }
+}
