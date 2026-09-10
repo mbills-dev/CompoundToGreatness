@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import CTGHero from './components/CTGHero';
 import CTGGrowthMapV4_1 from './components/CTGGrowthMapV4_1';
+import InputEngineSection from './components/InputEngineSection';
 
 const appScreens = [
   { src: '/assets/app-screenshots/IMG_3641.png', alt: 'Today view showing the daily Success Stack' },
@@ -43,6 +44,7 @@ function App() {
       <main id="top">
         <CTGHero />
         <CTGGrowthMapV4_1 />
+        <InputEngineSection />
 
         <section id="app" className="app-showcase section-dark">
           <div className="showcase-copy">
