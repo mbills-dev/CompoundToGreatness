@@ -21,23 +21,27 @@ export default function PurposeSection() {
             Goals aren&apos;t just about getting something you want. They&apos;re a mechanism for becoming someone you
             aren&apos;t yet.
             <br /><br />
-            They pull you beyond what&apos;s comfortable. They demand more of you. And when you repeatedly do the
-            things that person would do, eventually you stop chasing the result.
+            They pull you beyond what&apos;s comfortable. They demand more of you. Repeat the right actions long
+            enough and eventually you stop chasing the result.
             <br /><br />
-            You become the person who creates it by default.
+            <span className="purpose-section__copy-thesis">You become the person who creates it by default.</span>
           </p>
         </div>
 
         <div className="purpose-section__secondary">
           <div className="purpose-section__secondary-rule" />
           <h3>
-            YOU HAVE SOMETHING
+            THE WORLD
             <br />
-            THE WORLD NEEDS.
+            NEEDS WHAT
+            <br />
+            ONLY YOU
+            <br />
+            CAN GIVE.
           </h3>
           <p>A calling. A contribution. A life only you can live.</p>
           <p>
-            Compound to Greatness is about becoming the person capable of stepping fully into it.
+            Compound to Greatness is about becoming the person capable of living it.
           </p>
           <div className="purpose-section__secondary-note">Become who you were created to be.</div>
         </div>
