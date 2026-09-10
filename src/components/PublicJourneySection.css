@@ -1,0 +1,231 @@
+.public-journey-section {
+  position: relative;
+  overflow: hidden;
+  background: #F5F4EF;
+  color: #111111;
+  padding: 5.5rem 3.5rem 4.5rem;
+}
+
+.public-journey-section__main {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(500px, 1.1fr);
+  align-items: center;
+  gap: 5.5rem;
+  max-width: 1280px;
+  min-height: 610px;
+  margin: 0 auto;
+}
+
+.public-journey-section__copy {
+  max-width: 500px;
+  padding-bottom: 1rem;
+}
+
+.public-journey-section__kicker,
+.public-journey-section__caption {
+  color: #68705A;
+  font-family: Inter, sans-serif;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.public-journey-section__headline {
+  margin: 1.5rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(3.4rem, 5.6vw, 5.4rem);
+  font-weight: 900;
+  letter-spacing: .02em;
+  line-height: .92;
+  text-transform: uppercase;
+}
+
+.public-journey-section__annotation {
+  margin: 1.5rem 0 0 .75rem;
+  color: #87952A;
+  font-family: "Northwell Clean", "Northwell", cursive;
+  font-size: clamp(2rem, 3.1vw, 3rem);
+  line-height: 1;
+  transform: rotate(-4deg);
+}
+
+.public-journey-section__body {
+  max-width: 445px;
+  margin: 1.25rem 0 0;
+  color: #5F625B;
+  font-family: Inter, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.public-journey-section__fragments {
+  position: relative;
+  width: 100%;
+  max-width: 630px;
+  height: 600px;
+  margin: 0 auto;
+}
+
+.public-journey-section__fragment {
+  position: absolute;
+  overflow: hidden;
+  background: #050505;
+  box-shadow: 0 18px 34px rgba(23, 28, 17, .14);
+}
+
+.public-journey-section__fragment img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.public-journey-section__fragment--profile {
+  top: 0;
+  left: 6%;
+  z-index: 3;
+  width: 340px;
+  height: 430px;
+}
+
+.public-journey-section__fragment--profile img {
+  transform: translateY(0);
+}
+
+.public-journey-section__fragment--becoming {
+  right: 0;
+  bottom: 28px;
+  z-index: 2;
+  width: 260px;
+  height: 285px;
+}
+
+.public-journey-section__fragment--becoming img {
+  transform: translateY(-40px);
+}
+
+.public-journey-section__fragment--calendar {
+  right: 4%;
+  top: 135px;
+  z-index: 4;
+  width: 255px;
+  height: 330px;
+}
+
+.public-journey-section__fragment--calendar img {
+  transform: translateY(-238px);
+}
+
+.public-journey-section__caption {
+  position: absolute;
+  right: 3%;
+  bottom: 0;
+  color: #8A8D82;
+  font-size: .62rem;
+}
+
+.public-journey-section__principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  max-width: 1280px;
+  margin: 3.5rem auto 0;
+}
+
+.public-journey-section__principle {
+  min-width: 0;
+}
+
+.public-journey-section__principle-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.public-journey-section__principle-number {
+  color: #87952A;
+  font-family: Inter, sans-serif;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.public-journey-section__principle-rule {
+  height: 1px;
+  flex: 1;
+  background: #D7D8D0;
+}
+
+.public-journey-section__principle h3 {
+  margin: 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  line-height: 1;
+}
+
+.public-journey-section__principle p {
+  max-width: 280px;
+  margin: .7rem 0 0;
+  color: #6D7067;
+  font-family: Inter, sans-serif;
+  font-size: .95rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 1100px) {
+  .public-journey-section {
+    padding: 4.5rem 2rem 3.5rem;
+  }
+
+  .public-journey-section__main {
+    grid-template-columns: minmax(0, .9fr) minmax(430px, 1.1fr);
+    gap: 3rem;
+  }
+
+  .public-journey-section__fragments {
+    height: 540px;
+    transform: scale(.9);
+    transform-origin: center right;
+  }
+}
+
+@media (max-width: 760px) {
+  .public-journey-section {
+    padding: 4.5rem 1.5rem 3.5rem;
+  }
+
+  .public-journey-section__main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3rem;
+    min-height: 0;
+  }
+
+  .public-journey-section__copy {
+    max-width: 100%;
+    padding-bottom: 0;
+  }
+
+  .public-journey-section__headline {
+    font-size: clamp(3rem, 14vw, 4.7rem);
+  }
+
+  .public-journey-section__fragments {
+    height: 520px;
+    transform: scale(.78);
+    transform-origin: top left;
+    width: 128%;
+    margin-bottom: -105px;
+  }
+
+  .public-journey-section__principles {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+}
