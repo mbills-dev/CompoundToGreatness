@@ -31,17 +31,24 @@ export default function PurposeSection() {
         <div className="purpose-section__secondary">
           <div className="purpose-section__secondary-rule" />
           <h3>
-            THE WORLD
+            IT&apos;S NOT
             <br />
-            NEEDS WHAT
+            JUST AN APP.
             <br />
-            ONLY YOU
+            IT&apos;S A
             <br />
-            CAN GIVE.
+            GREATNESS
+            <br />
+            EXTRACTOR.
           </h3>
-          <p>A calling. A contribution. A life only you can live.</p>
-          <p>
-            Compound to Greatness is about becoming the person capable of living it.
+          <p className="purpose-section__secondary-statement">
+            It doesn&apos;t give you greatness.
+            <br />
+            It pulls it out of you.
+          </p>
+          <p className="purpose-section__secondary-body">
+            The goal creates the tension. The 77-day challenge raises the stakes. Your daily inputs force you to
+            show up — and day by day, you become more of the person you were created to be.
           </p>
           <div className="purpose-section__secondary-note">Become who you were created to be.</div>
         </div>
