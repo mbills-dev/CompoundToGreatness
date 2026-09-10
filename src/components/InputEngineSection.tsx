@@ -60,15 +60,9 @@ export default function InputEngineSection() {
               <span className="ctg-input-engine__stepNum">01</span>
               <span className="ctg-input-engine__stepTag">OUTCOME</span>
             </div>
-            <div className="ctg-input-engine__fragment ctg-input-engine__fragment--goal">
-              <img
-                src="/assets/images/IMG_3669.PNG"
-                alt="What do you want to achieve? Make more money"
-                loading="lazy"
-              />
-            </div>
-            <div className="ctg-input-engine__stepQuote">“Make more money.”</div>
-            <div className="ctg-input-engine__stepNote">Vague. Not actionable.</div>
+            <div className="ctg-input-engine__outcomeGoal">“MAKE MORE<br />MONEY.”</div>
+            <div className="ctg-input-engine__outcomeNote">Vague. Not actionable.</div>
+            <div className="ctg-input-engine__outcomeWish">That’s a wish, not a plan.</div>
           </article>
 
           <article className="ctg-input-engine__step ctg-input-engine__step--2">

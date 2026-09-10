@@ -139,13 +139,32 @@
   max-width: none;
 }
 
-.ctg-input-engine__fragment--goal {
-  width: min(100%, 270px);
-  height: 70px;
+.ctg-input-engine__outcomeGoal {
+  color: #FFFFFF;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
 }
 
-.ctg-input-engine__fragment--goal img {
-  top: -298px;
+.ctg-input-engine__outcomeNote {
+  max-width: 200px;
+  margin: 1rem auto 0;
+  color: #8E8E8E;
+  font-family: Inter, sans-serif;
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+.ctg-input-engine__outcomeWish {
+  margin-top: .65rem;
+  color: #CCFF00;
+  font-family: "Northwell Clean", "Northwell", cursive;
+  font-size: 1.15rem;
+  line-height: 1.2;
 }
 
 .ctg-input-engine__fragment--decode {
@@ -348,8 +367,6 @@
 @media (max-width: 1100px) {
   .ctg-input-engine__inner { padding: 4.5rem 1.5rem 4.75rem; }
   .ctg-input-engine__story { gap: .8rem; }
-  .ctg-input-engine__fragment--goal { height: 64px; }
-  .ctg-input-engine__fragment--goal img { top: -276px; }
   .ctg-input-engine__fragment--decode { height: 64px; }
   .ctg-input-engine__fragment--decode img { top: -210px; }
   .ctg-input-engine__fragment--ratio { height: 58px; }
@@ -392,8 +409,6 @@
     max-width: 420px;
     padding-top: 0;
   }
-  .ctg-input-engine__fragment--goal { width: min(100%, 330px); height: 82px; }
-  .ctg-input-engine__fragment--goal img { top: -365px; }
   .ctg-input-engine__fragment--decode { width: min(100%, 330px); height: 82px; }
   .ctg-input-engine__fragment--decode img { top: -280px; }
   .ctg-input-engine__fragment--ratio { width: min(100%, 280px); height: 72px; }
@@ -401,6 +416,7 @@
   .ctg-input-engine__fragment--daily { width: min(100%, 350px); height: 250px; }
   .ctg-input-engine__fragment--daily img { top: -318px; }
   .ctg-input-engine__defineValue { font-size: clamp(3.8rem, 16vw, 5.5rem); }
+  .ctg-input-engine__outcomeGoal { font-size: clamp(1.75rem, 8vw, 2.5rem); }
   .ctg-input-engine__dailySix { font-size: clamp(4.5rem, 19vw, 6rem); }
   .ctg-input-engine__stepNote { max-width: 320px; }
   .ctg-input-engine__statement { margin-top: 2.75rem; }
