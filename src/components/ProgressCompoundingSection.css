@@ -65,9 +65,10 @@
 .progress-compounding-section__annotation-wrap {
   position: absolute;
   top: 50%;
-  left: calc(100% - 570px);
+  left: calc(100% - 620px);
   z-index: 3;
-  width: 270px;
+  width: 250px;
+  top: calc(50% - 15px);
   transform: translateY(-50%);
   pointer-events: none;
 }
@@ -83,9 +84,9 @@
 
 .progress-compounding-section__annotation-arrow {
   display: block;
-  width: 240px;
+  width: 185px;
   height: auto;
-  margin: .35rem 0 0 2.5rem;
+  margin: .35rem 0 0 1.75rem;
   overflow: visible;
 }
 
@@ -101,14 +102,14 @@
 .progress-compounding-section__visual {
   position: relative;
   min-width: 0;
-  min-height: 660px;
+  min-height: 620px;
   padding-top: .25rem;
 }
 
 .progress-compounding-section__visual-label {
   position: relative;
   z-index: 2;
-  width: min(100%, 370px);
+  width: min(100%, 320px);
   margin: 0 7rem 1.125rem auto;
   color: #CCFF00;
 }
@@ -116,7 +117,7 @@
 .progress-compounding-section__screen-crop {
   position: relative;
   z-index: 1;
-  width: min(100%, 370px);
+  width: min(100%, 320px);
   height: 620px;
   margin-left: auto;
   margin-right: 7rem;
@@ -197,7 +198,7 @@
   }
 
   .progress-compounding-section__visual {
-    min-height: 580px;
+    min-height: 540px;
   }
 
   .progress-compounding-section__visual-label,
@@ -206,16 +207,16 @@
   }
 
   .progress-compounding-section__screen-crop {
-    height: 540px;
+    height: 500px;
   }
 
   .progress-compounding-section__annotation-wrap {
-    left: calc(100% - 480px);
-    width: 220px;
+    left: calc(100% - 530px);
+    width: 200px;
   }
 
   .progress-compounding-section__annotation-arrow {
-    width: 190px;
+    width: 150px;
   }
 }
 
@@ -250,8 +251,8 @@
   }
 
   .progress-compounding-section__annotation-arrow {
-    width: 220px;
-    margin-left: 2rem;
+    width: 170px;
+    margin-left: 1.5rem;
   }
 
   .progress-compounding-section__visual {
@@ -266,8 +267,8 @@
 
   .progress-compounding-section__screen-crop {
     width: calc(100% - .75rem);
-    max-width: 340px;
-    height: 520px;
+    max-width: 300px;
+    height: 480px;
     margin-left: 0;
     margin-right: 0;
   }
