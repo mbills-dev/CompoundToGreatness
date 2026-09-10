@@ -92,7 +92,14 @@ export default function InputEngineSection() {
             <div className="ctg-input-engine__fragment ctg-input-engine__fragment--decode">
               <img
                 src="/assets/images/IMG_3673.PNG"
-                alt="Compound to Greatness reverse engineering the goal through monthly target, deal value, offer and conversion rate"
+                alt="Compound to Greatness reverse engineering the deal value and offer inputs"
+                loading="lazy"
+              />
+            </div>
+            <div className="ctg-input-engine__fragment ctg-input-engine__fragment--ratio">
+              <img
+                src="/assets/images/IMG_3673.PNG"
+                alt="Compound to Greatness selected one in ten offer conversion input"
                 loading="lazy"
               />
             </div>
@@ -119,11 +126,6 @@ export default function InputEngineSection() {
                 alt="Your daily number is 6 offers per day"
                 loading="lazy"
               />
-            </div>
-            <div className="ctg-input-engine__dailyNumber">
-              <div className="ctg-input-engine__dailyLabel">YOUR DAILY NUMBER</div>
-              <div className="ctg-input-engine__dailySix">6</div>
-              <div className="ctg-input-engine__dailyUnit">OFFERS / DAY</div>
             </div>
             <div className="ctg-input-engine__stepNote">
               An outcome becomes an input. Now you know exactly what winning today looks like.
