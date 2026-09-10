@@ -1,0 +1,230 @@
+.progress-compounding-section {
+  position: relative;
+  overflow: hidden;
+  background: #050505;
+  color: #FFFFFF;
+  padding: 6.5rem 3.5rem 5rem;
+}
+
+.progress-compounding-section__main {
+  display: grid;
+  grid-template-columns: minmax(0, .84fr) minmax(560px, 1.16fr);
+  align-items: center;
+  gap: 4.5rem;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+.progress-compounding-section__copy {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+  padding-bottom: 2rem;
+}
+
+.progress-compounding-section__kicker,
+.progress-compounding-section__visual-label {
+  color: #8D8D8D;
+  font-family: Inter, sans-serif;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.progress-compounding-section__headline {
+  margin: 1.6rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(3.8rem, 6.8vw, 6.6rem);
+  font-weight: 900;
+  letter-spacing: -.065em;
+  line-height: .84;
+}
+
+.progress-compounding-section__annotation {
+  display: inline-block;
+  margin: 1.75rem 0 0 1rem;
+  color: #CCFF00;
+  font-family: "Northwell Clean", "Northwell", cursive;
+  font-size: clamp(2rem, 3.3vw, 3rem);
+  line-height: 1;
+  transform: rotate(-5deg);
+}
+
+.progress-compounding-section__body {
+  max-width: 410px;
+  margin: 1.5rem 0 0;
+  color: #A0A0A0;
+  font-family: Inter, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.progress-compounding-section__visual {
+  position: relative;
+  min-width: 0;
+  padding-top: .5rem;
+}
+
+.progress-compounding-section__visual-label {
+  position: relative;
+  z-index: 2;
+  margin: 0 0 .75rem 2rem;
+  color: #CCFF00;
+}
+
+.progress-compounding-section__screen-crop {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 620px);
+  height: 860px;
+  margin-left: auto;
+  overflow: hidden;
+  background: #000000;
+}
+
+.progress-compounding-section__screen-crop img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.progress-compounding-section__curve {
+  position: absolute;
+  right: -8%;
+  bottom: -2rem;
+  z-index: 0;
+  width: 100%;
+  height: auto;
+  opacity: .7;
+  pointer-events: none;
+}
+
+.progress-compounding-section__curve path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.progress-compounding-section__curve-base {
+  stroke: #555555;
+  stroke-width: 2;
+}
+
+.progress-compounding-section__curve-lime {
+  stroke: #CCFF00;
+  stroke-width: 2.5;
+}
+
+.progress-compounding-section__principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3.5rem;
+  max-width: 1320px;
+  margin: 4.5rem auto 0;
+}
+
+.progress-compounding-section__principle {
+  min-width: 0;
+}
+
+.progress-compounding-section__principle-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.progress-compounding-section__principle-number {
+  color: #CCFF00;
+  font-family: Inter, sans-serif;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.progress-compounding-section__principle-rule {
+  height: 1px;
+  flex: 1;
+  background: #333333;
+}
+
+.progress-compounding-section__principle h3 {
+  margin: 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  line-height: 1;
+}
+
+.progress-compounding-section__principle p {
+  max-width: 280px;
+  margin: .8rem 0 0;
+  color: #8D8D8D;
+  font-family: Inter, sans-serif;
+  font-size: .95rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 1024px) {
+  .progress-compounding-section {
+    padding: 5rem 2rem 4rem;
+  }
+
+  .progress-compounding-section__main {
+    grid-template-columns: minmax(0, .9fr) minmax(420px, 1.1fr);
+    gap: 3rem;
+  }
+
+  .progress-compounding-section__headline {
+    font-size: clamp(3rem, 6vw, 5rem);
+  }
+
+  .progress-compounding-section__screen-crop {
+    height: 700px;
+  }
+}
+
+@media (max-width: 720px) {
+  .progress-compounding-section {
+    padding: 5rem 1.5rem 4rem;
+  }
+
+  .progress-compounding-section__main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3rem;
+  }
+
+  .progress-compounding-section__copy {
+    max-width: 100%;
+    padding-bottom: 0;
+  }
+
+  .progress-compounding-section__headline {
+    font-size: clamp(3.2rem, 15vw, 5rem);
+  }
+
+  .progress-compounding-section__visual {
+    padding-top: 0;
+  }
+
+  .progress-compounding-section__visual-label {
+    margin-left: 0;
+  }
+
+  .progress-compounding-section__screen-crop {
+    width: calc(100% - .75rem);
+    height: 620px;
+    margin-left: 0;
+  }
+
+  .progress-compounding-section__principles {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    margin-top: 3.5rem;
+  }
+}
