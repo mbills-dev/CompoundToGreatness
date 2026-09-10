@@ -1,7 +1,7 @@
 .success-stack-section {
   background: #F5F4EF;
   color: #050505;
-  padding: 7.5rem 3.5rem 6.75rem;
+  padding: 4.75rem 3.5rem 4.5rem;
   overflow: hidden;
 }
 
@@ -9,14 +9,14 @@
   display: grid;
   grid-template-columns: minmax(0, .82fr) minmax(520px, 1.18fr);
   align-items: center;
-  gap: 5rem;
+  gap: 3.5rem;
   max-width: 1320px;
   margin: 0 auto;
 }
 
 .success-stack-section__copy {
   max-width: 520px;
-  padding-bottom: 3rem;
+  padding-bottom: 1.5rem;
 }
 
 .success-stack-section__kicker,
@@ -33,7 +33,7 @@
 .success-stack-section__headline {
   margin: 1.6rem 0 0;
   font-family: "Inter Tight", Inter, sans-serif;
-  font-size: clamp(3.5rem, 6vw, 6rem);
+  font-size: clamp(2.75rem, 4.7vw, 4.6rem);
   font-weight: 900;
   letter-spacing: -.065em;
   line-height: .86;
@@ -41,7 +41,7 @@
 
 .success-stack-section__annotation {
   display: inline-block;
-  margin: 1.75rem 0 0 1rem;
+  margin: 1.25rem 0 0 1rem;
   color: #5F7600;
   font-family: "Northwell Clean", "Northwell", cursive;
   font-size: clamp(2rem, 3.2vw, 3rem);
@@ -51,7 +51,7 @@
 
 .success-stack-section__body {
   max-width: 410px;
-  margin: 1.5rem 0 0;
+  margin: 1rem 0 0;
   color: #4D4D48;
   font-family: Inter, sans-serif;
   font-size: 1.05rem;
@@ -61,21 +61,21 @@
 .success-stack-section__visual {
   position: relative;
   min-width: 0;
-  padding-top: 1rem;
+  padding-top: .25rem;
 }
 
 .success-stack-section__visual-label {
-  margin: 0 0 .85rem 3rem;
+  margin: 0 0 .6rem 2rem;
   color: #5F7600;
 }
 
 .success-stack-section__screen-crop {
-  width: min(100%, 680px);
-  height: 1010px;
+  width: min(100%, 600px);
+  height: 780px;
   margin-left: auto;
   overflow: hidden;
   background: #050505;
-  box-shadow: -24px 24px 0 #CCFF00;
+  box-shadow: -10px 10px 0 #CCFF00;
 }
 
 .success-stack-section__screen-crop img {
@@ -89,7 +89,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 3.5rem;
   max-width: 1320px;
-  margin: 7.5rem auto 0;
+  margin: 4.25rem auto 0;
 }
 
 .success-stack-section__principle {
@@ -137,7 +137,7 @@
 
 @media (max-width: 1024px) {
   .success-stack-section {
-    padding: 6rem 2rem 5.5rem;
+    padding: 4.25rem 2rem 4.25rem;
   }
 
   .success-stack-section__main {
@@ -150,7 +150,7 @@
   }
 
   .success-stack-section__screen-crop {
-    height: 820px;
+    height: 680px;
   }
 }
 
@@ -189,7 +189,7 @@
 
   .success-stack-section__screen-crop {
     width: calc(100% - .75rem);
-    height: 720px;
+    height: 620px;
     margin-left: 0;
     box-shadow: .75rem .75rem 0 #CCFF00;
   }
@@ -197,7 +197,7 @@
   .success-stack-section__principles {
     grid-template-columns: 1fr;
     gap: 2.5rem;
-    margin-top: 5rem;
+    margin-top: 3.5rem;
   }
 
   .success-stack-section__principle p {
