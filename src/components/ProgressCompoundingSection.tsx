@@ -38,10 +38,6 @@ export default function ProgressCompoundingSection() {
               loading="lazy"
             />
           </div>
-          <svg className="progress-compounding-section__curve" viewBox="0 0 900 280" aria-hidden="true">
-            <path className="progress-compounding-section__curve-base" d="M0 236 C170 236 275 232 380 218 C520 200 570 160 660 112 C740 70 810 34 900 18" />
-            <path className="progress-compounding-section__curve-lime" d="M530 186 C585 167 615 136 660 112 C740 70 810 34 900 18" />
-          </svg>
         </div>
       </div>
 

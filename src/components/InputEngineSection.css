@@ -21,8 +21,8 @@
   font-family: "Inter Tight", Inter, sans-serif;
   font-weight: 900;
   font-size: clamp(2.75rem, 6.5vw, 5.25rem);
-  line-height: .88;
-  letter-spacing: -.03em;
+  line-height: .92;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -240,8 +240,8 @@
   font-family: "Inter Tight", Inter, sans-serif;
   font-size: clamp(3.2rem, 5.2vw, 5.3rem);
   font-weight: 900;
-  letter-spacing: -.06em;
-  line-height: .84;
+  letter-spacing: .015em;
+  line-height: .9;
 }
 
 .ctg-input-engine__defineUnit {
@@ -305,8 +305,8 @@
   font-family: "Inter Tight", Inter, sans-serif;
   font-size: clamp(4rem, 6.8vw, 6.4rem);
   font-weight: 900;
-  letter-spacing: -.07em;
-  line-height: .8;
+  letter-spacing: .015em;
+  line-height: .88;
 }
 
 .ctg-input-engine__dailyUnit {
@@ -351,8 +351,8 @@
   font-family: "Inter Tight", Inter, sans-serif;
   font-size: clamp(2.25rem, 5.5vw, 4.5rem);
   font-weight: 900;
-  letter-spacing: -.03em;
-  line-height: .9;
+  letter-spacing: 0;
+  line-height: .92;
   text-transform: uppercase;
 }
 
