@@ -6,6 +6,7 @@ import InputEngineSection from './components/InputEngineSection';
 import SuccessStackSection from './components/SuccessStackSection';
 import ProgressCompoundingSection from './components/ProgressCompoundingSection';
 import PublicJourneySection from './components/PublicJourneySection';
+import PurposeSection from './components/PurposeSection';
 
 const appScreens = [
   { src: '/assets/app-screenshots/IMG_3641.png', alt: 'Today view showing the daily Success Stack' },
@@ -51,6 +52,7 @@ function App() {
         <SuccessStackSection />
         <ProgressCompoundingSection />
         <PublicJourneySection />
+        <PurposeSection />
 
         <section id="app" className="app-showcase section-dark">
           <div className="showcase-copy">
