@@ -1,7 +1,7 @@
 .success-stack-section {
   background: #F5F4EF;
   color: #050505;
-  padding: 4.75rem 3.5rem 4.5rem;
+  padding: 4.75rem 3.5rem 3.25rem;
   overflow: hidden;
 }
 
@@ -16,7 +16,7 @@
 
 .success-stack-section__copy {
   max-width: 520px;
-  padding-bottom: 1.5rem;
+  padding-bottom: .5rem;
 }
 
 .success-stack-section__kicker,
@@ -71,7 +71,7 @@
 
 .success-stack-section__screen-crop {
   width: min(100%, 600px);
-  height: 780px;
+  height: 620px;
   margin-left: auto;
   overflow: hidden;
   background: #050505;
@@ -89,7 +89,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 3.5rem;
   max-width: 1320px;
-  margin: 4.25rem auto 0;
+  margin: 2.75rem auto 0;
 }
 
 .success-stack-section__principle {
@@ -137,7 +137,7 @@
 
 @media (max-width: 1024px) {
   .success-stack-section {
-    padding: 4.25rem 2rem 4.25rem;
+    padding: 4.25rem 2rem 3rem;
   }
 
   .success-stack-section__main {
@@ -150,7 +150,7 @@
   }
 
   .success-stack-section__screen-crop {
-    height: 680px;
+    height: 560px;
   }
 }
 
@@ -189,7 +189,7 @@
 
   .success-stack-section__screen-crop {
     width: calc(100% - .75rem);
-    height: 620px;
+    height: 520px;
     margin-left: 0;
     box-shadow: .75rem .75rem 0 #CCFF00;
   }
@@ -197,7 +197,7 @@
   .success-stack-section__principles {
     grid-template-columns: 1fr;
     gap: 2.5rem;
-    margin-top: 3.5rem;
+    margin-top: 2.75rem;
   }
 
   .success-stack-section__principle p {
