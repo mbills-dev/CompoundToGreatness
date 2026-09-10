@@ -103,9 +103,8 @@ export default function InputEngineSection() {
               <span>$10K / DEAL</span>
               <i>↓</i>
               <span>1-IN-10 OFFERS</span>
-            </div>
-            <div className="ctg-input-engine__stepNote">
-              Compound to Greatness works backward through your numbers to find the action that drives the result.
+              <i>↓</i>
+              <span className="ctg-input-engine__decodeFlowFinal">6 OFFERS / DAY</span>
             </div>
           </article>
 

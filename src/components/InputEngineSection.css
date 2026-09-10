@@ -63,7 +63,7 @@
 
 .ctg-input-engine__guide {
   position: absolute;
-  top: 4.2rem;
+  top: 3.6rem;
   left: 4%;
   right: 4%;
   height: 1px;
@@ -102,12 +102,17 @@
 .ctg-input-engine__step--3,
 .ctg-input-engine__step--4 { padding-top: 0; }
 
+.ctg-input-engine__step--1 .ctg-input-engine__outcomeGoal { margin-top: .35rem; }
+.ctg-input-engine__step--2 .ctg-input-engine__defineIntro { margin-top: .35rem; }
+.ctg-input-engine__step--3 .ctg-input-engine__decodeHeadline { margin-top: .35rem; }
+.ctg-input-engine__step--4 .ctg-input-engine__fragment--daily { margin-top: .35rem; }
+
 .ctg-input-engine__stepMeta {
   display: flex;
   align-items: center;
   gap: .6rem;
   min-height: 1.7rem;
-  margin-bottom: 2.1rem;
+  margin-bottom: 1.5rem;
 }
 
 .ctg-input-engine__stepNum,
@@ -282,9 +287,10 @@
   line-height: .8;
 }
 
-.ctg-input-engine__step--3 .ctg-input-engine__stepNote {
-  max-width: 260px;
-  margin-top: .8rem;
+.ctg-input-engine__decodeFlowFinal {
+  color: #CCFF00;
+  opacity: .55;
+  font-size: .62rem;
 }
 
 .ctg-input-engine__dailyNumber {
