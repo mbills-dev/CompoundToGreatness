@@ -43,7 +43,8 @@ export default function InputEngineSection() {
           <h2 id="ctg-input-engine-heading" className="ctg-input-engine__headline">
             <span className="ctg-input-engine__headline-line">STOP CHASING</span>
             <span className="ctg-input-engine__headline-line">THE GOAL.</span>
-            <span className="ctg-input-engine__headline-line ctg-input-engine__headline-lime">BUILD THE INPUTS.</span>
+            <span className="ctg-input-engine__headline-line ctg-input-engine__headline-lime">BUILD THE</span>
+            <span className="ctg-input-engine__headline-line ctg-input-engine__headline-lime">INPUTS.</span>
           </h2>
 
           <p className="ctg-input-engine__handwritten">The outcome follows the inputs.</p>
@@ -63,6 +64,13 @@ export default function InputEngineSection() {
             preserveAspectRatio="none"
             aria-hidden="true"
           >
+            <defs>
+              <linearGradient id="ctg-progress-grad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#2A2A2A" />
+                <stop offset="55%" stopColor="#4A4A4A" />
+                <stop offset="100%" stopColor="#CCFF00" />
+              </linearGradient>
+            </defs>
             <line
               className="ctg-input-engine__pathLine"
               x1="0"
@@ -72,6 +80,12 @@ export default function InputEngineSection() {
               pathLength="1"
             />
           </svg>
+
+          {/* Markers aligned to the progression line */}
+          <div className="ctg-input-engine__marker ctg-input-engine__marker--1" aria-hidden="true" />
+          <div className="ctg-input-engine__marker ctg-input-engine__marker--2" aria-hidden="true" />
+          <div className="ctg-input-engine__marker ctg-input-engine__marker--3" aria-hidden="true" />
+          <div className="ctg-input-engine__marker ctg-input-engine__marker--4" aria-hidden="true" />
 
           {/* Stage 01 */}
           <div className="ctg-input-engine__stage ctg-input-engine__stage--1">
@@ -100,7 +114,7 @@ export default function InputEngineSection() {
             <div className="ctg-input-engine__stageNum">03</div>
             <div className="ctg-input-engine__stageLabel">REVERSE ENGINEER</div>
             <div className="ctg-input-engine__stageDesc">
-              AI identifies the repeatable actions that can create the result.
+              AI works backward from your goal to identify the daily actions most likely to create it.
             </div>
             <div className="ctg-input-engine__inputs">
               {INPUT_EXAMPLES.map((label) => (
