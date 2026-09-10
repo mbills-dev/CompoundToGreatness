@@ -1,9 +1,9 @@
 import "./ProgressCompoundingSection.css";
 
 const principles = [
-  { number: "01", title: "SHOW UP", copy: "Complete today's Success Stack." },
-  { number: "02", title: "BUILD PROOF", copy: "Every completed day becomes evidence of who you're becoming." },
-  { number: "03", title: "COMPOUND", copy: "Stack winning days until the results catch up." },
+  { number: "01", title: "SHOW UP", copy: "Complete your Success Stack every day." },
+  { number: "02", title: "DON'T MISS", copy: "Miss a day and your 77-day challenge starts over." },
+  { number: "03", title: "GO PUBLIC", copy: "Share your progress. Build accountability. Become the proof." },
 ];
 
 export default function ProgressCompoundingSection() {
@@ -11,7 +11,7 @@ export default function ProgressCompoundingSection() {
     <section className="progress-compounding-section" aria-labelledby="progress-compounding-heading">
       <div className="progress-compounding-section__main">
         <div className="progress-compounding-section__copy">
-          <div className="progress-compounding-section__kicker">THE PROOF OF CONSISTENCY</div>
+          <div className="progress-compounding-section__kicker">THE 77-DAY CHALLENGE</div>
           <h2 id="progress-compounding-heading" className="progress-compounding-section__headline">
             DON&apos;T BREAK
             <br />
@@ -19,8 +19,8 @@ export default function ProgressCompoundingSection() {
           </h2>
           <div className="progress-compounding-section__annotation">Watch the wins stack up.</div>
           <p className="progress-compounding-section__body">
-            One winning day doesn&apos;t change your life. Stack enough of them together and everything
-            starts to change.
+            77 days. Complete your Success Stack every day. Miss a day and you start over. Share your journey.
+            Build the proof. Hardwire the inputs until winning becomes who you are.
           </p>
         </div>
 
