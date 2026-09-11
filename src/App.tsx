@@ -1,4 +1,4 @@
-import { ArrowRight, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import CTGHero from './components/CTGHero';
 import CTGGrowthMapV4_1 from './components/CTGGrowthMapV4_1';
 import InputEngineSection from './components/InputEngineSection';
@@ -29,22 +29,6 @@ function App() {
         <PurposeSection />
         <TransformationSection />
         <StartJourneySection />
-
-        <section id="app" className="app-showcase section-dark">
-          <div className="showcase-copy">
-            <div className="section-kicker">THE APP</div>
-            <h2>YOUR GREATNESS.<br /><span>IN ONE PLACE.</span></h2>
-            <p>Track your habits, build your mindset, measure your progress, and surround yourself with others — all in the Compound to Greatness app.</p>
-            <a href="#features" className="text-link">Explore features <ArrowRight size={17} /></a>
-          </div>
-          <div className="screen-stack" aria-label="Compound to Greatness app screens">
-            {appScreens.slice(1, 4).map((screen, index) => (
-              <div className={`screen-card screen-card-${index + 1}`} key={screen.src}>
-                <img src={screen.src} alt={screen.alt} loading="lazy" />
-              </div>
-            ))}
-          </div>
-        </section>
 
         <section id="features" className="feature-section section-light">
           <div className="feature-phone"><img src={appScreens[2].src} alt={appScreens[2].alt} loading="lazy" /></div>
