@@ -7,6 +7,7 @@ import PublicJourneySection from './components/PublicJourneySection';
 import PurposeSection from './components/PurposeSection';
 import TransformationSection from './components/TransformationSection';
 import StartJourneySection from './components/StartJourneySection';
+import FooterClose from './components/FooterClose';
 
 function App() {
   return (
@@ -24,11 +25,7 @@ function App() {
 
       </main>
 
-      <footer className="site-footer">
-        <a href="#top" className="brand-lockup"><img src="/logo-mark.png" alt="" className="brand-mark" /><span>COMPOUND<br /><strong>TO GREATNESS</strong></span></a>
-        <div className="footer-links"><a href="#app">The App</a><a href="#method">Why It Works</a><a href="#features">Features</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div>
-        <p>© 2026 Compound to Greatness. All rights reserved.</p>
-      </footer>
+      <FooterClose />
     </div>
   );
 }
