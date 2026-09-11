@@ -42,13 +42,13 @@ export default function PurposeSection() {
             EXTRACTOR.
           </h3>
           <p className="purpose-section__secondary-statement">
-            It doesn&apos;t give you greatness.
+            Greatness is already in you.
             <br />
-            It pulls it out of you.
+            This is designed to pull it out.
           </p>
           <p className="purpose-section__secondary-body">
             The goal creates the tension. The 77-day challenge raises the stakes. Your daily inputs force you to
-            show up — and day by day, you become more of the person you were created to be.
+            show up. Do it long enough, and you become someone new.
           </p>
           <div className="purpose-section__secondary-note">Become who you were created to be.</div>
         </div>
