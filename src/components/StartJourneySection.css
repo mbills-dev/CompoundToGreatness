@@ -3,21 +3,31 @@
   background: #050505;
   color: #FFFFFF;
   padding: 6rem 3.5rem 6rem;
+  min-height: 100vh;
+  min-height: 100svh;
   overflow: hidden;
   isolation: isolate;
+  display: flex;
+  align-items: center;
 }
 
 /* === SUBTLE LIME LIGHT === */
 
 .start-journey__ambient {
   position: absolute;
-  bottom: -20%;
-  right: 18%;
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(204, 255, 0, 0.05) 0%, rgba(204, 255, 0, 0.02) 35%, transparent 65%);
+  bottom: 8%;
+  right: 12%;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(204, 255, 0, 0.04) 0%, rgba(204, 255, 0, 0.015) 35%, transparent 65%);
   pointer-events: none;
   z-index: 0;
+  transition: opacity .8s ease;
+}
+
+.start-journey__ambient.is-pulsing {
+  background: radial-gradient(circle, rgba(204, 255, 0, 0.08) 0%, rgba(204, 255, 0, 0.03) 35%, transparent 65%);
+  transition: background .6s ease;
 }
 
 /* === GIANT DAY 01 BACKGROUND === */
@@ -39,31 +49,24 @@
   display: block;
   font-family: "Inter Tight", Inter, sans-serif;
   font-weight: 900;
-  color: #121212;
+  color: #111111;
   line-height: .82;
   letter-spacing: .01em;
   text-transform: uppercase;
   opacity: 0;
-  transition: opacity 1.6s ease 0.4s;
+  transition: opacity 2s ease 1.2s;
 }
 
-.start-journey.is-visible .start-journey__bg-day span,
-.start-journey__bg-day span.is-pulsing {
+.start-journey.is-visible .start-journey__bg-day span {
   opacity: 1;
 }
 
 .start-journey__bg-day span:first-child {
-  font-size: clamp(14rem, 26vw, 30rem);
+  font-size: clamp(12rem, 24vw, 28rem);
 }
 
 .start-journey__bg-day span:last-child {
-  font-size: clamp(14rem, 26vw, 30rem);
-}
-
-.start-journey__bg-day span.is-pulsing {
-  color: #161616;
-  text-shadow: 0 0 40px rgba(204, 255, 0, 0.06);
-  transition: color .6s ease, text-shadow .6s ease, opacity 1.6s ease 0.4s;
+  font-size: clamp(12rem, 24vw, 28rem);
 }
 
 /* === INNER LAYOUT === */
@@ -101,10 +104,10 @@
 .start-journey__headline {
   margin: 1.5rem 0 0;
   font-family: "Inter Tight", Inter, sans-serif;
-  font-size: clamp(2.4rem, 4.2vw, 4rem);
+  font-size: clamp(2.3rem, 3.8vw, 3.6rem);
   font-weight: 900;
-  letter-spacing: .016em;
-  line-height: .9;
+  letter-spacing: .015em;
+  line-height: .92;
   text-transform: uppercase;
   color: #FFFFFF;
   opacity: 0;
@@ -146,7 +149,7 @@
 
 .start-journey__app-store-link {
   display: inline-block;
-  margin-top: 2rem;
+  margin-top: 1.75rem;
   text-decoration: none;
   line-height: 0;
   opacity: 0;
@@ -165,7 +168,7 @@
 }
 
 .start-journey__fine-print {
-  margin-top: 1.25rem;
+  margin-top: 1rem;
   color: #666664;
   font-family: Inter, sans-serif;
   font-size: .8rem;
@@ -183,13 +186,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 600px;
+  min-height: 560px;
 }
 
 .start-journey__device {
   position: relative;
   z-index: 2;
-  width: min(100%, 360px);
+  width: min(100%, 325px);
   border-radius: 2.5rem;
   overflow: hidden;
   border: 3px solid rgba(255, 255, 255, 0.1);
@@ -238,6 +241,7 @@
 @media (max-width: 1024px) {
   .start-journey {
     padding: 5rem 2rem 5rem;
+    min-height: 0;
   }
 
   .start-journey__inner {
@@ -245,18 +249,23 @@
   }
 
   .start-journey__device {
-    width: min(100%, 320px);
+    width: min(100%, 290px);
+  }
+
+  .start-journey__right {
+    min-height: 500px;
   }
 
   .start-journey__bg-day span:first-child,
   .start-journey__bg-day span:last-child {
-    font-size: clamp(10rem, 22vw, 22rem);
+    font-size: clamp(9rem, 20vw, 20rem);
   }
 }
 
 @media (max-width: 760px) {
   .start-journey {
     padding: 4.5rem 1.5rem 4rem;
+    min-height: 0;
   }
 
   .start-journey__inner {
@@ -270,17 +279,18 @@
   }
 
   .start-journey__headline {
-    font-size: clamp(2.2rem, 11vw, 3.4rem);
+    font-size: clamp(2.1rem, 10vw, 3.2rem);
     letter-spacing: .02em;
+    line-height: .94;
   }
 
   .start-journey__right {
     min-height: 0;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
 
   .start-journey__device {
-    width: min(82vw, 320px);
+    width: min(78vw, 290px);
   }
 
   .start-journey__bg-day {
@@ -290,13 +300,13 @@
 
   .start-journey__bg-day span:first-child,
   .start-journey__bg-day span:last-child {
-    font-size: clamp(8rem, 28vw, 16rem);
+    font-size: clamp(7rem, 26vw, 14rem);
   }
 
   .start-journey__ambient {
     right: 0;
-    width: 400px;
-    height: 400px;
+    width: 380px;
+    height: 380px;
   }
 }
 
@@ -322,8 +332,7 @@
     transition: none !important;
   }
 
-  .start-journey__bg-day span.is-pulsing {
-    color: #121212 !important;
-    text-shadow: none !important;
+  .start-journey__ambient.is-pulsing {
+    background: radial-gradient(circle, rgba(204, 255, 0, 0.04) 0%, rgba(204, 255, 0, 0.015) 35%, transparent 65%) !important;
   }
 }

@@ -54,19 +54,15 @@ export default function StartJourneySection() {
 
   return (
     <section
-      className="start-journey"
+      className={"start-journey" + (visible ? " is-visible" : "")}
       aria-labelledby="start-journey-heading"
       ref={sectionRef}
     >
-      <div className="start-journey__ambient" aria-hidden="true" />
+      <div className={"start-journey__ambient" + (day01Pulse ? " is-pulsing" : "")} aria-hidden="true" />
 
       <div className="start-journey__bg-day" aria-hidden="true">
-        <span className={day01Pulse ? "is-pulsing" : ""}>
-          DAY
-        </span>
-        <span className={day01Pulse ? "is-pulsing" : ""}>
-          01
-        </span>
+        <span>DAY</span>
+        <span>01</span>
       </div>
 
       <div className="start-journey__inner">
