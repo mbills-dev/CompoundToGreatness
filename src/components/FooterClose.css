@@ -25,7 +25,7 @@
   align-items: center;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 7rem 0 7rem;
+  padding: 5.5rem 0 5.5rem;
 }
 
 /* — Left — */
@@ -91,11 +91,13 @@
 
 .footer-close__right {
   max-width: 420px;
+  align-self: center;
+  transform: translateY(-1.5rem);
 }
 
 .footer-close__secondary {
   font-family: "Inter Tight", Inter, sans-serif;
-  font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+  font-size: clamp(1.25rem, 1.85vw, 1.7rem);
   font-weight: 800;
   letter-spacing: 0.02em;
   line-height: 1.2;
@@ -154,7 +156,7 @@
 }
 
 .footer-close__brand img {
-  height: 36px;
+  height: 42px;
   width: auto;
   display: block;
   opacity: 0.92;
@@ -222,11 +224,11 @@
   font-size: 0.72rem;
   font-weight: 400;
   letter-spacing: 0.04em;
-  color: #555555;
+  color: #787878;
 }
 
 .footer-close__trademark {
-  color: #4a4a4a;
+  color: #6e6e6e;
 }
 
 /* === Responsive: Tablet === */
@@ -239,11 +241,12 @@
   .footer-close__statement {
     grid-template-columns: 1fr;
     gap: 3rem;
-    padding: 5rem 0 5rem;
+    padding: 4rem 0 4rem;
   }
 
   .footer-close__right {
     max-width: 100%;
+    transform: none;
   }
 }
 
@@ -255,8 +258,8 @@
   }
 
   .footer-close__statement {
-    padding: 4rem 0 4rem;
-    gap: 2.5rem;
+    padding: 3.5rem 0 3.5rem;
+    gap: 2.25rem;
   }
 
   .footer-close__headline {
@@ -266,7 +269,7 @@
   }
 
   .footer-close__secondary {
-    font-size: clamp(1.05rem, 4.5vw, 1.3rem);
+    font-size: clamp(1.15rem, 5vw, 1.45rem);
   }
 
   .footer-close__utility {
