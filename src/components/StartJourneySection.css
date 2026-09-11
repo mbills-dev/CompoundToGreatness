@@ -1,0 +1,329 @@
+.start-journey {
+  position: relative;
+  background: #050505;
+  color: #FFFFFF;
+  padding: 6rem 3.5rem 6rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* === SUBTLE LIME LIGHT === */
+
+.start-journey__ambient {
+  position: absolute;
+  bottom: -20%;
+  right: 18%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(204, 255, 0, 0.05) 0%, rgba(204, 255, 0, 0.02) 35%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === GIANT DAY 01 BACKGROUND === */
+
+.start-journey__bg-day {
+  position: absolute;
+  right: 4%;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  user-select: none;
+}
+
+.start-journey__bg-day span {
+  display: block;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-weight: 900;
+  color: #121212;
+  line-height: .82;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 1.6s ease 0.4s;
+}
+
+.start-journey.is-visible .start-journey__bg-day span,
+.start-journey__bg-day span.is-pulsing {
+  opacity: 1;
+}
+
+.start-journey__bg-day span:first-child {
+  font-size: clamp(14rem, 26vw, 30rem);
+}
+
+.start-journey__bg-day span:last-child {
+  font-size: clamp(14rem, 26vw, 30rem);
+}
+
+.start-journey__bg-day span.is-pulsing {
+  color: #161616;
+  text-shadow: 0 0 40px rgba(204, 255, 0, 0.06);
+  transition: color .6s ease, text-shadow .6s ease, opacity 1.6s ease 0.4s;
+}
+
+/* === INNER LAYOUT === */
+
+.start-journey__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 4rem;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* === LEFT CONTENT === */
+
+.start-journey__left {
+  max-width: 540px;
+}
+
+.start-journey__eyebrow {
+  color: #CCFF00;
+  font-family: Inter, sans-serif;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .7s cubic-bezier(0.16, 1, 0.3, 1) 0s, transform .7s cubic-bezier(0.16, 1, 0.3, 1) 0s;
+}
+
+.start-journey__headline {
+  margin: 1.5rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(2.4rem, 4.2vw, 4rem);
+  font-weight: 900;
+  letter-spacing: .016em;
+  line-height: .9;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity .8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s, transform .8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+}
+
+.start-journey__annotation {
+  display: inline-block;
+  margin: 1.4rem 0 0 1.25rem;
+  color: #CCFF00;
+  font-family: "Northwell Clean", "Northwell", cursive;
+  font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+  line-height: 1;
+  transform: rotate(-3deg);
+  opacity: 0;
+  transition: opacity .7s cubic-bezier(0.16, 1, 0.3, 1) 0.8s, transform .7s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
+}
+
+.start-journey__copy {
+  margin-top: 1.5rem;
+  max-width: 420px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s, transform .7s cubic-bezier(0.16, 1, 0.3, 1) 0.35s;
+}
+
+.start-journey__copy p {
+  margin: 0;
+  color: #C0C0BB;
+  font-family: Inter, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.start-journey__copy p + p {
+  margin-top: .75rem;
+}
+
+.start-journey__app-store-link {
+  display: inline-block;
+  margin-top: 2rem;
+  text-decoration: none;
+  line-height: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, transform .7s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+}
+
+.start-journey__app-store-link:hover {
+  transform: translateY(-2px);
+}
+
+.start-journey__app-store-badge {
+  width: 200px;
+  height: auto;
+  display: block;
+}
+
+.start-journey__fine-print {
+  margin-top: 1.25rem;
+  color: #666664;
+  font-family: Inter, sans-serif;
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .06em;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s, transform .7s cubic-bezier(0.16, 1, 0.3, 1) 0.65s;
+}
+
+/* === RIGHT — DEVICE === */
+
+.start-journey__right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 600px;
+}
+
+.start-journey__device {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 360px);
+  border-radius: 2.5rem;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 50px 90px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(204, 255, 0, 0.06);
+  aspect-ratio: 9 / 19.5;
+  background: #0a0a0a;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, transform .9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+.start-journey__device img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* === REVEALED STATES === */
+
+.start-journey__eyebrow.is-revealed,
+.start-journey__headline.is-revealed,
+.start-journey__annotation.is-revealed,
+.start-journey__copy.is-revealed,
+.start-journey__app-store-link.is-revealed,
+.start-journey__fine-print.is-revealed,
+.start-journey__right.is-revealed .start-journey__device {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.start-journey__annotation.is-revealed {
+  transform: rotate(-3deg);
+}
+
+.start-journey__app-store-link.is-revealed {
+  transform: translateY(0);
+}
+
+.start-journey__right.is-revealed .start-journey__device {
+  transform: translateY(0);
+}
+
+/* === RESPONSIVE === */
+
+@media (max-width: 1024px) {
+  .start-journey {
+    padding: 5rem 2rem 5rem;
+  }
+
+  .start-journey__inner {
+    gap: 3rem;
+  }
+
+  .start-journey__device {
+    width: min(100%, 320px);
+  }
+
+  .start-journey__bg-day span:first-child,
+  .start-journey__bg-day span:last-child {
+    font-size: clamp(10rem, 22vw, 22rem);
+  }
+}
+
+@media (max-width: 760px) {
+  .start-journey {
+    padding: 4.5rem 1.5rem 4rem;
+  }
+
+  .start-journey__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .start-journey__left {
+    max-width: 100%;
+  }
+
+  .start-journey__headline {
+    font-size: clamp(2.2rem, 11vw, 3.4rem);
+    letter-spacing: .02em;
+  }
+
+  .start-journey__right {
+    min-height: 0;
+    margin-top: 1.5rem;
+  }
+
+  .start-journey__device {
+    width: min(82vw, 320px);
+  }
+
+  .start-journey__bg-day {
+    right: -4%;
+    top: 62%;
+  }
+
+  .start-journey__bg-day span:first-child,
+  .start-journey__bg-day span:last-child {
+    font-size: clamp(8rem, 28vw, 16rem);
+  }
+
+  .start-journey__ambient {
+    right: 0;
+    width: 400px;
+    height: 400px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .start-journey__eyebrow,
+  .start-journey__headline,
+  .start-journey__annotation,
+  .start-journey__copy,
+  .start-journey__app-store-link,
+  .start-journey__fine-print,
+  .start-journey__device {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .start-journey__annotation {
+    transform: rotate(-3deg) !important;
+  }
+
+  .start-journey__bg-day span {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+
+  .start-journey__bg-day span.is-pulsing {
+    color: #121212 !important;
+    text-shadow: none !important;
+  }
+}
