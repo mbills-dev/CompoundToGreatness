@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import CTGHero from './components/CTGHero';
 import CTGGrowthMapV4_1 from './components/CTGGrowthMapV4_1';
@@ -18,33 +17,6 @@ const appScreens = [
 ];
 
 function App() {
-  const [formData, setFormData] = useState({ name: '', email: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'error'>('idle');
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus('idle');
-
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-checkout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      if (!response.ok || typeof data.url !== 'string') throw new Error('Checkout unavailable');
-      window.location.href = data.url;
-    } catch {
-      setSubmitStatus('error');
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <div className="site-shell">
       <main id="top">
@@ -86,22 +58,6 @@ function App() {
           </div>
         </section>
 
-        <section id="start" className="final-section">
-          <div className="final-photo" aria-hidden="true" />
-          <div className="final-overlay" aria-hidden="true" />
-          <div className="final-content">
-            <div className="section-kicker">MORE THAN AN APP</div>
-            <h2>A STRONGER YOU<br /><span>CHANGES EVERYTHING.</span></h2>
-            <p>This isn’t just a habit tracker. It’s a tool to help you become the person you’re meant to be — in every area of life.</p>
-            <form onSubmit={handleSubmit} className="waitlist-form">
-              <label><span className="sr-only">Full name</span><input type="text" value={formData.name} onChange={(event) => setFormData({ ...formData, name: event.target.value })} placeholder="FULL NAME" required /></label>
-              <label><span className="sr-only">Email address</span><input type="email" value={formData.email} onChange={(event) => setFormData({ ...formData, email: event.target.value })} placeholder="EMAIL ADDRESS" required /></label>
-              <button type="submit" className="button button-primary" disabled={isSubmitting}>{isSubmitting ? 'PROCESSING...' : <>Join Waitlist <ArrowRight size={18} /></>}</button>
-              {submitStatus === 'error' && <p className="form-error">Something went wrong. Please try again.</p>}
-            </form>
-            <p className="fine-print">Founding membership is $3.21/month ($38.50/year, billed annually). Cancel anytime.</p>
-          </div>
-        </section>
       </main>
 
       <footer className="site-footer">
