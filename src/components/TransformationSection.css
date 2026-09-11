@@ -1,0 +1,279 @@
+.transformation-section {
+  background: #F5F4EF;
+  color: #050505;
+  padding: 5rem 3.5rem 4.5rem;
+  overflow: hidden;
+}
+
+.transformation-section__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* === TOP / HEADING === */
+
+.transformation-section__top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.transformation-section__heading-block {
+  max-width: 720px;
+}
+
+.transformation-section__kicker {
+  color: #5F7600;
+  font-family: Inter, sans-serif;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.transformation-section__headline {
+  margin: 1.6rem 0 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(2.6rem, 4.6vw, 4.4rem);
+  font-weight: 900;
+  letter-spacing: .018em;
+  line-height: .92;
+}
+
+.transformation-section__annotation {
+  display: inline-block;
+  margin: 1.4rem 0 0 1.25rem;
+  color: #5F7600;
+  font-family: "Northwell Clean", "Northwell", cursive;
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  line-height: 1;
+  transform: rotate(-4deg);
+}
+
+.transformation-section__copy-wrap {
+  max-width: 470px;
+  margin-top: 1.5rem;
+}
+
+.transformation-section__body {
+  margin: 0;
+  color: #4D4D48;
+  font-family: Inter, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.transformation-section__body + .transformation-section__body {
+  margin-top: .8rem;
+}
+
+.transformation-section__body-final {
+  margin: 1rem 0 0;
+  color: #050505;
+  font-family: Inter, sans-serif;
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+/* === 77-DAY VISUAL === */
+
+.transformation-section__visual {
+  margin-top: 4.5rem;
+  padding: 0 .5rem;
+}
+
+.transformation-section__visual-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.25rem;
+}
+
+.transformation-section__day-label {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.transformation-section__day-label--end {
+  text-align: right;
+}
+
+.transformation-section__day-num {
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: .8rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  color: #050505;
+}
+
+.transformation-section__day-word {
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  color: #5F7600;
+}
+
+.transformation-section__day-label--end .transformation-section__day-word {
+  color: #050505;
+}
+
+.transformation-section__timeline {
+  position: relative;
+  height: 32px;
+  border-top: 1px solid #D5D4CC;
+  border-bottom: 1px solid #D5D4CC;
+}
+
+.transformation-section__days {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 100%;
+  padding: 0;
+}
+
+.transformation-section__day {
+  flex: 1 1 0;
+  height: 10px;
+  margin: 0 1px;
+  background: #E2E1D8;
+  transition: background .3s ease;
+}
+
+.transformation-section__day.is-filled {
+  background: #CCFF00;
+}
+
+.transformation-section__day.is-final {
+  flex: 0 0 14px;
+  height: 28px;
+  margin: 0 0 0 3px;
+  background: #CCFF00;
+  box-shadow: 0 0 12px rgba(204, 255, 0, .5);
+}
+
+.transformation-section__progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(204, 255, 0, .08);
+  pointer-events: none;
+  transition: width .1s linear;
+}
+
+/* === THREE PRINCIPLES === */
+
+.transformation-section__principles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3.5rem;
+  margin-top: 4.5rem;
+}
+
+.transformation-section__principle {
+  min-width: 0;
+}
+
+.transformation-section__principle-top {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.transformation-section__principle-number {
+  color: #5F7600;
+  font-family: Inter, sans-serif;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.transformation-section__principle-rule {
+  height: 1px;
+  flex: 1;
+  background: #C9C8C0;
+}
+
+.transformation-section__principle h3 {
+  margin: 0;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+  line-height: 1;
+  color: #050505;
+}
+
+.transformation-section__principle p {
+  max-width: 280px;
+  margin: .75rem 0 0;
+  color: #5C5C56;
+  font-family: Inter, sans-serif;
+  font-size: .95rem;
+  line-height: 1.55;
+}
+
+/* === RESPONSIVE === */
+
+@media (max-width: 1024px) {
+  .transformation-section {
+    padding: 4.5rem 2rem 4rem;
+  }
+
+  .transformation-section__principles {
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .transformation-section {
+    padding: 4.5rem 1.5rem 4rem;
+  }
+
+  .transformation-section__headline {
+    font-size: clamp(2.6rem, 12vw, 4rem);
+  }
+
+  .transformation-section__visual {
+    margin-top: 3.5rem;
+  }
+
+  .transformation-section__timeline {
+    height: 28px;
+  }
+
+  .transformation-section__day {
+    height: 8px;
+  }
+
+  .transformation-section__day.is-final {
+    height: 24px;
+    flex-basis: 12px;
+  }
+
+  .transformation-section__principles {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+    margin-top: 3.5rem;
+  }
+
+  .transformation-section__principle p {
+    max-width: 360px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transformation-section__day {
+    transition: none;
+  }
+
+  .transformation-section__progress-fill {
+    transition: none;
+  }
+}
