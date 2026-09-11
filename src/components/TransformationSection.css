@@ -1,7 +1,7 @@
 .transformation-section {
   background: #F5F4EF;
   color: #050505;
-  padding: 5rem 3.5rem 4.5rem;
+  padding: 4.5rem 3.5rem 4rem;
   overflow: hidden;
 }
 
@@ -10,16 +10,17 @@
   margin: 0 auto;
 }
 
-/* === TOP / HEADING === */
+/* === TOP / HEADING — two-column to fill upper-right === */
 
 .transformation-section__top {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 3rem;
 }
 
 .transformation-section__heading-block {
-  max-width: 720px;
+  max-width: 560px;
 }
 
 .transformation-section__kicker {
@@ -33,9 +34,9 @@
 }
 
 .transformation-section__headline {
-  margin: 1.6rem 0 0;
+  margin: 1.5rem 0 0;
   font-family: "Inter Tight", Inter, sans-serif;
-  font-size: clamp(2.6rem, 4.6vw, 4.4rem);
+  font-size: clamp(2.4rem, 4.2vw, 4rem);
   font-weight: 900;
   letter-spacing: .018em;
   line-height: .92;
@@ -43,17 +44,17 @@
 
 .transformation-section__annotation {
   display: inline-block;
-  margin: 1.4rem 0 0 1.25rem;
+  margin: 1.3rem 0 0 1.25rem;
   color: #5F7600;
   font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  font-size: clamp(1.8rem, 2.8vw, 2.6rem);
   line-height: 1;
   transform: rotate(-4deg);
 }
 
 .transformation-section__copy-wrap {
-  max-width: 470px;
-  margin-top: 1.5rem;
+  max-width: 440px;
+  padding-top: 3.5rem;
 }
 
 .transformation-section__body {
@@ -80,21 +81,22 @@
 /* === 77-DAY VISUAL === */
 
 .transformation-section__visual {
-  margin-top: 4.5rem;
-  padding: 0 .5rem;
+  position: relative;
+  margin-top: 3.5rem;
+  padding: 0;
 }
 
 .transformation-section__visual-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
 }
 
 .transformation-section__day-label {
   display: flex;
   flex-direction: column;
-  gap: .25rem;
+  gap: .3rem;
 }
 
 .transformation-section__day-label--end {
@@ -103,7 +105,7 @@
 
 .transformation-section__day-num {
   font-family: "Inter Tight", Inter, sans-serif;
-  font-size: .8rem;
+  font-size: .82rem;
   font-weight: 900;
   letter-spacing: .12em;
   color: #050505;
@@ -111,7 +113,7 @@
 
 .transformation-section__day-word {
   font-family: "Inter Tight", Inter, sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 900;
   letter-spacing: .08em;
   color: #5F7600;
@@ -123,47 +125,102 @@
 
 .transformation-section__timeline {
   position: relative;
-  height: 32px;
-  border-top: 1px solid #D5D4CC;
-  border-bottom: 1px solid #D5D4CC;
+  padding: 1rem 0;
 }
 
 .transformation-section__days {
   display: flex;
-  align-items: center;
-  gap: 0;
-  height: 100%;
-  padding: 0;
+  align-items: stretch;
+  gap: 3px;
+  height: 72px;
 }
 
 .transformation-section__day {
   flex: 1 1 0;
-  height: 10px;
-  margin: 0 1px;
+  min-width: 0;
   background: #E2E1D8;
-  transition: background .3s ease;
+  border-radius: 1px;
+  transition: background .35s ease, transform .35s ease;
+  position: relative;
 }
 
 .transformation-section__day.is-filled {
   background: #CCFF00;
 }
 
+/* Day 77 — 1.5–2x visual weight, dark fill with lime accent */
 .transformation-section__day.is-final {
-  flex: 0 0 14px;
-  height: 28px;
-  margin: 0 0 0 3px;
-  background: #CCFF00;
-  box-shadow: 0 0 12px rgba(204, 255, 0, .5);
+  flex: 0 0 28px;
+  height: 100%;
+  margin-left: 6px;
+  background: #1A1A1A;
+  border: 2px solid #CCFF00;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .35s ease, transform .45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.transformation-section__progress-fill {
+.transformation-section__day.is-final.is-filled {
+  background: #050505;
+  border-color: #CCFF00;
+  box-shadow: 0 0 14px rgba(204, 255, 0, .35);
+}
+
+.transformation-section__day-final-num {
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: .62rem;
+  font-weight: 900;
+  color: #CCFF00;
+  letter-spacing: .02em;
+  line-height: 1;
+}
+
+.transformation-section__day.is-final.is-pulsing {
+  animation: day77-pulse .6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes day77-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.18); box-shadow: 0 0 24px rgba(204, 255, 0, .6); }
+  100% { transform: scale(1); }
+}
+
+/* === VISUAL ANNOTATION === */
+
+.transformation-section__visual-annotation {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  background: rgba(204, 255, 0, .08);
+  top: 100%;
+  left: 38%;
   pointer-events: none;
-  transition: width .1s linear;
+  z-index: 2;
+}
+
+.transformation-section__visual-annotation-text {
+  display: inline-block;
+  color: #5F7600;
+  font-family: "Northwell Clean", "Northwell", cursive;
+  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  line-height: 1;
+  transform: rotate(-3deg);
+}
+
+.transformation-section__visual-annotation-arrow {
+  display: block;
+  width: 160px;
+  height: auto;
+  margin: .25rem 0 0 3.5rem;
+  overflow: visible;
+}
+
+.transformation-section__visual-annotation-arrow path {
+  fill: none;
+  stroke: #5F7600;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .6;
 }
 
 /* === THREE PRINCIPLES === */
@@ -172,7 +229,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 3.5rem;
-  margin-top: 4.5rem;
+  margin-top: 6rem;
 }
 
 .transformation-section__principle {
@@ -223,7 +280,15 @@
 
 @media (max-width: 1024px) {
   .transformation-section {
-    padding: 4.5rem 2rem 4rem;
+    padding: 4rem 2rem 3.5rem;
+  }
+
+  .transformation-section__top {
+    gap: 2.5rem;
+  }
+
+  .transformation-section__copy-wrap {
+    padding-top: 2.5rem;
   }
 
   .transformation-section__principles {
@@ -231,36 +296,55 @@
   }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
   .transformation-section {
-    padding: 4.5rem 1.5rem 4rem;
+    padding: 4rem 1.5rem 3.5rem;
+  }
+
+  .transformation-section__top {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .transformation-section__copy-wrap {
+    padding-top: 0;
   }
 
   .transformation-section__headline {
-    font-size: clamp(2.6rem, 12vw, 4rem);
+    font-size: clamp(2.4rem, 11vw, 3.6rem);
   }
 
   .transformation-section__visual {
-    margin-top: 3.5rem;
+    margin-top: 3rem;
   }
 
-  .transformation-section__timeline {
-    height: 28px;
-  }
-
-  .transformation-section__day {
-    height: 8px;
+  .transformation-section__days {
+    height: 56px;
+    gap: 2px;
   }
 
   .transformation-section__day.is-final {
-    height: 24px;
-    flex-basis: 12px;
+    flex-basis: 22px;
+    margin-left: 4px;
+  }
+
+  .transformation-section__day-final-num {
+    font-size: .55rem;
+  }
+
+  .transformation-section__visual-annotation {
+    left: 30%;
+  }
+
+  .transformation-section__visual-annotation-arrow {
+    width: 130px;
+    margin-left: 2.5rem;
   }
 
   .transformation-section__principles {
     grid-template-columns: 1fr;
     gap: 2.25rem;
-    margin-top: 3.5rem;
+    margin-top: 5rem;
   }
 
   .transformation-section__principle p {
@@ -273,7 +357,11 @@
     transition: none;
   }
 
-  .transformation-section__progress-fill {
+  .transformation-section__day.is-final {
     transition: none;
+  }
+
+  .transformation-section__day.is-final.is-pulsing {
+    animation: none;
   }
 }

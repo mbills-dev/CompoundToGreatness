@@ -11,8 +11,10 @@ const TOTAL_DAYS = 77;
 
 export default function TransformationSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const progressRef = useRef<HTMLDivElement>(null);
+  const visualRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
+  const [finalPulse, setFinalPulse] = useState(false);
+  const prevFilledRef = useRef(0);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -26,12 +28,12 @@ export default function TransformationSection() {
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        if (!sectionRef.current || !progressRef.current) return;
-        const barEl = progressRef.current;
+        if (!sectionRef.current || !visualRef.current) return;
+        const barEl = visualRef.current;
         const barRect = barEl.getBoundingClientRect();
         const viewportH = window.innerHeight;
-        const start = viewportH * 0.82;
-        const end = viewportH * 0.25;
+        const start = viewportH * 0.85;
+        const end = viewportH * 0.2;
         const raw = (start - barRect.top) / (start - end);
         const clamped = Math.max(0, Math.min(1, raw));
         setProgress(clamped);
@@ -47,6 +49,15 @@ export default function TransformationSection() {
   }, []);
 
   const filledDays = Math.round(progress * TOTAL_DAYS);
+
+  useEffect(() => {
+    if (prevFilledRef.current < TOTAL_DAYS && filledDays >= TOTAL_DAYS) {
+      setFinalPulse(true);
+      const t = setTimeout(() => setFinalPulse(false), 600);
+      return () => clearTimeout(t);
+    }
+    prevFilledRef.current = filledDays;
+  }, [filledDays]);
 
   return (
     <section
@@ -70,23 +81,24 @@ export default function TransformationSection() {
               YOU BECOME.
             </h2>
             <div className="transformation-section__annotation">The challenge ends. You don&apos;t.</div>
-            <div className="transformation-section__copy-wrap">
-              <p className="transformation-section__body">
-                77 days isn&apos;t about being perfect. It&apos;s about proving to yourself, day after day, that
-                you do what you said you would do.
-              </p>
-              <p className="transformation-section__body">
-                Choose the inputs. Commit to them. Don&apos;t miss.
-              </p>
-              <p className="transformation-section__body-final">
-                By Day 77, the biggest result isn&apos;t just what you&apos;ve accomplished. It&apos;s who
-                you&apos;ve become.
-              </p>
-            </div>
+          </div>
+
+          <div className="transformation-section__copy-wrap">
+            <p className="transformation-section__body">
+              77 days isn&apos;t about being perfect. It&apos;s about proving to yourself, day after day, that
+              you do what you said you would do.
+            </p>
+            <p className="transformation-section__body">
+              Choose the inputs. Commit to them. Don&apos;t miss.
+            </p>
+            <p className="transformation-section__body-final">
+              By Day 77, the biggest result isn&apos;t just what you&apos;ve accomplished. It&apos;s who
+              you&apos;ve become.
+            </p>
           </div>
         </div>
 
-        <div className="transformation-section__visual" ref={progressRef}>
+        <div className="transformation-section__visual" ref={visualRef}>
           <div className="transformation-section__visual-header">
             <div className="transformation-section__day-label">
               <span className="transformation-section__day-num">DAY 01</span>
@@ -98,7 +110,11 @@ export default function TransformationSection() {
             </div>
           </div>
 
-          <div className="transformation-section__timeline" role="img" aria-label="77-day progression from Day 1 to Day 77">
+          <div
+            className="transformation-section__timeline"
+            role="img"
+            aria-label="77 individual day markers progressing from Day 1 to Day 77"
+          >
             <div className="transformation-section__days">
               {Array.from({ length: TOTAL_DAYS }, (_, i) => {
                 const day = i + 1;
@@ -110,17 +126,34 @@ export default function TransformationSection() {
                     className={
                       "transformation-section__day" +
                       (isFilled ? " is-filled" : "") +
-                      (isLast ? " is-final" : "")
+                      (isLast ? " is-final" : "") +
+                      (isLast && finalPulse ? " is-pulsing" : "")
                     }
-                  />
+                  >
+                    {isLast && <span className="transformation-section__day-final-num">77</span>}
+                  </span>
                 );
               })}
             </div>
-            <div className="transformation-section__progress-fill" style={{ width: `${progress * 100}%` }} />
+          </div>
+
+          <div className="transformation-section__visual-annotation" aria-hidden="true">
+            <span className="transformation-section__visual-annotation-text">77 promises to yourself.</span>
+            <svg
+              className="transformation-section__visual-annotation-arrow"
+              viewBox="0 0 200 80"
+              fill="none"
+            >
+              <path d="M12 62 C48 68 86 52 128 36 C150 27 168 22 186 24" />
+              <path d="M172 16 L189 24 L178 36" />
+            </svg>
           </div>
         </div>
 
-        <div className="transformation-section__principles" aria-label="The three principles of transformation">
+        <div
+          className="transformation-section__principles"
+          aria-label="The three principles of transformation"
+        >
           {principles.map((principle) => (
             <div className="transformation-section__principle" key={principle.number}>
               <div className="transformation-section__principle-top">
