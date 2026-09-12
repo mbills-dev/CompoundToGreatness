@@ -245,7 +245,7 @@
   .ctgHero { min-height: auto; }
 
   .ctgHero__content {
-    width: calc(100% - 32px);
+    width: calc(100% - 48px);
     min-height: auto;
     display: flex;
     flex-direction: column;

@@ -23,7 +23,7 @@ export default function CTGHero() {
             progress, and become the person your goals require.
           </p>
 
-          <a id="download" className="ctgHero__appStoreLink ctgHero-enter ctgHero-enter--badge" href="#download">
+          <a className="ctgHero__appStoreLink ctgHero-enter ctgHero-enter--badge" href="#download">
             <img
               className="ctgHero__appStoreBadge"
               src="/assets/images/Download_on_the_App_Store_Badge.svg.webp"

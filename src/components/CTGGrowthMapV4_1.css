@@ -41,7 +41,6 @@
 
 .ctgGrowthV41__headline > span {
   display: block;
-  width: max-content;
   max-width: 100%;
 }
 
@@ -236,7 +235,7 @@
 
 @media (max-width: 860px) {
   .ctgGrowthV41__inner {
-    width: calc(100% - 32px);
+    width: calc(100% - 48px);
     min-height: auto;
     display: block;
     padding: 78px 0 66px;
@@ -244,9 +243,13 @@
 
   .ctgGrowthV41__copy { max-width: 100%; }
 
-  .ctgGrowthV41__headline {
-    font-size: clamp(50px, 15vw, 74px);
-    line-height: .83;
+.ctgGrowthV41__headline {
+    font-size: clamp(44px, 13vw, 68px);
+    line-height: .85;
+    letter-spacing: .01em;
+  }
+  .ctgGrowthV41__headline > span {
+    width: 100%;
   }
 
   .ctgGrowthV41__subhead {
@@ -259,21 +262,25 @@
     max-width: 95%;
   }
 
-  .ctgGrowthV41__map {
-    margin-top: 44px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none;
-  }
-
-  .ctgGrowthV41__map::-webkit-scrollbar {
-    display: none;
+.ctgGrowthV41__map {
+    margin-top: 56px;
   }
 
   .ctgGrowthV41__svg {
-    width: 920px;
-    max-width: none;
-    flex: 0 0 920px;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 280px;
+    flex: none;
+  }
+
+  .ctgGrowthV41__svg text {
+    font-size: 30px;
+  }
+
+  .ctgGrowthV41__svg .ctgGrowthV41__zoneLabel {
+    font-size: 24px;
+    letter-spacing: .12em;
   }
 }
 

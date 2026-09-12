@@ -188,8 +188,9 @@
   }
 
   .success-stack-section__screen-crop {
-    width: calc(100% - .75rem);
-    height: 520px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
     margin-left: 0;
     box-shadow: .75rem .75rem 0 #CCFF00;
   }

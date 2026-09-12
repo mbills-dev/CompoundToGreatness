@@ -81,6 +81,7 @@ export default function CTGGrowthMapV4_1() {
           <svg
             className="ctgGrowthV41__svg"
             viewBox="0 0 980 600"
+            preserveAspectRatio="xMidYMid meet"
             role="img"
             aria-label="Compound to Greatness Growth Map"
           >
