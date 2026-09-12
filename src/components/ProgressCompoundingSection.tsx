@@ -8,7 +8,7 @@ const principles = [
 
 export default function ProgressCompoundingSection() {
   return (
-    <section className="progress-compounding-section" aria-labelledby="progress-compounding-heading">
+    <section id="challenge" className="progress-compounding-section" aria-labelledby="progress-compounding-heading">
       <div className="progress-compounding-section__main">
         <div className="progress-compounding-section__copy">
           <div className="progress-compounding-section__kicker">THE 77-DAY CHALLENGE</div>

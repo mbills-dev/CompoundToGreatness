@@ -33,7 +33,7 @@ const calendarDays = [
 
 export default function PublicJourneySection() {
   return (
-    <section className="public-journey-section" aria-labelledby="public-journey-heading">
+    <section id="accountability" className="public-journey-section" aria-labelledby="public-journey-heading">
       <div className="public-journey-section__main">
         <div className="public-journey-section__copy">
           <div className="public-journey-section__kicker">BUILT-IN ACCOUNTABILITY</div>

@@ -1,0 +1,383 @@
+.globalNav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: background 0.35s ease, backdrop-filter 0.35s ease,
+              border-color 0.35s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.globalNav--scrolled {
+  background: rgba(5, 5, 5, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.globalNav__inner {
+  width: min(1460px, calc(100% - 64px));
+  height: 70px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* === Brand === */
+
+.globalNav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.globalNav__brandMark {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.globalNav__brandText {
+  display: grid;
+  font-size: 13px;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+
+.globalNav__brandLime {
+  color: #CCFF00;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* === Center links === */
+
+.globalNav__links {
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.globalNav__link {
+  color: #E8E8E3;
+  text-decoration: none;
+  font-family: Inter, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+  position: relative;
+}
+
+.globalNav__link:hover {
+  color: #CCFF00;
+}
+
+.globalNav__link--active {
+  color: #CCFF00;
+}
+
+.globalNav__link:focus-visible {
+  outline: 2px solid #CCFF00;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* === Download CTA === */
+
+.globalNav__download {
+  color: #CCFF00;
+  text-decoration: none;
+  font-family: Inter, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(204, 255, 0, 0.35);
+  border-radius: 999px;
+  transition: background 0.25s ease, border-color 0.25s ease;
+  flex-shrink: 0;
+}
+
+.globalNav__download:hover {
+  background: rgba(204, 255, 0, 0.1);
+  border-color: rgba(204, 255, 0, 0.6);
+}
+
+.globalNav__download:focus-visible {
+  outline: 2px solid #CCFF00;
+  outline-offset: 3px;
+}
+
+/* === Hamburger === */
+
+.globalNav__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  width: 32px;
+  height: 32px;
+}
+
+.globalNav__hamburger span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  transition: opacity 0.2s ease;
+}
+
+.globalNav__hamburger:focus-visible {
+  outline: 2px solid #CCFF00;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* === Responsive: switch to mobile === */
+
+@media (max-width: 900px) {
+  .globalNav__inner {
+    height: 62px;
+    width: calc(100% - 32px);
+  }
+
+  .globalNav__links,
+  .globalNav__download {
+    display: none;
+  }
+
+  .globalNav__hamburger {
+    display: flex;
+  }
+
+  .globalNav__brandMark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .globalNav__brandText {
+    font-size: 11px;
+  }
+
+  .globalNav__brandLime {
+    font-size: 14px;
+  }
+}
+
+/* === Mobile Menu Overlay === */
+
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #050505;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.mobileMenu--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mobileMenu__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: calc(100% - 32px);
+  height: 62px;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+.mobileMenu__brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.mobileMenu__brandMark {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.mobileMenu__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  padding: 6px;
+  transition: color 0.2s ease;
+}
+
+.mobileMenu__close:hover {
+  color: #CCFF00;
+}
+
+.mobileMenu__close:focus-visible {
+  outline: 2px solid #CCFF00;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.mobileMenu__close svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* === Mobile nav items === */
+
+.mobileMenu__nav {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0 0;
+  width: calc(100% - 32px);
+  max-width: 520px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+.mobileMenu__item {
+  display: flex;
+  align-items: baseline;
+  gap: 1.25rem;
+  text-decoration: none;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  transition: padding-left 0.2s ease;
+}
+
+.mobileMenu__item:hover {
+  padding-left: 0.5rem;
+}
+
+.mobileMenu__item:focus-visible {
+  outline: 2px solid #CCFF00;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.mobileMenu__num {
+  color: #CCFF00;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.mobileMenu__label {
+  color: #fff;
+  font-family: "Inter Tight", Inter, sans-serif;
+  font-size: clamp(1.6rem, 7vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+/* === Mobile footer === */
+
+.mobileMenu__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 2rem 0 3rem;
+  width: calc(100% - 32px);
+  max-width: 520px;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+.mobileMenu__annotation {
+  margin: 0;
+  font-family: "Northwell Clean", "Northwell", cursive;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: #CCFF00;
+  transform: rotate(-1deg);
+}
+
+.mobileMenu__appStore {
+  display: inline-block;
+  text-decoration: none;
+  line-height: 0;
+}
+
+.mobileMenu__appStore img {
+  width: 160px;
+  height: auto;
+  display: block;
+}
+
+.mobileMenu__appStore:focus-visible {
+  outline: 2px solid #CCFF00;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* === Scroll offset for anchor targets === */
+
+[id="how-it-works"],
+[id="challenge"],
+[id="accountability"],
+[id="download"] {
+  scroll-margin-top: 80px;
+}
+
+@media (max-width: 900px) {
+  [id="how-it-works"],
+  [id="challenge"],
+  [id="accountability"],
+  [id="download"] {
+    scroll-margin-top: 70px;
+  }
+}
+
+/* === Smooth scrolling === */
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .globalNav {
+    transition: none;
+  }
+
+  .mobileMenu {
+    transition: none;
+  }
+}

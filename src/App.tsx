@@ -1,3 +1,4 @@
+import GlobalNav from './components/GlobalNav';
 import CTGHero from './components/CTGHero';
 import CTGGrowthMapV4_1 from './components/CTGGrowthMapV4_1';
 import InputEngineSection from './components/InputEngineSection';
@@ -12,6 +13,7 @@ import FooterClose from './components/FooterClose';
 function App() {
   return (
     <div className="site-shell">
+      <GlobalNav />
       <main id="top">
         <CTGHero />
         <CTGGrowthMapV4_1 />

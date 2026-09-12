@@ -8,7 +8,7 @@ const principles = [
 
 export default function SuccessStackSection() {
   return (
-    <section className="success-stack-section" aria-labelledby="success-stack-heading">
+    <section id="how-it-works" className="success-stack-section" aria-labelledby="success-stack-heading">
       <div className="success-stack-section__main">
         <div className="success-stack-section__copy">
           <div className="success-stack-section__kicker">THE DAILY EXECUTION LAYER</div>

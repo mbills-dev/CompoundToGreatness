@@ -54,6 +54,7 @@ export default function StartJourneySection() {
 
   return (
     <section
+      id="download"
       className={"start-journey" + (visible ? " is-visible" : "")}
       aria-labelledby="start-journey-heading"
       ref={sectionRef}
