@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./GlobalNav.css";
 
 const NAV_LINKS = [
@@ -11,7 +11,10 @@ const SECTIONS = ["how-it-works", "challenge", "accountability"];
 
 function scrollToId(id: string) {
   const el = document.getElementById(id);
-  if (!el) return;
+  if (!el) {
+    window.location.href = `/#${id}`;
+    return;
+  }
   const navHeight = window.matchMedia("(max-width: 900px)").matches ? 62 : 70;
   const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
   window.scrollTo({ top, behavior: "smooth" });
@@ -103,15 +106,6 @@ export default function GlobalNav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [menuOpen]);
 
-  const handleNavClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-      e.preventDefault();
-      setMenuOpen(false);
-      requestAnimationFrame(() => scrollToId(id));
-    },
-    []
-  );
-
   return (
     <>
       <header
@@ -120,13 +114,9 @@ export default function GlobalNav() {
       >
         <div className="globalNav__inner">
           <a
-            href="#top"
+            href="/"
             className="globalNav__brand"
-            aria-label="Compound to Greatness — back to top"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToId("top");
-            }}
+            aria-label="Compound to Greatness — home"
           >
             <img src="/logo-mark.png" alt="" className="globalNav__brandMark" />
             <span className="globalNav__brandText">
@@ -139,12 +129,18 @@ export default function GlobalNav() {
             {NAV_LINKS.map((link) => (
               <a
                 key={link.id}
-                href={`#${link.id}`}
+                href={`/#${link.id}`}
                 className={
                   "globalNav__link" +
                   (activeSection === link.id ? " globalNav__link--active" : "")
                 }
-                onClick={(e) => handleNavClick(e, link.id)}
+                onClick={(e) => {
+                  if (window.location.pathname === "/") {
+                    e.preventDefault();
+                    setMenuOpen(false);
+                    requestAnimationFrame(() => scrollToId(link.id));
+                  }
+                }}
               >
                 {link.label}
               </a>
@@ -152,9 +148,15 @@ export default function GlobalNav() {
           </nav>
 
           <a
-            href="#download"
+            href="/#download"
             className="globalNav__download"
-            onClick={(e) => handleNavClick(e, "download")}
+            onClick={(e) => {
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                setMenuOpen(false);
+                requestAnimationFrame(() => scrollToId("download"));
+              }
+            }}
           >
             DOWNLOAD APP
           </a>
@@ -184,14 +186,9 @@ export default function GlobalNav() {
       >
         <div className="mobileMenu__header">
           <a
-            href="#top"
+            href="/"
             className="mobileMenu__brand"
-            aria-label="Compound to Greatness — back to top"
-            onClick={(e) => {
-              e.preventDefault();
-              setMenuOpen(false);
-              requestAnimationFrame(() => scrollToId("top"));
-            }}
+            aria-label="Compound to Greatness — home"
           >
             <img src="/logo-mark.png" alt="" className="mobileMenu__brandMark" />
           </a>
@@ -212,9 +209,15 @@ export default function GlobalNav() {
           {NAV_LINKS.map((link) => (
             <a
               key={link.id}
-              href={`#${link.id}`}
+              href={`/#${link.id}`}
               className="mobileMenu__item"
-              onClick={(e) => handleNavClick(e, link.id)}
+              onClick={(e) => {
+                if (window.location.pathname === "/") {
+                  e.preventDefault();
+                  setMenuOpen(false);
+                  requestAnimationFrame(() => scrollToId(link.id));
+                }
+              }}
             >
               <span className="mobileMenu__num">{link.num}</span>
               <span className="mobileMenu__label">{link.label}</span>
@@ -225,10 +228,16 @@ export default function GlobalNav() {
         <div className="mobileMenu__footer">
           <p className="mobileMenu__annotation">Your Day 1 starts here.</p>
           <a
-            href="#download"
+            href="/#download"
             className="mobileMenu__appStore"
             aria-label="Download Compound to Greatness on the App Store"
-            onClick={(e) => handleNavClick(e, "download")}
+            onClick={(e) => {
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                setMenuOpen(false);
+                requestAnimationFrame(() => scrollToId("download"));
+              }
+            }}
           >
             <img
               src="/assets/images/Download_on_the_App_Store_Badge.svg.webp"

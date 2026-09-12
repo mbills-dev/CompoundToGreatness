@@ -77,10 +77,10 @@ export default function FooterClose() {
         </div>
 
         <nav className="footer-close__nav" aria-label="Footer">
-          <a href="#top">App</a>
+          <a href="/#download">App</a>
           <a href="/privacy">Privacy</a>
           <a href="/terms">Terms</a>
-          <a href="#top">Contact</a>
+          <a href="/support">Support</a>
         </nav>
 
         <a

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import GlobalNav from './components/GlobalNav';
 import CTGHero from './components/CTGHero';
 import CTGGrowthMapV4_1 from './components/CTGGrowthMapV4_1';
@@ -11,6 +12,23 @@ import StartJourneySection from './components/StartJourneySection';
 import FooterClose from './components/FooterClose';
 
 function App() {
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+
+    const el = document.getElementById(hash);
+    if (!el) return;
+
+    const navHeight = window.matchMedia("(max-width: 900px)").matches ? 62 : 70;
+    const scrollToEl = () => {
+      const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
+      window.scrollTo({ top, behavior: "smooth" });
+    };
+
+    const timer = setTimeout(scrollToEl, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="site-shell">
       <GlobalNav />

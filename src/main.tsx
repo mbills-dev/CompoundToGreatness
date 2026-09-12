@@ -5,6 +5,7 @@ import App from './App.tsx';
 import Success from './Success.tsx';
 import PrivacyPolicy from './PrivacyPolicy.tsx';
 import TermsConditions from './TermsConditions.tsx';
+import Support from './Support.tsx';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -15,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/success" element={<Success />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/terms" element={<TermsConditions />} />
+        <Route path="/support" element={<Support />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
