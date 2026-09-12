@@ -84,12 +84,12 @@
 
 .globalNav__link--active {
   color: #CCFF00;
+  font-weight: 700;
 }
 
 .globalNav__link:focus-visible {
   outline: 2px solid #CCFF00;
   outline-offset: 4px;
-  border-radius: 2px;
 }
 
 /* === Download CTA === */
@@ -333,7 +333,7 @@
 }
 
 .mobileMenu__appStore img {
-  width: 160px;
+  width: 140px;
   height: auto;
   display: block;
 }
@@ -350,7 +350,7 @@
 [id="challenge"],
 [id="accountability"],
 [id="download"] {
-  scroll-margin-top: 80px;
+  scroll-margin-top: 70px;
 }
 
 @media (max-width: 900px) {
@@ -358,7 +358,7 @@
   [id="challenge"],
   [id="accountability"],
   [id="download"] {
-    scroll-margin-top: 70px;
+    scroll-margin-top: 62px;
   }
 }
 

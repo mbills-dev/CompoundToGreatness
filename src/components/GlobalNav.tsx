@@ -11,7 +11,10 @@ const SECTIONS = ["how-it-works", "challenge", "accountability"];
 
 function scrollToId(id: string) {
   const el = document.getElementById(id);
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!el) return;
+  const navHeight = window.matchMedia("(max-width: 900px)").matches ? 62 : 70;
+  const top = el.getBoundingClientRect().top + window.scrollY - navHeight;
+  window.scrollTo({ top, behavior: "smooth" });
 }
 
 export default function GlobalNav() {
