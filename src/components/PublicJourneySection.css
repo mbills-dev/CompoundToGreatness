@@ -471,10 +471,48 @@
   }
 
   .public-journey-section__composition {
-    height: 580px;
-    transform: scale(.72);
-    transform-origin: top center;
-    margin-bottom: -180px;
+    position: static;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    transform: none;
+    margin-bottom: 0;
+  }
+
+  .public-journey-section__profile-card {
+    position: static;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .public-journey-section__encouragement {
+    position: static;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .public-journey-section__encouragement-annotation {
+    color: #87952A;
+    font-size: 1.8rem;
+    text-align: center;
+    transform: rotate(-2deg);
+  }
+
+  .public-journey-section__encouragement-arrow {
+    display: none;
+  }
+
+  .public-journey-section__calendar-card {
+    position: static;
+    width: 100%;
+    max-width: 380px;
   }
 
   .public-journey-section__principles {

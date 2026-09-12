@@ -34,6 +34,10 @@ export default function ProgressCompoundingSection() {
             <path d="M8 52 C64 54 104 42 150 25 C177 15 198 9 226 10" />
             <path d="M211 4 L227 10 L216 22" />
           </svg>
+          <svg className="progress-compounding-section__annotation-arrow--mobile" viewBox="0 0 80 60" fill="none">
+            <path d="M40 6 C40 20 38 34 40 50" />
+            <path d="M32 42 L40 52 L48 42" />
+          </svg>
         </div>
 
         <div className="progress-compounding-section__visual">

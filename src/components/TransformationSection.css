@@ -140,7 +140,7 @@
   min-width: 0;
   background: #E2E1D8;
   border-radius: 1px;
-  transition: background .35s ease, transform .35s ease;
+  transition: transform .35s ease;
   position: relative;
 }
 
@@ -354,10 +354,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .transformation-section__day {
-    transition: none;
-  }
-
-  .transformation-section__day.is-final {
     transition: none;
   }
 

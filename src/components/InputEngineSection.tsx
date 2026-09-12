@@ -116,7 +116,7 @@ export default function InputEngineSection() {
               <span>$100K / MONTH</span><i>↓</i>
               <span>${dealValue.toLocaleString()} / DEAL</span><i>↓</i>
               <span>1-IN-{offersPerDeal} OFFERS</span><i>↓</i>
-              <span> {dailyOffers} OFFERS / DAY</span>
+              <span>{dailyOffers} OFFERS / DAY</span>
             </div>
           </article>
 
@@ -130,7 +130,7 @@ export default function InputEngineSection() {
               <div className="ctg-input-engine__mobileDailyUnit">offers per day</div>
               <div className="ctg-input-engine__mobileCalculation">
                 {dealsPerMonth} deals needed × {offersPerDeal} offers each = {monthlyOffers} offers<br />
-                {Math.ceil(monthlyOffers / 30)} / offer × 30% buffer → {dailyOffers}
+                {Math.ceil(monthlyOffers / 30)} / day × 30% buffer → {dailyOffers}
               </div>
               <button type="button" className="ctg-input-engine__mobileLock" onClick={() => setLocked(!locked)}>
                 {locked ? "Locked In" : "Lock This In"}

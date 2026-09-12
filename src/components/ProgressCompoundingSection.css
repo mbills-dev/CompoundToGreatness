@@ -90,6 +90,10 @@
   overflow: visible;
 }
 
+.progress-compounding-section__annotation-arrow--mobile {
+  display: none;
+}
+
 .progress-compounding-section__annotation-arrow path {
   fill: none;
   stroke: #CCFF00;
@@ -241,8 +245,30 @@
   }
 
   .progress-compounding-section__annotation-arrow {
-    width: 170px;
-    margin-left: 1.5rem;
+    display: none;
+  }
+
+  .progress-compounding-section__annotation-arrow--mobile {
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: .5rem auto 0;
+    overflow: visible;
+  }
+
+  .progress-compounding-section__annotation-arrow--mobile path {
+    fill: none;
+    stroke: #CCFF00;
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: .72;
+  }
+
+  .progress-compounding-section__annotation {
+    display: block;
+    text-align: center;
+    transform: rotate(0deg);
   }
 
   .progress-compounding-section__visual {
