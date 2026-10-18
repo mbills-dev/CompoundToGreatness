@@ -13,7 +13,7 @@ export const authSupabase = createClient(authUrl, authAnonKey, {
   auth: {
     flowType: "implicit",
     detectSessionInUrl: false,
-    persistSession: true,
+    persistSession: false,
     autoRefreshToken: false,
   },
 });

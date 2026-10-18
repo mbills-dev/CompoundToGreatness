@@ -60,7 +60,7 @@ export default function ResetPassword() {
   }, []);
 
   useEffect(() => {
-    const { tokenHash, type } = getCachedRecoveryParams();
+    const { tokenHash } = getCachedRecoveryParams();
 
     if (!tokenHash) {
       setErrorMessage(
@@ -72,26 +72,9 @@ export default function ResetPassword() {
 
     let cancelled = false;
 
-    (async () => {
-      const { error } = await authSupabase.auth.verifyOtp({
-        token_hash: tokenHash,
-        type: type === "recovery" ? "recovery" : "recovery",
-      });
-
-      if (cancelled) return;
-
-      if (error) {
-        setErrorMessage(
-          "This password-reset link is invalid, expired, or has already been used. Please request a new reset from the app."
-        );
-        setPhase("error");
-        return;
-      }
-      // verifyOtp fires onAuthStateChange with PASSWORD_RECOVERY; we gate on
-      // that event rather than trusting the verifyOtp return alone, so an
-      // ordinary signed-in session can never reach the password form.
-    })();
-
+    // Register the auth-state listener BEFORE calling verifyOtp so the
+    // PASSWORD_RECOVERY event can never be missed, even if verifyOtp resolves
+    // synchronously or in a microtask.
     const { data: sub } = authSupabase.auth.onAuthStateChange(
       (event: AuthChangeEvent, _session: Session | null) => {
         if (cancelled) return;
@@ -107,6 +90,26 @@ export default function ResetPassword() {
         }
       }
     );
+
+    (async () => {
+      const { error } = await authSupabase.auth.verifyOtp({
+        token_hash: tokenHash,
+        type: "recovery",
+      });
+
+      if (cancelled) return;
+
+      if (error) {
+        setErrorMessage(
+          "This password-reset link is invalid, expired, or has already been used. Please request a new reset from the app."
+        );
+        setPhase("error");
+        return;
+      }
+      // verifyOtp fires onAuthStateChange with PASSWORD_RECOVERY; we gate on
+      // that event rather than trusting the verifyOtp return alone, so an
+      // ordinary signed-in session can never reach the password form.
+    })();
 
     return () => {
       cancelled = true;
