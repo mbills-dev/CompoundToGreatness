@@ -227,22 +227,71 @@ export async function handleEarlyAccess(req: Request, deps: Deps): Promise<Respo
   return json(200, { ok: true });
 }
 
+// ---------------------------------------------------------------- Preview-only configuration check
+
+/**
+ * GET /api/early-access?check=config — Preview deployments only (VERCEL_ENV !== 'production'). Read-only: says whether
+ * each variable is set and asks Kit (GET requests only) whether the key works and the form and tag ids exist. It never
+ * returns a value, creates nothing in Kit, and answers 405 in production.
+ */
+export async function handleConfigCheck(req: Request, deps: Deps): Promise<Response> {
+  const { env } = deps;
+  if (env.VERCEL_ENV === 'production' || new URL(req.url).searchParams.get('check') !== 'config') {
+    return new Response(null, { status: 405, headers: { Allow: 'POST' } });
+  }
+  if (!deps.limiter.hit(`check:${clientIp(req)}`, 10, 10 * 60_000, deps.now())) return json(429, { ok: false });
+
+  const formId = env.KIT_EARLY_ACCESS_FORM_ID ?? '', tagId = env.KIT_EARLY_ACCESS_TAG_ID ?? '';
+  const out: Record<string, unknown> = {
+    environment: env.VERCEL_ENV ?? 'unknown',
+    KIT_API_KEY: env.KIT_API_KEY ? 'set' : 'missing',
+    KIT_EARLY_ACCESS_FORM_ID: /^\d+$/.test(formId) ? 'set' : formId ? 'invalid' : 'missing',
+    KIT_EARLY_ACCESS_TAG_ID: /^\d+$/.test(tagId) ? 'set' : tagId ? 'invalid' : 'missing',
+  };
+  if (env.KIT_API_KEY) {
+    const get = async (path: string) => {
+      try {
+        const r = await deps.fetch(`${KIT}${path}`, { headers: { Accept: 'application/json', 'X-Kit-Api-Key': env.KIT_API_KEY as string }, signal: AbortSignal.timeout(KIT_TIMEOUT_MS) });
+        return { status: r.status, body: r.ok ? ((await r.json().catch(() => null)) as Record<string, unknown> | null) : null };
+      } catch { return { status: 0, body: null }; }
+    };
+    const find = (body: Record<string, unknown> | null, key: string, id: string) => {
+      const list = (body?.[key] ?? []) as Array<{ id?: number; name?: string }>;
+      const hit = list.find((x) => String(x.id) === id);
+      return hit ? { found: true, name: hit.name ?? '' } : { found: false };
+    };
+    const account = await get('/account');
+    const forms = await get('/forms?per_page=1000');
+    const tags = await get('/tags?per_page=1000');
+    out.kit = {
+      key_accepted: account.status === 200,
+      account_status: account.status,
+      form: forms.status === 200 ? find(forms.body, 'forms', formId) : { status: forms.status },
+      tag: tags.status === 200 ? find(tags.body, 'tags', tagId) : { status: tags.status },
+    };
+  }
+  deps.log({ evt: 'early_access_config_check', key: out.KIT_API_KEY, form: out.KIT_EARLY_ACCESS_FORM_ID, tag: out.KIT_EARLY_ACCESS_TAG_ID });
+  return json(200, out);
+}
+
 // ---------------------------------------------------------------- Vercel entry
 
 declare const process: { env: Env };
 const limiter = memoryLimiter();
 
+const vercelDeps = (): Deps => ({
+  env: process.env,
+  fetch: globalThis.fetch.bind(globalThis),
+  now: Date.now,
+  sleep: (ms) => new Promise((r) => setTimeout(r, ms)),
+  log: (line) => console.log(JSON.stringify(line)),
+  limiter,
+});
+
 export function POST(req: Request): Promise<Response> {
-  return handleEarlyAccess(req, {
-    env: process.env,
-    fetch: globalThis.fetch.bind(globalThis),
-    now: Date.now,
-    sleep: (ms) => new Promise((r) => setTimeout(r, ms)),
-    log: (line) => console.log(JSON.stringify(line)),
-    limiter,
-  });
+  return handleEarlyAccess(req, vercelDeps());
 }
 
-export function GET(): Response {
-  return new Response(null, { status: 405, headers: { Allow: 'POST' } });
+export function GET(req: Request): Promise<Response> {
+  return handleConfigCheck(req, vercelDeps());
 }

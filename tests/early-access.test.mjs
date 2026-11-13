@@ -1,7 +1,7 @@
 // node --test tests/  — the early-access function against a fake Kit (no network).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { handleEarlyAccess, memoryLimiter, normalizeEmail, attribution, MESSAGES } from '../api/early-access.ts';
+import { handleEarlyAccess, handleConfigCheck, memoryLimiter, normalizeEmail, attribution, MESSAGES } from '../api/early-access.ts';
 
 const ORIGIN = 'https://www.compoundtogreatness.com';
 const ENV = { KIT_API_KEY: 'test-key', KIT_EARLY_ACCESS_FORM_ID: '111', KIT_EARLY_ACCESS_TAG_ID: '222' };
@@ -153,6 +153,30 @@ test('missing configuration fails closed without calling Kit', async () => {
     assert.equal((await handleEarlyAccess(req(human()), d)).status, 503);
     assert.equal(kit.calls.length, 0);
   }
+});
+
+test('config check: Preview only, GET-only Kit calls, reports presence and ids found, never values', async () => {
+  const calls = [];
+  const fetch = async (url, init) => {
+    calls.push({ url, method: init?.method ?? 'GET' });
+    if (url.endsWith('/account')) return new Response('{"account":{"name":"x","primary_email_address":"owner@example.com"}}', { status: 200 });
+    if (url.includes('/forms')) return new Response('{"forms":[{"id":111,"name":"CTG Early Access"}]}', { status: 200 });
+    return new Response('{"tags":[{"id":999,"name":"Other"}]}', { status: 200 });
+  };
+  const check = (env) => handleConfigCheck(new Request('https://preview.vercel.app/api/early-access?check=config'), { ...deps({ env }).d, fetch });
+  const res = await check({ VERCEL_ENV: 'preview' });
+  const body = await res.json();
+  assert.deepEqual(body, {
+    environment: 'preview', KIT_API_KEY: 'set', KIT_EARLY_ACCESS_FORM_ID: 'set', KIT_EARLY_ACCESS_TAG_ID: 'set',
+    kit: { key_accepted: true, account_status: 200, form: { found: true, name: 'CTG Early Access' }, tag: { found: false } },
+  });
+  const text = JSON.stringify(body);
+  assert.ok(!text.includes('test-key') && !text.includes('owner@example.com') && !text.includes('111') && !text.includes('222'));
+  assert.ok(calls.every((c) => c.method === 'GET'));
+  assert.equal((await check({ VERCEL_ENV: 'production' })).status, 405);
+  assert.equal((await handleConfigCheck(new Request('https://preview.vercel.app/api/early-access'), deps().d)).status, 405);
+  const missing = await (await check({ VERCEL_ENV: 'preview', KIT_API_KEY: '', KIT_EARLY_ACCESS_TAG_ID: 'abc' })).json();
+  assert.deepEqual([missing.KIT_API_KEY, missing.KIT_EARLY_ACCESS_TAG_ID, missing.kit], ['missing', 'invalid', undefined]);
 });
 
 test('helpers: email normalisation and attribution sanitising', () => {
