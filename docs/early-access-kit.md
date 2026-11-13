@@ -86,7 +86,23 @@ Adding an unsubscribed address to a double opt-in form makes Kit send a re-opt-i
 likely resubscribe the address). Owner decision: never automatically email people who unsubscribed. The function now
 looks up the status first and leaves `cancelled`, `complained`, `bounced` and `blocked` addresses untouched.
 
-Retest after the fix: see "Retest with the status lookup" below.
+### Retest with the status lookup: PASSED (2026-11-13, commit 802fafb, Preview)
+
+Same unsubscribed address, submitted once on the new Preview. Baseline recorded first (artifacts of the failed run,
+not new failures): Unsubscribed, 1 record, 1 email in history (the earlier confirmation), tag CTG - Early Access,
+form CTG Early Access "Unconfirmed".
+
+| Check | Result |
+|---|---|
+| Page | `200`; "You're one step closer." (same screen as any signup) |
+| Server decision (Vercel log) | `{"evt":"early_access","outcome":"suppressed","state":"cancelled","ref":"…"}`: no email, key or details |
+| Status | still Unsubscribed / Cancelled; not reactivated |
+| Records | still exactly 1 |
+| Emails | still exactly 1 (the old one): no new confirmation email |
+| Form / tag | unchanged from the baseline: no new form add, no new tag |
+
+The duplicate test above ran before this change. With the status lookup, a confirmed address now gets the tag only
+(no form add), which the automated tests cover.
 
 ## One-time setup (owner, in Kit and Vercel)
 
