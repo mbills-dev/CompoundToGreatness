@@ -1,0 +1,244 @@
+/**
+ * POST /api/early-access — the early-access signup (Vercel Function, Web handler signature).
+ *
+ * One job: put an email address on the CTG early-access list in Kit, server-side, without ever exposing the Kit key.
+ *
+ *   1. Same-origin JSON only, small bodies, a honeypot field and a minimum time on page (bots get a quiet "ok").
+ *   2. Best-effort per-IP and per-email limits (per function instance; pair with a Vercel Firewall rate-limit rule).
+ *   3. Kit v4, in this order:
+ *        a. create the subscriber as `inactive` (Kit upserts by email and never changes an existing subscriber's state,
+ *           so an existing subscriber, including one who unsubscribed, is not reactivated);
+ *        b. add them to the double opt-in "CTG Early Access" form;
+ *        c. apply the "CTG - Early Access" tag.
+ *      A new address stays `inactive`, so Kit sends it no broadcasts until it confirms. Whether step (b) makes Kit send
+ *      the form's confirmation email for an API-added subscriber is NOT documented for this endpoint and must be
+ *      verified with a real inbox before launch (docs/early-access-kit.md).
+ *   4. The response never says whether the address was already on the list.
+ *
+ * Nothing logs an email address or the key: log lines carry a short SHA-256 prefix of the address and an outcome code.
+ *
+ * Environment (Vercel project settings, never committed):
+ *   KIT_API_KEY                   v4 API key (a dedicated key for the website, so it can be revoked on its own)
+ *   KIT_EARLY_ACCESS_FORM_ID      numeric id of the "CTG Early Access" form (double opt-in on)
+ *   KIT_EARLY_ACCESS_TAG_ID       numeric id of the "CTG - Early Access" tag
+ *   KIT_EARLY_ACCESS_FIELDS       optional "on" to also write the custom fields below (they must exist in Kit first)
+ *   KIT_SOURCE_FIELD_KEY          optional, default early_access_source
+ *   KIT_UTM_FIELD_KEY             optional, default early_access_utm
+ *   EARLY_ACCESS_ALLOWED_ORIGINS  optional comma list; default the two production origins
+ */
+
+export type Env = Record<string, string | undefined>;
+
+export interface Deps {
+  env: Env;
+  fetch: typeof fetch;
+  now: () => number;
+  sleep: (ms: number) => Promise<void>;
+  log: (line: Record<string, unknown>) => void;
+  limiter: Limiter;
+}
+
+const KIT = 'https://api.kit.com/v4';
+const DEFAULT_ORIGINS = ['https://www.compoundtogreatness.com', 'https://compoundtogreatness.com'];
+const MAX_BODY_BYTES = 4096;
+const MIN_MS_ON_PAGE = 800;
+const KIT_TIMEOUT_MS = 6000;
+const KIT_RETRY_DELAYS_MS = [300, 900];
+
+export const MESSAGES = {
+  invalidEmail: 'Enter a valid email address, like you@example.com.',
+  tooMany: 'Too many attempts. Wait a few minutes, then try again.',
+  unavailable: "We couldn't save your email just now. Try again in a minute.",
+  badRequest: 'Something went wrong with that request. Refresh the page and try again.',
+} as const;
+
+// ---------------------------------------------------------------- limits (best effort, per instance)
+
+export interface Limiter {
+  hit(key: string, limit: number, windowMs: number, now: number): boolean; // true = allowed
+}
+
+export function memoryLimiter(maxKeys = 5000): Limiter {
+  const hits = new Map<string, number[]>();
+  return {
+    hit(key, limit, windowMs, now) {
+      const recent = (hits.get(key) ?? []).filter((t) => now - t < windowMs);
+      if (recent.length >= limit) { hits.set(key, recent); return false; }
+      recent.push(now);
+      hits.delete(key); hits.set(key, recent); // keep insertion order = recency
+      if (hits.size > maxKeys) hits.delete(hits.keys().next().value as string);
+      return true;
+    },
+  };
+}
+
+// ---------------------------------------------------------------- input
+
+const EMAIL_RE = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[A-Za-z]{2,}$/;
+
+export function normalizeEmail(raw: unknown): string | null {
+  if (typeof raw !== 'string') return null;
+  const email = raw.trim().toLowerCase();
+  if (email.length < 6 || email.length > 254 || !EMAIL_RE.test(email)) return null;
+  return email;
+}
+
+const clean = (v: unknown, max: number): string =>
+  typeof v === 'string' ? v.normalize('NFKC').replace(/[^\w.:/@+ -]/g, '').trim().slice(0, max) : '';
+
+export interface Attribution { source: string; utm: string; page: string }
+
+export function attribution(body: Record<string, unknown>): Attribution {
+  const source = clean(body.source, 64).toLowerCase() || 'early-access-page';
+  const u = (body.utm && typeof body.utm === 'object' ? body.utm : {}) as Record<string, unknown>;
+  const utm = ['source', 'medium', 'campaign', 'content', 'term']
+    .map((k) => [k, clean(u[k], 80)] as const)
+    .filter(([, v]) => v)
+    .map(([k, v]) => `${k}=${v}`)
+    .join('&');
+  let page = 'https://www.compoundtogreatness.com/early-access';
+  if (typeof body.page === 'string') {
+    try { const p = new URL(body.page); if (p.protocol === 'https:') page = `${p.origin}${p.pathname}`.slice(0, 200); } catch { /* keep default */ }
+  }
+  return { source, utm, page };
+}
+
+export async function emailRef(email: string): Promise<string> {
+  const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(email));
+  return Array.from(new Uint8Array(d).slice(0, 6), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+function clientIp(req: Request): string {
+  const fwd = req.headers.get('x-forwarded-for');
+  return (fwd ? fwd.split(',')[0] : req.headers.get('x-real-ip') ?? 'unknown').trim();
+}
+
+// ---------------------------------------------------------------- Kit
+
+class KitError extends Error {
+  readonly step: string;
+  readonly status: number;
+  constructor(step: string, status: number) { super(`kit ${step} ${status}`); this.step = step; this.status = status; }
+}
+
+async function kit(deps: Deps, step: string, path: string, body: unknown): Promise<unknown> {
+  for (let attempt = 0; ; attempt++) {
+    let status = 0;
+    try {
+      const res = await deps.fetch(`${KIT}${path}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Kit-Api-Key': deps.env.KIT_API_KEY as string },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(KIT_TIMEOUT_MS),
+      });
+      status = res.status;
+      if (res.ok) return res.status === 204 ? null : await res.json().catch(() => null);
+    } catch {
+      status = 0; // network error or timeout
+    }
+    const retryable = status === 0 || status === 429 || status >= 500;
+    if (!retryable || attempt >= KIT_RETRY_DELAYS_MS.length) throw new KitError(step, status);
+    await deps.sleep(KIT_RETRY_DELAYS_MS[attempt]);
+  }
+}
+
+// ---------------------------------------------------------------- handler
+
+const json = (status: number, body: Record<string, unknown>) =>
+  new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' } });
+
+export async function handleEarlyAccess(req: Request, deps: Deps): Promise<Response> {
+  const { env } = deps;
+  if (req.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST' } });
+
+  const origins = (env.EARLY_ACCESS_ALLOWED_ORIGINS ?? '').split(',').map((s) => s.trim()).filter(Boolean);
+  const origin = req.headers.get('origin');
+  if (!origin || !(origins.length ? origins : DEFAULT_ORIGINS).includes(origin)) {
+    deps.log({ evt: 'early_access', outcome: 'origin_rejected' });
+    return json(403, { ok: false, message: MESSAGES.badRequest });
+  }
+  if (!(req.headers.get('content-type') ?? '').toLowerCase().startsWith('application/json')) {
+    return json(415, { ok: false, message: MESSAGES.badRequest });
+  }
+
+  const text = await req.text();
+  if (new TextEncoder().encode(text).length > MAX_BODY_BYTES) return json(413, { ok: false, message: MESSAGES.badRequest });
+  let body: Record<string, unknown>;
+  try {
+    const parsed: unknown = JSON.parse(text);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('not an object');
+    body = parsed as Record<string, unknown>;
+  } catch {
+    return json(400, { ok: false, message: MESSAGES.badRequest });
+  }
+
+  const now = deps.now();
+  // Bots: a filled honeypot or an impossible submit time get the same answer as a person, and nothing happens.
+  const startedAt = typeof body.startedAt === 'number' ? body.startedAt : NaN;
+  if ((typeof body.company === 'string' && body.company.trim() !== '') || !(now - startedAt >= MIN_MS_ON_PAGE)) {
+    deps.log({ evt: 'early_access', outcome: 'bot_dropped' });
+    return json(200, { ok: true });
+  }
+
+  const email = normalizeEmail(body.email);
+  if (!email) return json(400, { ok: false, field: 'email', message: MESSAGES.invalidEmail });
+  const ref = await emailRef(email);
+
+  if (!deps.limiter.hit(`ip:${clientIp(req)}`, 6, 10 * 60_000, now) || !deps.limiter.hit(`em:${ref}`, 3, 60 * 60_000, now)) {
+    deps.log({ evt: 'early_access', outcome: 'rate_limited', ref });
+    return json(429, { ok: false, message: MESSAGES.tooMany });
+  }
+
+  const formId = env.KIT_EARLY_ACCESS_FORM_ID ?? '', tagId = env.KIT_EARLY_ACCESS_TAG_ID ?? '';
+  if (!env.KIT_API_KEY || !/^\d+$/.test(formId) || !/^\d+$/.test(tagId)) {
+    deps.log({ evt: 'early_access', outcome: 'not_configured', ref });
+    return json(503, { ok: false, message: MESSAGES.unavailable });
+  }
+
+  const a = attribution(body);
+  const subscriber: Record<string, unknown> = { email_address: email, state: 'inactive' };
+  if (env.KIT_EARLY_ACCESS_FIELDS === 'on') {
+    subscriber.fields = {
+      [env.KIT_SOURCE_FIELD_KEY || 'early_access_source']: a.source,
+      ...(a.utm ? { [env.KIT_UTM_FIELD_KEY || 'early_access_utm']: a.utm } : {}),
+    };
+  }
+  const referrer = a.utm ? `${a.page}?${a.utm.split('&').map((p) => `utm_${p}`).join('&')}` : a.page;
+
+  try {
+    await kit(deps, 'create_subscriber', '/subscribers', subscriber);
+    await kit(deps, 'add_to_form', `/forms/${formId}/subscribers`, { email_address: email, referrer });
+    await kit(deps, 'tag', `/tags/${tagId}/subscribers`, { email_address: email });
+  } catch (e) {
+    const err = e instanceof KitError ? e : new KitError('unknown', 0);
+    if (err.status === 422 && err.step === 'create_subscriber') {
+      deps.log({ evt: 'early_access', outcome: 'kit_rejected_email', ref });
+      return json(400, { ok: false, field: 'email', message: MESSAGES.invalidEmail });
+    }
+    deps.log({ evt: 'early_access', outcome: 'kit_failed', step: err.step, status: err.status, ref });
+    return json(503, { ok: false, message: MESSAGES.unavailable });
+  }
+
+  deps.log({ evt: 'early_access', outcome: 'ok', source: a.source, ref });
+  return json(200, { ok: true });
+}
+
+// ---------------------------------------------------------------- Vercel entry
+
+declare const process: { env: Env };
+const limiter = memoryLimiter();
+
+export function POST(req: Request): Promise<Response> {
+  return handleEarlyAccess(req, {
+    env: process.env,
+    fetch: globalThis.fetch.bind(globalThis),
+    now: Date.now,
+    sleep: (ms) => new Promise((r) => setTimeout(r, ms)),
+    log: (line) => console.log(JSON.stringify(line)),
+    limiter,
+  });
+}
+
+export function GET(): Response {
+  return new Response(null, { status: 405, headers: { Allow: 'POST' } });
+}
