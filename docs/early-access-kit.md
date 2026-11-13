@@ -58,10 +58,14 @@ Vercel (marketing project → Settings → Environment Variables; Preview first,
 | Name | Value |
 |---|---|
 | `KIT_API_KEY` | the website's v4 key (mark it Sensitive) |
-| `KIT_EARLY_ACCESS_FORM_ID` | form id |
-| `KIT_EARLY_ACCESS_TAG_ID` | tag id |
-| `KIT_EARLY_ACCESS_FIELDS` | `on` only after the custom fields exist |
-| `EARLY_ACCESS_ALLOWED_ORIGINS` | Preview only: the preview URL's origin |
+| `KIT_EARLY_ACCESS_FORM_ID` | `10187227` (CTG Early Access) |
+| `KIT_EARLY_ACCESS_TAG_ID` | `25842370` (CTG - Early Access) |
+| `KIT_EARLY_ACCESS_FIELDS` | leave unset until the custom fields exist, then `on` |
+
+No origin setting is needed: the function accepts the page's own origin (production or any Preview URL) and refuses
+everything else. `EARLY_ACCESS_ALLOWED_ORIGINS` exists only for an extra origin.
+
+This repository is public on GitHub. Never commit a key, an `.env` file, or Kit export data.
 
 Recommended: a Vercel Firewall rate-limit rule on `/api/early-access` (for example 10 requests per minute per IP). The
 in-function limits reset whenever a new instance starts.
@@ -81,4 +85,17 @@ Use addresses the owner controls.
 | 7 | 7 quick submits from one IP | 7th gets 429 | none |
 | 8 | Wrong key in Preview | page shows "couldn't save" | none |
 
-Local checks: `npm test` (13 cases against a fake Kit), `npm run typecheck:api`.
+Local checks: `npm test` (server against a fake Kit + browser signup module), `npm run typecheck:api`.
+`npm run dev` serves `/early-access` with the real handler against a fake Kit (see `vite.config.ts`): `…+fail@…`,
+`…+slow@…` and `…+bad@…` addresses exercise the error, loading and rejected-address states.
+
+## The page
+
+`/early-access` is its own Vite entry (`early-access/index.html` → `src/early-access/`), with its own title, share
+image (`public/early-access/og-early-access.jpg`) and plain CSS; `vercel.json` routes `/early-access` to it.
+`/early-access?confirmed=1` is the landing Kit redirects to after Confirm. It shows "You're on the list." but is not
+proof of confirmation: Kit is the record.
+
+The featured visual is set in `src/early-access/visuals.ts` (real captures only; originals outside git in
+`~/Projects/CTG-marketing/captures-2026-11-13`). Analytics events are defined in `src/early-access/analytics.ts` and
+are no-ops until a provider is chosen. They never include the email address.

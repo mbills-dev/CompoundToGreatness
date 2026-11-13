@@ -98,10 +98,14 @@ test('cross-origin, missing origin, wrong method, wrong type, oversize and malfo
   assert.equal(kit.calls.length, 0);
 });
 
-test('allowed origins can be configured (e.g. a Vercel preview)', async () => {
-  const { d } = deps({ env: { EARLY_ACCESS_ALLOWED_ORIGINS: 'https://ctg-preview.vercel.app' } });
-  assert.equal((await handleEarlyAccess(req(human(), { origin: 'https://ctg-preview.vercel.app' }), d)).status, 200);
-  assert.equal((await handleEarlyAccess(req(human(), { origin: ORIGIN }), d)).status, 403);
+test('origins: the page\'s own origin (e.g. a Vercel Preview URL) and configured extras are allowed; others are not', async () => {
+  const preview = 'https://ctg-git-feature-early-access.vercel.app';
+  const onPreview = (origin) => new Request(`${preview}/api/early-access`, { method: 'POST', headers: { origin, 'content-type': 'application/json', 'x-forwarded-for': '192.0.2.1' }, body: JSON.stringify(human()) });
+  assert.equal((await handleEarlyAccess(onPreview(preview), deps().d)).status, 200);
+  assert.equal((await handleEarlyAccess(onPreview('https://other.vercel.app'), deps().d)).status, 403);
+  const { d } = deps({ env: { EARLY_ACCESS_ALLOWED_ORIGINS: 'https://partner.example' } });
+  assert.equal((await handleEarlyAccess(req(human(), { origin: 'https://partner.example' }), d)).status, 200);
+  assert.equal((await handleEarlyAccess(req(human(), { origin: ORIGIN }), deps().d)).status, 200);
 });
 
 test('rate limits: 6 per IP per 10 min, 3 per address per hour', async () => {

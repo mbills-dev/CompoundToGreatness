@@ -24,7 +24,8 @@
  *   KIT_EARLY_ACCESS_FIELDS       optional "on" to also write the custom fields below (they must exist in Kit first)
  *   KIT_SOURCE_FIELD_KEY          optional, default early_access_source
  *   KIT_UTM_FIELD_KEY             optional, default early_access_utm
- *   EARLY_ACCESS_ALLOWED_ORIGINS  optional comma list; default the two production origins
+ *   EARLY_ACCESS_ALLOWED_ORIGINS  optional extra origins; the request's own origin and the two production origins
+ *                                 are always allowed (so Preview deployments work without configuration)
  */
 
 export type Env = Record<string, string | undefined>;
@@ -151,9 +152,12 @@ export async function handleEarlyAccess(req: Request, deps: Deps): Promise<Respo
   const { env } = deps;
   if (req.method !== 'POST') return new Response(null, { status: 405, headers: { Allow: 'POST' } });
 
+  // Same-origin only: the page's own origin (production, or whichever Preview URL served it), plus an optional list.
   const origins = (env.EARLY_ACCESS_ALLOWED_ORIGINS ?? '').split(',').map((s) => s.trim()).filter(Boolean);
   const origin = req.headers.get('origin');
-  if (!origin || !(origins.length ? origins : DEFAULT_ORIGINS).includes(origin)) {
+  let self = '';
+  try { self = new URL(req.url).origin; } catch { /* relative URL: no self origin */ }
+  if (!origin || !(origin === self || DEFAULT_ORIGINS.includes(origin) || origins.includes(origin))) {
     deps.log({ evt: 'early_access', outcome: 'origin_rejected' });
     return json(403, { ok: false, message: MESSAGES.badRequest });
   }
