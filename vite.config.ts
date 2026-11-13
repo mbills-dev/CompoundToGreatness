@@ -10,6 +10,8 @@ import { handleEarlyAccess, memoryLimiter } from './api/early-access';
  *   …+fail@…               → Kit keeps failing → "couldn't save" (503)
  *   …+slow@…               → success after 2.5 s (loading state)
  *   …+bad@…                → Kit rejects the address (400)
+ *   …+unsub@…              → already unsubscribed: nothing is changed, same success screen
+ *   …+confirmed@…          → already confirmed: tag only, same success screen
  */
 function earlyAccessDev(): Plugin {
   const limiter = memoryLimiter();
@@ -35,12 +37,18 @@ function earlyAccessDev(): Plugin {
         });
         let email = '';
         try { email = String(JSON.parse(raw.toString('utf8')).email ?? ''); } catch { /* not JSON */ }
-        const fakeKit = (async (input: Parameters<typeof fetch>[0]) => {
+        const fakeKit = (async (input: Parameters<typeof fetch>[0], init?: RequestInit) => {
           const path = String(input);
           if (email.includes('+slow')) await new Promise((r) => setTimeout(r, 2500));
+          if (email.includes('+fail')) return new Response('{}', { status: 500 });
+          if ((init?.method ?? 'GET') === 'GET') {
+            // The status lookup: …+unsub@… is an unsubscribed contact, …+confirmed@… an active one, else not in Kit.
+            const state = email.includes('+unsub') ? 'cancelled' : email.includes('+confirmed') ? 'active' : null;
+            const subscribers = state ? [{ email_address: email.trim().toLowerCase(), state }] : [];
+            return new Response(JSON.stringify({ subscribers }), { status: 200 });
+          }
           const createStep = path.endsWith('/v4/subscribers');
-          const status = email.includes('+fail') ? 500 : email.includes('+bad') && createStep ? 422 : 201;
-          return new Response('{}', { status });
+          return new Response('{}', { status: email.includes('+bad') && createStep ? 422 : 201 });
         }) as typeof fetch;
         const response = await handleEarlyAccess(request, {
           env: { KIT_API_KEY: 'dev-mock', KIT_EARLY_ACCESS_FORM_ID: '10187227', KIT_EARLY_ACCESS_TAG_ID: '25842370' },

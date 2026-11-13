@@ -1,4 +1,4 @@
-// node --test tests/  — the early-access function against a fake Kit (no network).
+// npm test — the early-access function against a fake Kit (no network).
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { handleEarlyAccess, handleConfigCheck, memoryLimiter, normalizeEmail, attribution, MESSAGES } from '../api/early-access.ts';
@@ -6,18 +6,31 @@ import { handleEarlyAccess, handleConfigCheck, memoryLimiter, normalizeEmail, at
 const ORIGIN = 'https://www.compoundtogreatness.com';
 const ENV = { KIT_API_KEY: 'test-key', KIT_EARLY_ACCESS_FORM_ID: '111', KIT_EARLY_ACCESS_TAG_ID: '222' };
 const T0 = 1_800_000_000_000;
+const EMAIL = 'person@example.com';
+const LOOKUP = 'LOOKUP'; // script key for the read-only status lookup (GET /subscribers?email_address=…&status=all)
 
-function fakeKit(script = {}) {
+/**
+ * Fake Kit. `existing` = the address's current Kit record ({ state }) or null when it is not in Kit; `lookupBody`
+ * overrides the lookup's JSON. `script[path]` = queue of statuses for that path ('throw' = network error).
+ */
+function fakeKit(script = {}, { existing = null, lookupBody } = {}) {
   const calls = [];
   const fetch = async (url, init) => {
-    const path = url.replace('https://api.kit.com/v4', '');
-    calls.push({ path, body: JSON.parse(init.body), key: init.headers['X-Kit-Api-Key'] });
+    const raw = url.replace('https://api.kit.com/v4', '');
+    const isLookup = init.method === 'GET' && raw.startsWith('/subscribers?');
+    const path = isLookup ? LOOKUP : raw;
+    calls.push({ path, url: raw, method: init.method, body: init.body ? JSON.parse(init.body) : undefined, key: init.headers['X-Kit-Api-Key'] });
     const queue = script[path];
-    const status = Array.isArray(queue) && queue.length ? queue.shift() : 201;
+    const status = Array.isArray(queue) && queue.length ? queue.shift() : isLookup ? 200 : 201;
     if (status === 'throw') throw new Error('network');
+    if (isLookup) {
+      const body = lookupBody ?? { subscribers: existing ? [{ id: 9, email_address: EMAIL, state: existing.state }] : [] };
+      return new Response(JSON.stringify(body), { status });
+    }
     return new Response(JSON.stringify({ subscriber: { id: 1 } }), { status });
   };
-  return { fetch, calls };
+  const mutations = () => calls.filter((c) => c.method !== 'GET');
+  return { fetch, calls, mutations };
 }
 
 function deps(over = {}) {
@@ -37,33 +50,116 @@ function req(body, { origin = ORIGIN, ip = '203.0.113.7', method = 'POST', type 
 }
 
 const human = (over = {}) => ({ email: 'Person@Example.com ', startedAt: T0 - 9000, company: '', source: 'instagram', utm: { source: 'ig', medium: 'social', campaign: 'launch' }, page: 'https://www.compoundtogreatness.com/early-access?x=1', ...over });
+const noLeak = (logs) => { const t = JSON.stringify(logs); assert.ok(!t.includes(EMAIL) && !t.includes('test-key'), 'no email or key in logs'); };
 
-test('a real signup: create inactive subscriber, add to form, tag — in that order, key only in the header', async () => {
+// ------------------------------------------------------------- status-aware decisions
+
+test('new address: read-only lookup first, then create inactive → add to form → tag; key only in the header', async () => {
   const { d, kit, logs } = deps();
   const res = await handleEarlyAccess(req(human()), d);
   assert.equal(res.status, 200);
   assert.deepEqual(await res.json(), { ok: true });
-  assert.deepEqual(kit.calls.map((c) => c.path), ['/subscribers', '/forms/111/subscribers', '/tags/222/subscribers']);
-  assert.deepEqual(kit.calls[0].body, { email_address: 'person@example.com', state: 'inactive' });
-  assert.equal(kit.calls[1].body.referrer, 'https://www.compoundtogreatness.com/early-access?utm_source=ig&utm_medium=social&utm_campaign=launch');
+  assert.deepEqual(kit.calls.map((c) => c.path), [LOOKUP, '/subscribers', '/forms/111/subscribers', '/tags/222/subscribers']);
+  assert.equal(kit.calls[0].method, 'GET');
+  assert.equal(kit.calls[0].url, '/subscribers?email_address=person%40example.com&status=all');
+  assert.deepEqual(kit.calls[1].body, { email_address: EMAIL, state: 'inactive' });
+  assert.equal(kit.calls[2].body.referrer, 'https://www.compoundtogreatness.com/early-access?utm_source=ig&utm_medium=social&utm_campaign=launch');
   assert.ok(kit.calls.every((c) => c.key === 'test-key'));
-  assert.ok(!JSON.stringify(logs).includes('person@example.com'), 'email never logged');
-  assert.ok(!JSON.stringify(logs).includes('test-key'), 'key never logged');
-  assert.equal(logs.at(-1).outcome, 'ok');
+  assert.equal(logs.at(-1).outcome, 'ok_new');
+  noLeak(logs);
 });
+
+for (const state of ['cancelled', 'complained', 'bounced', 'blocked']) {
+  test(`${state} contact: no form add, no tag, no create — nothing changes, same generic success`, async () => {
+    const { d, kit, logs } = deps({ kit: fakeKit({}, { existing: { state } }) });
+    const res = await handleEarlyAccess(req(human()), d);
+    assert.equal(res.status, 200);
+    assert.deepEqual(await res.json(), { ok: true });
+    assert.deepEqual(kit.mutations(), [], 'no Kit mutation at all');
+    assert.deepEqual(kit.calls.map((c) => c.method), ['GET']);
+    assert.deepEqual({ outcome: logs.at(-1).outcome, state: logs.at(-1).state }, { outcome: 'suppressed', state });
+    noLeak(logs);
+  });
+}
+
+test('confirmed (active) contact: status kept, no form add (no confirmation email), tag applied', async () => {
+  const { d, kit, logs } = deps({ kit: fakeKit({}, { existing: { state: 'active' } }) });
+  const res = await handleEarlyAccess(req(human()), d);
+  assert.deepEqual([res.status, await res.json()], [200, { ok: true }]);
+  assert.deepEqual(kit.mutations().map((c) => c.path), ['/tags/222/subscribers']);
+  assert.deepEqual(kit.mutations()[0].body, { email_address: EMAIL });
+  assert.equal(logs.at(-1).outcome, 'ok_existing_tagged');
+});
+
+test('unconfirmed (inactive) contact: nothing changes, so no repeat confirmation email', async () => {
+  const { d, kit, logs } = deps({ kit: fakeKit({}, { existing: { state: 'inactive' } }) });
+  const res = await handleEarlyAccess(req(human()), d);
+  assert.deepEqual([res.status, await res.json()], [200, { ok: true }]);
+  assert.deepEqual(kit.mutations(), []);
+  assert.equal(logs.at(-1).outcome, 'pending_unchanged');
+});
+
+test('every accepted status gives the browser byte-identical answers (no "already on the list" leak)', async () => {
+  const answers = new Set();
+  for (const existing of [null, { state: 'active' }, { state: 'inactive' }, { state: 'cancelled' }, { state: 'bounced' }]) {
+    const res = await handleEarlyAccess(req(human()), deps({ kit: fakeKit({}, { existing }) }).d);
+    answers.add(`${res.status} ${res.headers.get('content-type')} ${await res.text()}`);
+  }
+  assert.equal(answers.size, 1);
+});
+
+// ------------------------------------------------------------- fail closed on the lookup
+
+test('lookup failure (after retries) or a non-retryable error: 503 and no mutation', async () => {
+  for (const script of [{ [LOOKUP]: [500, 500, 500] }, { [LOOKUP]: ['throw', 'throw', 'throw'] }, { [LOOKUP]: [401] }, { [LOOKUP]: [404] }]) {
+    const { d, kit, logs } = deps({ kit: fakeKit(script) });
+    const res = await handleEarlyAccess(req(human()), d);
+    assert.deepEqual([res.status, await res.json()], [503, { ok: false, message: MESSAGES.unavailable }]);
+    assert.deepEqual(kit.mutations(), []);
+    assert.equal(logs.at(-1).outcome, 'lookup_failed');
+    noLeak(logs);
+  }
+});
+
+test('lookup is retried on 429/5xx/network, then the normal path runs', async () => {
+  const kit = fakeKit({ [LOOKUP]: [429, 'throw', 200] });
+  const { d } = deps({ kit });
+  assert.equal((await handleEarlyAccess(req(human()), d)).status, 200);
+  assert.equal(kit.calls.filter((c) => c.path === LOOKUP).length, 3);
+  assert.equal(kit.mutations().length, 3);
+});
+
+test('ambiguous lookup answers fail closed: unknown or missing state, several matches, non-matching rows, no list', async () => {
+  const cases = {
+    unknown_state: { subscribers: [{ email_address: EMAIL, state: 'cold' }] },
+    missing_state: { subscribers: [{ email_address: EMAIL }] },
+    multiple_matches: { subscribers: [{ email_address: EMAIL, state: 'active' }, { email_address: 'Person@Example.com', state: 'cancelled' }] },
+    results_without_exact_match: { subscribers: [{ email_address: 'someone.else@example.com', state: 'cancelled' }] },
+    no_subscriber_list: { data: [] },
+  };
+  for (const [reason, lookupBody] of Object.entries(cases)) {
+    const { d, kit, logs } = deps({ kit: fakeKit({}, { lookupBody }) });
+    const res = await handleEarlyAccess(req(human()), d);
+    assert.equal(res.status, 503, reason);
+    assert.deepEqual(kit.mutations(), [], reason);
+    assert.deepEqual({ outcome: logs.at(-1).outcome, reason: logs.at(-1).reason }, { outcome: 'lookup_ambiguous', reason });
+    noLeak(logs);
+  }
+});
+
+test('the lookup matches the address case-insensitively', async () => {
+  const lookupBody = { subscribers: [{ email_address: 'PERSON@example.com', state: 'cancelled' }] };
+  const { d, kit } = deps({ kit: fakeKit({}, { lookupBody }) });
+  assert.equal((await handleEarlyAccess(req(human()), d)).status, 200);
+  assert.deepEqual(kit.mutations(), []);
+});
+
+// ------------------------------------------------------------- request handling (unchanged)
 
 test('custom fields are sent only when switched on', async () => {
   const { d, kit } = deps({ env: { KIT_EARLY_ACCESS_FIELDS: 'on' } });
   await handleEarlyAccess(req(human()), d);
-  assert.deepEqual(kit.calls[0].body.fields, { early_access_source: 'instagram', early_access_utm: 'source=ig&medium=social&campaign=launch' });
-});
-
-test('repeat submission of the same address gets the same answer (no "already subscribed" leak)', async () => {
-  const kit = fakeKit({ '/forms/111/subscribers': [200], '/tags/222/subscribers': [200] });
-  const { d } = deps({ kit });
-  const res = await handleEarlyAccess(req(human()), d);
-  assert.equal(res.status, 200);
-  assert.deepEqual(await res.json(), { ok: true });
+  assert.deepEqual(kit.mutations()[0].body.fields, { early_access_source: 'instagram', early_access_utm: 'source=ig&medium=social&campaign=launch' });
 });
 
 test('honeypot and too-fast submissions look successful but never reach Kit', async () => {
@@ -119,7 +215,7 @@ test('rate limits: 6 per IP per 10 min, 3 per address per hour', async () => {
   assert.deepEqual(await last.json(), { ok: false, message: MESSAGES.tooMany });
 });
 
-test('Kit 429 / 5xx / network errors are retried, then succeed', async () => {
+test('Kit 429 / 5xx / network errors on a change are retried, then succeed', async () => {
   const kit = fakeKit({ '/subscribers': [429, 'throw', 201] });
   const { d } = deps({ kit });
   assert.equal((await handleEarlyAccess(req(human()), d)).status, 200);
@@ -132,12 +228,12 @@ test('Kit failures become a calm 503; bad key is not retried; nothing after the 
   const res = await handleEarlyAccess(req(human()), d);
   assert.equal(res.status, 503);
   assert.deepEqual(await res.json(), { ok: false, message: MESSAGES.unavailable });
-  assert.deepEqual(kit.calls.map((c) => c.path), ['/subscribers', '/forms/111/subscribers']);
+  assert.deepEqual(kit.calls.map((c) => c.path), [LOOKUP, '/subscribers', '/forms/111/subscribers']);
   assert.deepEqual({ outcome: logs.at(-1).outcome, step: logs.at(-1).step, status: logs.at(-1).status }, { outcome: 'kit_failed', step: 'add_to_form', status: 401 });
 
   const kit2 = fakeKit({ '/subscribers': [500, 500, 500] });
   assert.equal((await handleEarlyAccess(req(human()), deps({ kit: kit2 }).d)).status, 503);
-  assert.equal(kit2.calls.length, 3);
+  assert.equal(kit2.mutations().length, 3);
 });
 
 test('Kit rejecting the address itself is shown as an email error', async () => {

@@ -10,16 +10,28 @@ calls it from the browser. Only the server holds the Kit key. It does not use Su
 2. Drops bots quietly: a filled `company` honeypot, or a submit less than 0.8 s after the page loaded, gets the normal
    success answer and nothing is sent to Kit.
 3. Limits, per function instance (best effort): 6 per IP per 10 minutes, 3 per address per hour → 429.
-4. Kit v4, with the key in the `X-Kit-Api-Key` header:
-   1. `POST /v4/subscribers` `{ email_address, state: "inactive" }` (+ custom fields when switched on). Kit upserts by
-      address and never changes an existing subscriber's state, so nobody is reactivated or resubscribed by the API.
-   2. `POST /v4/forms/{KIT_EARLY_ACCESS_FORM_ID}/subscribers` `{ email_address, referrer }` (the page URL with UTMs).
-   3. `POST /v4/tags/{KIT_EARLY_ACCESS_TAG_ID}/subscribers` `{ email_address }`.
-   429, 5xx and network errors are retried twice (0.3 s, 0.9 s). Other failures return a calm 503.
-5. Always answers `{ ok: true }` for an accepted address, whether or not it was already on the list.
+4. Kit v4, with the key in the `X-Kit-Api-Key` header. **First a read-only lookup**,
+   `GET /v4/subscribers?email_address=…&status=all`. Nothing in Kit is changed until it answers clearly. Then, by the
+   address's current status:
 
-Logs are one JSON line per request with an outcome code and a 12-character SHA-256 prefix of the address. Neither the
-address nor the key is ever logged.
+   | Kit status | What the function does | Log outcome |
+   |---|---|---|
+   | not in Kit | `POST /v4/subscribers` `{ email_address, state: "inactive" }` → `POST /v4/forms/{form}/subscribers` `{ email_address, referrer }` (Kit sends the confirmation email) → `POST /v4/tags/{tag}/subscribers` | `ok_new` |
+   | `active` (confirmed) | keep the status; **no** form add (no confirmation email); apply the tag | `ok_existing_tagged` |
+   | `inactive` (unconfirmed) | nothing: their confirmation is already pending, so no repeat email | `pending_unchanged` |
+   | `cancelled` (unsubscribed), `complained`, `bounced`, `blocked` | **nothing**: no form, no tag, no email, no reactivation | `suppressed` |
+   | lookup fails, unknown state (e.g. `cold`), several matches, rows that don't match the address, no list | nothing; 503 "couldn't save" (fail closed) | `lookup_failed` / `lookup_ambiguous` |
+
+   429, 5xx and network errors are retried twice (0.3 s, 0.9 s), for the lookup and for each change.
+5. Every accepted path answers `{ ok: true }` with the same bytes, so the browser never learns whether or how an
+   address is already in Kit. The page says "You're one step closer. If you're new here, check your inbox for a
+   confirmation email from Compound to Greatness."
+
+Trade-off of the status rules: someone who unsubscribed, or who has an old unconfirmed record, cannot re-join through
+this page; they would contact support (a Kit re-subscribe needs a fresh confirmation, which only Kit can send).
+
+Logs are one JSON line per request with an outcome code (plus the Kit state for `suppressed`) and a 12-character
+SHA-256 prefix of the address. Neither the address, the key nor subscriber details are ever logged.
 
 ## Consent
 
@@ -29,18 +41,52 @@ address nor the key is ever logged.
   Creating an app account is not marketing consent.
 - New addresses are created `inactive`, so Kit sends them no broadcasts until they confirm.
 
-## Not verified yet: the confirmation email
+## Verified: double opt-in (real inbox, 2026-11-13)
 
-Kit's docs say adding subscribers to a double opt-in form through the *bulk* endpoint sends the form's incentive
-(confirmation) email. They say nothing about the single add-to-form endpoint used here. **Until a real inbox test
-proves it, assume no confirmation email is sent.** If none is sent, new signups stay `inactive` and never receive
-anything. That fails safe, but it fails silently, so this test gates launch.
+Kit's docs only say the *bulk* endpoint sends a double opt-in form's incentive email. A real test on the Vercel Preview
+(form 10187227, tag 25842370, an owner-controlled address) showed the single add-to-form endpoint used here sends it
+too. Checked in the Kit dashboard:
 
-Fallbacks if the API path does not send it, in order of preference:
-1. Post the page's form to Kit's own hosted form endpoint (Kit then runs double opt-in itself). This needs Kit's support
-   to confirm that endpoint for custom HTML forms, because it is not in the v4 docs.
-2. Keep this function, and have it send a confirmation email of our own that links to a Kit confirmation. This is more
-   work and needs a decision.
+| Step | Result |
+|---|---|
+| Submit a new address once | `200`; page shows "Almost there. Check your inbox." |
+| Kit right after | exactly 1 subscriber, **Unconfirmed**; form CTG Early Access "Unconfirmed"; tag CTG - Early Access applied |
+| Confirmation email | Kit sent the form's incentive email ("One more step — you're on your way!") |
+| Owner clicks Confirm | subscriber **Confirmed**; form "Subscribed"; tag kept; still 1 record |
+
+Note: Kit's subscriber list shows only **Confirmed** people by default. Add "Unconfirmed" to the Status filter to see
+pending early-access signups.
+
+Kit redirects confirmed people to the production URL `/early-access?confirmed=1`. Until the page is live in production,
+that URL shows the old site, so no real signups before the production deploy.
+
+### Duplicate signup (2026-11-13)
+
+The same, already confirmed address was submitted once more on the Preview: `200`, same success screen. Kit: still
+exactly 1 subscriber, still **Confirmed**, tag unchanged, and no new email in the subscriber's email history (only the
+original confirmation).
+
+### Previously unsubscribed contact: first run FAILED (2026-11-13), fixed by the status lookup
+
+Setup (owner-approved): a second owner-controlled address was added in Kit as a single subscriber (the dialog's
+"Identify this subscriber with a new tag" option is on by default and was switched off; no tag, form or sequence), then
+unsubscribed in Kit (status Unsubscribed / `cancelled`, no tags, no emails).
+
+First run, with the original function (no lookup), one Preview submission:
+
+| Check | Result |
+|---|---|
+| Stays unsubscribed | yes, still Unsubscribed / Cancelled |
+| One record | yes |
+| No confirmation email | **no: Kit sent it the form's confirmation email** |
+| Not added to marketing | added to the CTG Early Access form as "Unconfirmed"; no sequence |
+| Tag | CTG - Early Access attached |
+
+Adding an unsubscribed address to a double opt-in form makes Kit send a re-opt-in confirmation (clicking it would most
+likely resubscribe the address). Owner decision: never automatically email people who unsubscribed. The function now
+looks up the status first and leaves `cancelled`, `complained`, `bounced` and `blocked` addresses untouched.
+
+Retest after the fix: see "Retest with the status lookup" below.
 
 ## One-time setup (owner, in Kit and Vercel)
 

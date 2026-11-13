@@ -5,15 +5,16 @@
  *
  *   1. Same-origin JSON only, small bodies, a honeypot field and a minimum time on page (bots get a quiet "ok").
  *   2. Best-effort per-IP and per-email limits (per function instance; pair with a Vercel Firewall rate-limit rule).
- *   3. Kit v4, in this order:
- *        a. create the subscriber as `inactive` (Kit upserts by email and never changes an existing subscriber's state,
- *           so an existing subscriber, including one who unsubscribed, is not reactivated);
- *        b. add them to the double opt-in "CTG Early Access" form;
- *        c. apply the "CTG - Early Access" tag.
- *      A new address stays `inactive`, so Kit sends it no broadcasts until it confirms. Whether step (b) makes Kit send
- *      the form's confirmation email for an API-added subscriber is NOT documented for this endpoint and must be
- *      verified with a real inbox before launch (docs/early-access-kit.md).
- *   4. The response never says whether the address was already on the list.
+ *   3. Kit v4: first a READ-ONLY lookup of the address (all states). Nothing is changed until it answers clearly:
+ *        new           create as `inactive` → add to the double opt-in "CTG Early Access" form (Kit sends the
+ *                      confirmation email; verified with a real inbox 2026-11-13) → apply the "CTG - Early Access" tag
+ *        active        keep their status; no form add (no confirmation email); apply the tag
+ *        inactive      nothing (their confirmation is pending; no repeat email)
+ *        cancelled, complained, bounced, blocked   nothing at all: an unsubscribe is respected (no form, tag or email)
+ *        lookup failed, unknown state or unclear result   nothing; 503 (fail closed)
+ *      Adding an unsubscribed address to a double opt-in form makes Kit send it a confirmation email (seen in the
+ *      2026-11-13 Preview test), which is why the lookup comes first.
+ *   4. The response never says whether or how the address is already in Kit: every accepted path returns { ok: true }.
  *
  * Nothing logs an email address or the key: log lines carry a short SHA-256 prefix of the address and an outcome code.
  *
@@ -122,14 +123,15 @@ class KitError extends Error {
   constructor(step: string, status: number) { super(`kit ${step} ${status}`); this.step = step; this.status = status; }
 }
 
-async function kit(deps: Deps, step: string, path: string, body: unknown): Promise<unknown> {
+/** One Kit v4 call with retries on 429/5xx/network. `body === undefined` makes it a read-only GET. */
+async function kit(deps: Deps, step: string, path: string, body?: unknown): Promise<unknown> {
   for (let attempt = 0; ; attempt++) {
     let status = 0;
     try {
       const res = await deps.fetch(`${KIT}${path}`, {
-        method: 'POST',
+        method: body === undefined ? 'GET' : 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Kit-Api-Key': deps.env.KIT_API_KEY as string },
-        body: JSON.stringify(body),
+        ...(body === undefined ? {} : { body: JSON.stringify(body) }),
         signal: AbortSignal.timeout(KIT_TIMEOUT_MS),
       });
       status = res.status;
@@ -141,6 +143,39 @@ async function kit(deps: Deps, step: string, path: string, body: unknown): Promi
     if (!retryable || attempt >= KIT_RETRY_DELAYS_MS.length) throw new KitError(step, status);
     await deps.sleep(KIT_RETRY_DELAYS_MS[attempt]);
   }
+}
+
+/**
+ * What to do for an address, decided from its CURRENT Kit status before any change is made.
+ *   new          not in Kit → create inactive, add to the double opt-in form (Kit sends the one confirmation), tag
+ *   tag_only     active (confirmed) → keep their status, no form add (no confirmation email), apply the tag
+ *   noop         inactive (unconfirmed) → nothing: their confirmation is already pending; no repeat email
+ *   suppressed   cancelled (unsubscribed), complained, bounced, blocked → nothing at all: no form, tag or email
+ */
+export type Decision = 'new' | 'tag_only' | 'noop' | 'suppressed';
+const SUPPRESSED_STATES = new Set(['cancelled', 'complained', 'bounced', 'blocked']);
+
+export class LookupAmbiguous extends Error {
+  readonly reason: string;
+  constructor(reason: string) { super(`lookup ambiguous: ${reason}`); this.reason = reason; }
+}
+
+/** Read-only lookup of the address in Kit (all states). Anything unclear throws: the caller then changes nothing. */
+export async function lookupDecision(deps: Deps, email: string): Promise<{ decision: Decision; state: string | null }> {
+  const body = await kit(deps, 'lookup', `/subscribers?email_address=${encodeURIComponent(email)}&status=all`);
+  const list = (body as { subscribers?: unknown } | null)?.subscribers;
+  if (!Array.isArray(list)) throw new LookupAmbiguous('no_subscriber_list');
+  const matches = list.filter((s) => typeof (s as { email_address?: unknown })?.email_address === 'string'
+    && (s as { email_address: string }).email_address.trim().toLowerCase() === email);
+  if (list.length > 0 && matches.length === 0) throw new LookupAmbiguous('results_without_exact_match');
+  if (matches.length > 1) throw new LookupAmbiguous('multiple_matches');
+  if (matches.length === 0) return { decision: 'new', state: null };
+  const state = (matches[0] as { state?: unknown }).state;
+  if (typeof state !== 'string') throw new LookupAmbiguous('missing_state');
+  if (state === 'active') return { decision: 'tag_only', state };
+  if (state === 'inactive') return { decision: 'noop', state };
+  if (SUPPRESSED_STATES.has(state)) return { decision: 'suppressed', state };
+  throw new LookupAmbiguous('unknown_state');
 }
 
 // ---------------------------------------------------------------- handler
@@ -209,9 +244,29 @@ export async function handleEarlyAccess(req: Request, deps: Deps): Promise<Respo
   }
   const referrer = a.utm ? `${a.page}?${a.utm.split('&').map((p) => `utm_${p}`).join('&')}` : a.page;
 
+  // 1. Read-only status lookup BEFORE any change. If it fails or is unclear: change nothing (fail closed).
+  let decision: Decision;
+  let state: string | null;
   try {
-    await kit(deps, 'create_subscriber', '/subscribers', subscriber);
-    await kit(deps, 'add_to_form', `/forms/${formId}/subscribers`, { email_address: email, referrer });
+    ({ decision, state } = await lookupDecision(deps, email));
+  } catch (e) {
+    if (e instanceof LookupAmbiguous) deps.log({ evt: 'early_access', outcome: 'lookup_ambiguous', reason: e.reason, ref });
+    else deps.log({ evt: 'early_access', outcome: 'lookup_failed', status: e instanceof KitError ? e.status : 0, ref });
+    return json(503, { ok: false, message: MESSAGES.unavailable });
+  }
+
+  // 2. Decide by status. Every accepted path answers the browser the same way, so it never learns whether or how an
+  //    address is already in Kit.
+  if (decision === 'suppressed' || decision === 'noop') {
+    deps.log({ evt: 'early_access', outcome: decision === 'suppressed' ? 'suppressed' : 'pending_unchanged', state, ref });
+    return json(200, { ok: true });
+  }
+
+  try {
+    if (decision === 'new') {
+      await kit(deps, 'create_subscriber', '/subscribers', subscriber);
+      await kit(deps, 'add_to_form', `/forms/${formId}/subscribers`, { email_address: email, referrer });
+    }
     await kit(deps, 'tag', `/tags/${tagId}/subscribers`, { email_address: email });
   } catch (e) {
     const err = e instanceof KitError ? e : new KitError('unknown', 0);
@@ -223,7 +278,7 @@ export async function handleEarlyAccess(req: Request, deps: Deps): Promise<Respo
     return json(503, { ok: false, message: MESSAGES.unavailable });
   }
 
-  deps.log({ evt: 'early_access', outcome: 'ok', source: a.source, ref });
+  deps.log({ evt: 'early_access', outcome: decision === 'new' ? 'ok_new' : 'ok_existing_tagged', source: a.source, ref });
   return json(200, { ok: true });
 }
 

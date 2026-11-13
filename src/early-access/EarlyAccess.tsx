@@ -80,11 +80,12 @@ function Signup({ attribution }: { attribution: ReturnType<typeof attributionFro
     return (
       <>
         <p className="ea__eyebrow">Early access · iPhone</p>
+        {/* The same message for everyone: the page never knows (or says) whether an address was already on the list. */}
         <h1 className="ea__headline ea__headline--done" ref={doneRef} tabIndex={-1}>
-          Almost there. <span>Check your inbox.</span>
+          You're <span>one step closer.</span>
         </h1>
         <p className="ea__sub">
-          Tap <strong>Confirm</strong> in the email from Compound to Greatness. Then you're on the list for launch day.
+          If you're new here, check your inbox for a confirmation email from Compound to Greatness.
         </p>
         <p className="ea__fine">
           No email in a few minutes? Check Promotions or Spam.{' '}
