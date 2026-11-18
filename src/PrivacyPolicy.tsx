@@ -115,6 +115,9 @@ const SECTIONS: Section[] = [
                     "text": "We save the goal you entered (for example, \"Lose 20 lbs\") and the resulting daily inputs (for example, a daily calorie or protein target) as part of your plan."
                   },
                   {
+                    "text": "This saved goal and these calorie and protein targets are health and fitness information, linked to your account. We do not access HealthKit or your device's health sensors (see \"What We Do Not Collect\" below)."
+                  },
+                  {
                     "text": "These targets are estimates for self-tracking, not medical advice."
                   }
                 ]
@@ -180,7 +183,7 @@ const SECTIONS: Section[] = [
             "text": "**Purchase history.** Your subscription status and transaction history, processed through Apple's In-App Purchase system and our subscription management provider, RevenueCat."
           },
           {
-            "text": "**Push notification token.** A device-specific identifier used solely to deliver reminders and notifications you've enabled."
+            "text": "**Push notification token.** A push token tied to Apple's push notification service. Our push provider, Expo, uses it to deliver notifications to this app on your device. We use it solely to deliver reminders and notifications you've enabled."
           }
         ]
       },
@@ -253,6 +256,9 @@ const SECTIONS: Section[] = [
           },
           {
             "text": "process and manage your subscription;"
+          },
+          {
+            "text": "understand how subscriptions perform, including renewals and cancellations, using the subscription information our subscription provider, RevenueCat, gives us;"
           },
           {
             "text": "send you notifications and reminders you've opted into;"
