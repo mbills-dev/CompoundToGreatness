@@ -148,10 +148,10 @@ const SECTIONS: Section[] = [
       {
         "ul": [
           {
-            "text": "We record whether you agreed to or declined AI personalization, when you made the choice, where in the App you made it, and which version of the disclosure you saw."
+            "text": "The App saves whether you agreed to or declined AI personalization, when you made the choice, and which version of the disclosure you saw."
           },
           {
-            "text": "We save this on your device and with your account, so your choice is respected on every device."
+            "text": "This choice is saved on your device. If you reinstall the App or use another device, you choose again; until you agree, the App doesn't use AI."
           }
         ]
       },
