@@ -13,7 +13,7 @@ type Block = { h3: string } | { p: string } | { ul: ListItem[] } | { note: Block
 type Section = { title: string; blocks: Block[] };
 
 const INTRO: string[] = [
-  "Compound to Greatness (\"C2G,\" \"the App,\" \"we,\" \"us,\" or \"our\") is developed and operated by Lumière Holdings LLC. This Privacy Policy explains what information we collect when you use the App, including the public challenge pages on our website, how we use it, and the choices you have.",
+  "Compound to Greatness (\"CTG,\" \"the App,\" \"we,\" \"us,\" or \"our\") is developed and operated by Lumière Holdings LLC. This Privacy Policy explains what information we collect when you use the App, including the public challenge pages on our website, how we use it, and the choices you have.",
   "By creating an account or using the App, you agree to the practices described in this policy."
 ];
 

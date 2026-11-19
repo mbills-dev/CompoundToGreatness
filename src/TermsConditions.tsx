@@ -20,8 +20,8 @@ const SECTIONS: Section[] = [
   {
     title: '2. Description of Service',
     body: [
-      'C2G is a habit- and identity-building tool that helps you reverse-engineer your goals into daily inputs and track your progress over a structured 77-day challenge. Features may include goal tracking, streaks, badges, optional accountability partners ("watchers"), and optional community/subscription content.',
-      'C2G is a self-tracking and accountability tool. It does not provide medical, nutritional, psychological, or financial advice. Any health, fitness, or wellness-related content within the App reflects general encouragement and self-reported tracking, not professional guidance. Consult a qualified professional before making decisions about your health, diet, exercise, or finances.',
+      'CTG is a habit- and identity-building tool that helps you reverse-engineer your goals into daily inputs and track your progress over a structured 77-day challenge. Features may include goal tracking, streaks, badges, optional accountability partners ("watchers"), and optional community/subscription content.',
+      'CTG is a self-tracking and accountability tool. It does not provide medical, nutritional, psychological, or financial advice. Any health, fitness, or wellness-related content within the App reflects general encouragement and self-reported tracking, not professional guidance. Consult a qualified professional before making decisions about your health, diet, exercise, or finances.',
       'With your permission, the App uses AI to suggest goal clarifications, daily inputs, and other plan content. These suggestions are generated automatically and may be inaccurate or incomplete; review them before adopting them. Calculated targets, such as calorie or protein estimates, are approximations for self-tracking. They are not medical, nutritional, or professional advice.',
     ],
   },
@@ -147,7 +147,7 @@ function TermsConditions() {
           </div>
 
           <p className="text-base sm:text-lg text-gray-400 font-light leading-relaxed">
-            These Terms and Conditions ("Terms") govern your access to and use of Compound to Greatness ("C2G," "the App," "we," "us," or "our"), developed and operated by Lumière Holdings LLC. By downloading, accessing, or using the App, you agree to be bound by these Terms and by our Privacy Policy. If you do not agree, please do not use the App.
+            These Terms and Conditions ("Terms") govern your access to and use of Compound to Greatness ("CTG," "the App," "we," "us," or "our"), developed and operated by Lumière Holdings LLC. By downloading, accessing, or using the App, you agree to be bound by these Terms and by our Privacy Policy. If you do not agree, please do not use the App.
           </p>
 
           {SECTIONS.map((section) => (
