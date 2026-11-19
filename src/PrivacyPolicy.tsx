@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-react';
  * 45bd190 (PUBLICATION_DECISIONS_2026-11-16.md) after Kit in Section 4. "**text**" marks bold text.
  * EFFECTIVE_DATE is a placeholder: the owner sets it to the publication date before this page is deployed.
  */
-const EFFECTIVE_DATE = '[publication date]';
+const EFFECTIVE_DATE = 'November 19, 2026';
 
 type ListItem = { text: string; children?: Block[] };
 type Block = { h3: string } | { p: string } | { ul: ListItem[] } | { note: Block[] };

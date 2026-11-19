@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react';
  * paragraph, §6 opening line and note. Everything else is unchanged.
  * EFFECTIVE_DATE is a placeholder: the owner sets it to the publication date (the same as the Privacy Policy).
  */
-const EFFECTIVE_DATE = '[publication date]';
+const EFFECTIVE_DATE = 'November 19, 2026';
 
 type Paragraph = string | { text: string; items: string[] };
 type Section = { title: string; body?: Paragraph[]; list?: string[]; note?: string[] };
