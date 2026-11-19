@@ -40,7 +40,7 @@ const SECTIONS: Section[] = [
     ],
     list: [
       'Subscriptions automatically renew at the end of each billing period unless cancelled before the renewal date.',
-      'Cancellations, refund requests, and billing management are handled through your Apple ID account settings, not within the App directly.',
+      'Cancellations, refund requests, and billing management for subscriptions purchased in the App are handled through your Apple ID account settings, not within the App directly.',
       'Pricing is displayed within the App prior to purchase and is subject to change with notice.',
     ],
   },
