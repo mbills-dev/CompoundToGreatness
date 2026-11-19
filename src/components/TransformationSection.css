@@ -45,9 +45,12 @@
 .transformation-section__annotation {
   display: inline-block;
   margin: 1.3rem 0 0 1.25rem;
+  text-wrap: balance;
   color: #5F7600;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(clamp(1.8rem, 2.8vw, 2.6rem) * 1.06);
   line-height: 1;
   transform: rotate(-4deg);
 }
@@ -200,8 +203,10 @@
 .transformation-section__visual-annotation-text {
   display: inline-block;
   color: #5F7600;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(clamp(1.6rem, 2.4vw, 2.2rem) * 1.06);
   line-height: 1;
   transform: rotate(-3deg);
 }

@@ -64,9 +64,12 @@
 
 .purpose-section__annotation {
   margin: 1.8rem 0 0 1.25rem;
+  text-wrap: balance;
   color: #CCFF00;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: clamp(2.1rem, 3.4vw, 3.2rem);
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(clamp(2.1rem, 3.4vw, 3.2rem) * 1.06);
   line-height: 1;
   transform: rotate(-4deg);
 }
@@ -133,9 +136,12 @@
 
 .purpose-section__secondary-note {
   margin: 1.7rem 0 0 .75rem;
+  text-wrap: balance;
   color: #CCFF00;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: 2rem;
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(2rem * 1.06);
   line-height: 1;
   transform: rotate(3deg);
 }

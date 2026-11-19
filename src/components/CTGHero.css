@@ -160,10 +160,12 @@
 .ctgHero__script {
   margin: 26px 0 24px;
   color: var(--ctg-lime);
-  font-family: 'Northwell Clean', 'Northwell', cursive;
-  font-size: clamp(28px, 2.1vw, 42px);
-  line-height: 1.05;
-  transform: rotate(-1deg);
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .3px;
+  font-size: clamp(30px, 2.5vw, 44px);
+  line-height: 1;
+  transform: rotate(-2deg);
 }
 
 .ctgHero__body {
@@ -255,7 +257,7 @@
 
   .ctgHero__eyebrow { font-size: 10px; margin-bottom: 18px; }
   .ctgHero__title { font-size: clamp(54px, 15vw, 80px); line-height: .84; }
-  .ctgHero__script { font-size: 28px; margin: 20px 0 18px; }
+  .ctgHero__script { font-size: 30px; margin: 20px 0 18px; }
   .ctgHero__body { font-size: 16px; margin-bottom: 26px; }
 
   .ctgHero__appStoreBadge { width: 170px; }
