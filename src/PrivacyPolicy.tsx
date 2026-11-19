@@ -115,7 +115,7 @@ const SECTIONS: Section[] = [
                     "text": "We save the goal you entered (for example, \"Lose 20 lbs\") and the resulting daily inputs (for example, a daily calorie or protein target) as part of your plan."
                   },
                   {
-                    "text": "If you set a target weight, your identity statement may include it (for example, \"I weigh 165 lbs.\"). Your friends can access your goal, targets, and identity statement as described in Section 5. On your Public Challenge Page, your identity statement and the names of your daily inputs (which may include a calorie or protein target) appear only if you turn on Detailed Sharing."
+                    "text": "If you set a target weight, your identity statement may include it (for example, \"I weigh 165 lbs.\"). Your friends can access your goal, targets, and identity statement as described in Section 5. On your Public Challenge Page, your identity statement, the names of your daily inputs (which may include a calorie or protein target), and the goal each input belongs to appear only if you turn on Detailed Sharing."
                   },
                   {
                     "text": "This saved goal and these calorie and protein targets are health and fitness information, linked to your account. We do not access HealthKit or your device's health sensors (see \"What We Do Not Collect\" below)."
@@ -481,10 +481,10 @@ const SECTIONS: Section[] = [
                 ]
               },
               {
-                "p": "**Detailed Sharing**, a separate setting that is also off by default, adds your identity statement and the names of your daily inputs."
+                "p": "**Detailed Sharing**, a separate setting that is also off by default, adds your identity statement, the names of your daily inputs, and the goal each input belongs to."
               },
               {
-                "p": "Your page never shows your proof photos, email address, last name, goal targets, or Compass. Turning the page off makes it unavailable right away."
+                "p": "Your page never shows your proof photos, email address, last name, or Compass. With Detailed Sharing on, the shared identity statement, input names, and goals can include targets you entered, such as a target weight, a weight-loss goal (for example, \"Lose 20 lbs\"), or a daily calorie target. Turning the page off makes it unavailable right away."
               }
             ]
           },
