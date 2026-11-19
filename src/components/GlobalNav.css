@@ -319,8 +319,10 @@
 
 .mobileMenu__annotation {
   margin: 0;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: 1.8rem;
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(1.8rem * 1.06);
   line-height: 1;
   color: #CCFF00;
   transform: rotate(-1deg);

@@ -19,53 +19,22 @@ h1, h2 {
   font-weight: 900;
 }
 
-/* === Northwell font family (licensed) === */
+/* === Handwritten accent: Caveat SemiBold (SIL OFL 1.1; /fonts/OFL-Caveat.txt) === */
+/* The official variable font from google/fonts (ofl/caveat, unmodified), used at weight 600. */
 @font-face {
-  font-family: 'Northwell';
-  src: url('/fonts/Northwell.ttf') format('truetype');
-  font-weight: 400;
+  font-family: 'Caveat';
+  src: url('/fonts/Caveat-Variable.ttf') format('truetype');
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
-@font-face {
-  font-family: 'Northwell Alt';
-  src: url('/fonts/Northwell_Alt.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Northwell Swash';
-  src: url('/fonts/Northwell_Swash.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Northwell Clean';
-  src: url('/fonts/Northwell_Clean.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Northwell Clean Alt';
-  src: url('/fonts/Northwell_Clean_Alt.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Northwell Clean Swash';
-  src: url('/fonts/Northwell_Clean_Swash.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+:root {
+  --ctg-hand: 'Caveat', cursive;
 }
 
 .handwritten {
-  font-family: 'Northwell Clean', 'Northwell', cursive;
-  font-weight: 400;
+  font-family: var(--ctg-hand);
+  font-weight: 600;
   font-style: normal;
 }
 

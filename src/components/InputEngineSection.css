@@ -38,9 +38,11 @@
 .ctg-input-engine__handwritten {
   margin: 1.25rem 0 0;
   color: #CCFF00;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  line-height: 1.2;
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(clamp(1.6rem, 3vw, 2.4rem) * 1.06);
+  line-height: 1;
 }
 
 .ctg-input-engine__support {
@@ -169,9 +171,11 @@
 .ctg-input-engine__outcomeWish {
   margin-top: .65rem;
   color: #CCFF00;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: 1.15rem;
-  line-height: 1.2;
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(1.15rem * 1.06);
+  line-height: 1;
 }
 
 .ctg-input-engine__fragment--decode { width: min(100%, 270px); height: 72px; }
@@ -225,7 +229,7 @@
 }
 
 .ctg-input-engine.is-active .ctg-input-engine__statement { opacity: 1; transform: translateY(0); transition-delay: 1.85s; }
-.ctg-input-engine__statementAnnotation { margin-bottom: .75rem; color: #CCFF00; font-family: "Northwell Clean", "Northwell", cursive; font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 1; }
+.ctg-input-engine__statementAnnotation { margin-bottom: .75rem; color: #CCFF00; font-family: var(--ctg-hand); font-weight: 600; letter-spacing: .2px; font-size: calc(clamp(1.8rem, 3vw, 2.6rem) * 1.06); line-height: 1; }
 .ctg-input-engine__statementHead { margin: 0; font-family: "Inter Tight", Inter, sans-serif; font-size: clamp(2.25rem, 5.5vw, 4.5rem); font-weight: 900; letter-spacing: 0; line-height: .92; text-transform: uppercase; }
 .ctg-input-engine__statementLine { display: block; color: #FFFFFF; }
 .ctg-input-engine__statementGap { margin-top: .75rem; }
@@ -287,7 +291,7 @@
     line-height: .96;
   }
   .ctg-input-engine__mobileMuted { margin-top: 1.25rem; color: #8E8E8E; font: .9rem/1.5 Inter, sans-serif; }
-  .ctg-input-engine__mobileWish { margin-top: .65rem; color: #CCFF00; font: 1.35rem/1.2 "Northwell Clean", "Northwell", cursive; }
+  .ctg-input-engine__mobileWish { margin-top: .65rem; color: #CCFF00; font: 600 calc(1.35rem * 1.06)/1 var(--ctg-hand); letter-spacing: .2px; }
   .ctg-input-engine__mobileArrow { margin: 3.5rem 0; color: #CCFF00; font: 1.4rem/1 Inter, sans-serif; }
   .ctg-input-engine__mobileStep:not(.ctg-input-engine__mobileStep--decode) + .ctg-input-engine__mobileArrow { margin-top: 4rem; }
   .ctg-input-engine__mobileIntro { color: #B0B0B0; font: 800 .78rem/1 Inter, sans-serif; letter-spacing: .12em; }

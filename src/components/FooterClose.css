@@ -65,8 +65,10 @@
 
 .footer-close__handwritten {
   margin-top: 1.6rem;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: clamp(1.8rem, 2.6vw, 2.4rem);
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(clamp(1.8rem, 2.6vw, 2.4rem) * 1.06);
   line-height: 1;
   color: #CCFF00;
   opacity: 0;

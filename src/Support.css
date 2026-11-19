@@ -42,8 +42,10 @@
 .support-hero__annotation {
   margin-top: 1.75rem;
   color: #CCFF00;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(clamp(1.8rem, 3vw, 2.4rem) * 1.06);
   line-height: 1;
   opacity: 0;
   transform: translateY(12px);
@@ -241,8 +243,10 @@
 .support-brand-close__annotation {
   margin-top: 1rem;
   color: #8D8D8D;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: 1.4rem;
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(1.4rem * 1.06);
   line-height: 1;
 }
 

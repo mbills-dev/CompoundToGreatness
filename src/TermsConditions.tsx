@@ -1,6 +1,16 @@
 import { ArrowLeft } from 'lucide-react';
 
-const SECTIONS = [
+/*
+ * Terms changes for 1.0: d279eae Part 2 (PRIVACY_TERMS_FINAL_DRAFT_2026-11-16.md): §2 third paragraph, §5 second
+ * paragraph, §6 opening line and note. Everything else is unchanged.
+ * EFFECTIVE_DATE is a placeholder: the owner sets it to the publication date (the same as the Privacy Policy).
+ */
+const EFFECTIVE_DATE = 'November 19, 2026';
+
+type Paragraph = string | { text: string; items: string[] };
+type Section = { title: string; body?: Paragraph[]; list?: string[]; note?: string[] };
+
+const SECTIONS: Section[] = [
   {
     title: '1. Eligibility',
     body: [
@@ -10,8 +20,9 @@ const SECTIONS = [
   {
     title: '2. Description of Service',
     body: [
-      'C2G is a habit- and identity-building tool that helps you reverse-engineer your goals into daily inputs and track your progress over a structured 77-day challenge. Features may include goal tracking, streaks, badges, optional accountability partners ("watchers"), and optional community/subscription content.',
-      'C2G is a self-tracking and accountability tool. It does not provide medical, nutritional, psychological, or financial advice. Any health, fitness, or wellness-related content within the App reflects general encouragement and self-reported tracking, not professional guidance. Consult a qualified professional before making decisions about your health, diet, exercise, or finances.',
+      'CTG is a habit- and identity-building tool that helps you reverse-engineer your goals into daily inputs and track your progress over a structured 77-day challenge. Features may include goal tracking, streaks, badges, optional accountability partners ("watchers"), and optional community/subscription content.',
+      'CTG is a self-tracking and accountability tool. It does not provide medical, nutritional, psychological, or financial advice. Any health, fitness, or wellness-related content within the App reflects general encouragement and self-reported tracking, not professional guidance. Consult a qualified professional before making decisions about your health, diet, exercise, or finances.',
+      'With your permission, the App uses AI to suggest goal clarifications, daily inputs, and other plan content. These suggestions are generated automatically and may be inaccurate or incomplete; review them before adopting them. Calculated targets, such as calorie or protein estimates, are approximations for self-tracking. They are not medical, nutritional, or professional advice.',
     ],
   },
   {
@@ -24,11 +35,12 @@ const SECTIONS = [
   {
     title: '4. Subscriptions and Billing',
     body: [
-      'Certain features of the App require a paid subscription. Subscription purchases are processed entirely through the Apple App Store, and your payment is governed by Apple\'s own terms and payment system — we do not directly collect or store your payment card details.',
+      'Certain features of the App require a paid subscription. Subscription purchases made in the App are processed entirely through the Apple App Store, and your payment is governed by Apple\'s own terms and payment system — we do not directly collect or store your payment card details.',
+      'Founding memberships and Beta Lifetime access were sold on our website before the App launched. They were paid through Stripe, not Apple, and are no longer sold. If you hold one, it is linked to your account and unlocks the App\'s paid features. For billing, cancellation, or refund questions about these purchases, contact us at info@compoundtogreatness.com; Apple cannot manage them.',
     ],
     list: [
       'Subscriptions automatically renew at the end of each billing period unless cancelled before the renewal date.',
-      'Cancellations, refund requests, and billing management are handled through your Apple ID account settings, not within the App directly.',
+      'Cancellations, refund requests, and billing management for subscriptions purchased in the App are handled through your Apple ID account settings, not within the App directly.',
       'Pricing is displayed within the App prior to purchase and is subject to change with notice.',
     ],
   },
@@ -36,14 +48,21 @@ const SECTIONS = [
     title: '5. Your Content',
     body: [
       '"Your Content" means anything you create, upload, or submit through the App, including your identity statements, goals, daily activity records, photos, and messages sent to friends or watchers.',
-      'You retain ownership of Your Content. By submitting Your Content, you grant us a limited, non-exclusive license to host, store, and display it solely for the purpose of operating and providing the App\'s features to you — including displaying your progress to accountability partners you specifically invite, or to anyone you choose to share a public journey link with. We do not sell Your Content, license it to third parties for their own purposes, or use it to train external AI models.',
+      {
+        text: 'You retain ownership of Your Content. By submitting Your Content, you grant us a limited, non-exclusive license to host, store, and display it solely for the purpose of operating and providing the App\'s features to you. This includes:',
+        items: [
+          'displaying your progress to friends and accountability partners you connect with, and to anyone who visits your Public Challenge Page if you turn it on;',
+          'if you agree to AI personalization, processing it through our AI provider as described in our Privacy Policy.',
+        ],
+      },
+      'We do not sell Your Content, license it to third parties for their own purposes, or use it to train external AI models.',
       'You are solely responsible for Your Content and confirm that you have the right to share it and that it does not violate these Terms or any law.',
     ],
   },
   {
     title: '6. Acceptable Use',
     body: [
-      'When using the App, including any messaging or friend/watcher features, you agree not to:',
+      'When using the App, including any messaging, friend or watcher features, and messages sent from Public Challenge Pages, you agree not to:',
     ],
     list: [
       'Harass, abuse, threaten, or demean other users',
@@ -54,13 +73,13 @@ const SECTIONS = [
       'Use the App for any purpose other than its intended personal accountability and habit-tracking use',
     ],
     note: [
-      'We reserve the right to suspend or terminate accounts that violate these terms.',
+      'We have zero tolerance for objectionable content and abusive users. You can report a message or a member, and block a member, within the App. We review reports and may remove content, restrict messages from a sender, and suspend or terminate accounts that violate these Terms.',
     ],
   },
   {
     title: '7. Third-Party Services',
     body: [
-      'The App relies on third-party service providers to operate, including Supabase (data storage and authentication), RevenueCat (subscription management), and Apple\'s App Store (payment processing and push notification delivery). Your use of the App is also subject to Apple\'s Media Services Terms and Usage Rules where applicable. We are not responsible for the availability or performance of these third-party services.',
+      'The App relies on third-party service providers to operate, including Supabase (data storage, authentication, and server functions), Anthropic (AI personalization, only if you agree to it), RevenueCat (subscription management), Apple (App Store purchases, Sign in with Apple, and push notification delivery), Google (Sign in with Google), Expo (push notifications), Resend (account emails), Vercel (website and Public Challenge Page hosting), Kit (marketing emails, only if you opt in), and Stripe (payments for founding memberships and Beta Lifetime access purchased before the App launched). Our Privacy Policy describes what information each receives. Your use of the App is also subject to Apple\'s Media Services Terms and Usage Rules where applicable. We are not responsible for the availability or performance of these third-party services.',
     ],
   },
   {
@@ -123,12 +142,12 @@ function TermsConditions() {
             </h1>
             <div className="flex items-center gap-3 text-gray-500 text-sm font-light">
               <span className="w-8 h-px bg-neon/40" />
-              Effective Date: September 5, 2026
+              Effective Date: {EFFECTIVE_DATE}
             </div>
           </div>
 
           <p className="text-base sm:text-lg text-gray-400 font-light leading-relaxed">
-            These Terms and Conditions ("Terms") govern your access to and use of Compound to Greatness ("C2G," "the App," "we," "us," or "our"), developed and operated by Lumière Holdings LLC. By downloading, accessing, or using the App, you agree to be bound by these Terms and by our Privacy Policy. If you do not agree, please do not use the App.
+            These Terms and Conditions ("Terms") govern your access to and use of Compound to Greatness ("CTG," "the App," "we," "us," or "our"), developed and operated by Lumière Holdings LLC. By downloading, accessing, or using the App, you agree to be bound by these Terms and by our Privacy Policy. If you do not agree, please do not use the App.
           </p>
 
           {SECTIONS.map((section) => (
@@ -136,11 +155,25 @@ function TermsConditions() {
               <h2 className="text-xl sm:text-2xl font-black tracking-tight text-white">
                 {section.title}
               </h2>
-              {section.body?.map((para, i) => (
-                <p key={i} className="text-base text-gray-400 font-light leading-relaxed">
-                  {para}
-                </p>
-              ))}
+              {section.body?.map((para, i) =>
+                typeof para === 'string' ? (
+                  <p key={i} className="text-base text-gray-400 font-light leading-relaxed">
+                    {para}
+                  </p>
+                ) : (
+                  <div key={i} className="space-y-3">
+                    <p className="text-base text-gray-400 font-light leading-relaxed">{para.text}</p>
+                    <ul className="space-y-3">
+                      {para.items.map((item, j) => (
+                        <li key={j} className="flex items-start gap-3 text-base text-gray-400 font-light leading-relaxed">
+                          <span className="w-1.5 h-1.5 bg-neon mt-2.5 flex-shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ),
+              )}
               {section.list && (
                 <ul className="space-y-3">
                   {section.list.map((item, i) => (

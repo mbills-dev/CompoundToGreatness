@@ -119,8 +119,10 @@
   display: inline-block;
   margin: 1.4rem 0 0 1.25rem;
   color: #CCFF00;
-  font-family: "Northwell Clean", "Northwell", cursive;
-  font-size: clamp(1.7rem, 2.5vw, 2.3rem);
+  font-family: var(--ctg-hand);
+  font-weight: 600;
+  letter-spacing: .2px;
+  font-size: calc(clamp(1.7rem, 2.5vw, 2.3rem) * 1.06);
   line-height: 1;
   transform: rotate(-3deg);
   opacity: 0;
