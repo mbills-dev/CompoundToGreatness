@@ -36,6 +36,7 @@ const SECTIONS: Section[] = [
     title: '4. Subscriptions and Billing',
     body: [
       'Certain features of the App require a paid subscription. Subscription purchases are processed entirely through the Apple App Store, and your payment is governed by Apple\'s own terms and payment system — we do not directly collect or store your payment card details.',
+      'Founding memberships and Beta Lifetime access were sold on our website before the App launched. They were paid through Stripe, not Apple, and are no longer sold. If you hold one, it is linked to your account and unlocks the App\'s paid features. For billing, cancellation, or refund questions about these purchases, contact us at info@compoundtogreatness.com; Apple cannot manage them.',
     ],
     list: [
       'Subscriptions automatically renew at the end of each billing period unless cancelled before the renewal date.',
@@ -72,13 +73,13 @@ const SECTIONS: Section[] = [
       'Use the App for any purpose other than its intended personal accountability and habit-tracking use',
     ],
     note: [
-      'We have zero tolerance for objectionable content and abusive users. You can report a message or a member, and block a member, within the App. We review reports and may remove content, block messages from a sender, and suspend or terminate accounts that violate these Terms.',
+      'We have zero tolerance for objectionable content and abusive users. You can report a message or a member, and block a member, within the App. We review reports and may remove content, restrict messages from a sender, and suspend or terminate accounts that violate these Terms.',
     ],
   },
   {
     title: '7. Third-Party Services',
     body: [
-      'The App relies on third-party service providers to operate, including Supabase (data storage and authentication), RevenueCat (subscription management), and Apple\'s App Store (payment processing and push notification delivery). Your use of the App is also subject to Apple\'s Media Services Terms and Usage Rules where applicable. We are not responsible for the availability or performance of these third-party services.',
+      'The App relies on third-party service providers to operate, including Supabase (data storage, authentication, and server functions), Anthropic (AI personalization, only if you agree to it), RevenueCat (subscription management), Apple (App Store purchases, Sign in with Apple, and push notification delivery), Google (Sign in with Google), Expo (push notifications), Resend (account emails), Vercel (website and Public Challenge Page hosting), Kit (marketing emails, only if you opt in), and Stripe (payments for founding memberships and Beta Lifetime access purchased before the App launched). Our Privacy Policy describes what information each receives. Your use of the App is also subject to Apple\'s Media Services Terms and Usage Rules where applicable. We are not responsible for the availability or performance of these third-party services.',
     ],
   },
   {

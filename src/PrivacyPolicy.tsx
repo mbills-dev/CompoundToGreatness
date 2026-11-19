@@ -115,6 +115,9 @@ const SECTIONS: Section[] = [
                     "text": "We save the goal you entered (for example, \"Lose 20 lbs\") and the resulting daily inputs (for example, a daily calorie or protein target) as part of your plan."
                   },
                   {
+                    "text": "If you set a target weight, your identity statement may include it (for example, \"I weigh 165 lbs.\"). Your friends can access your goal, targets, and identity statement as described in Section 5. On your Public Challenge Page, your identity statement and the names of your daily inputs (which may include a calorie or protein target) appear only if you turn on Detailed Sharing."
+                  },
+                  {
                     "text": "This saved goal and these calorie and protein targets are health and fitness information, linked to your account. We do not access HealthKit or your device's health sensors (see \"What We Do Not Collect\" below)."
                   },
                   {
@@ -167,7 +170,7 @@ const SECTIONS: Section[] = [
             "text": "We collect the name the visitor enters and their message. We collect an email address only if the visitor ticks the box to receive updates from Compound to Greatness."
           },
           {
-            "text": "To prevent spam and abuse, we store a one-way, keyed hash of the visitor's IP address with the message, not the address itself. We use it to apply sending limits and, after a report, to stop further messages from the same source."
+            "text": "To help prevent spam and abuse, when a visitor sends a message from a Public Challenge Page, we may store a one-way, keyed hash of the visitor's IP address with the message, not the address itself. We use it to help apply sending limits and, after a report, to help prevent further messages from the same source. These measures reduce abuse but cannot guarantee that every unwanted message is stopped."
           }
         ]
       },
@@ -419,7 +422,7 @@ const SECTIONS: Section[] = [
             "text": "**Expo.** Sends push notifications to your device. It receives your device's push token and the content of each notification needed to deliver it."
           },
           {
-            "text": "**Resend.** Sends our emails, such as sign-in and password-reset messages and our internal moderation notifications."
+            "text": "**Resend.** Sends our emails, such as sign-in and password-reset messages."
           },
           {
             "text": "**Vercel.** Hosts our website and the Public Challenge Pages."
@@ -428,7 +431,7 @@ const SECTIONS: Section[] = [
             "text": "**Kit.** Our email marketing provider. It receives a name and email address only when someone opts in to marketing emails."
           },
           {
-            "text": "**Stripe.** Processes payments for founding memberships that were purchased on our website before the App launched. We keep a record of each founding membership, including its Stripe subscription identifier, so it can be honored in the App. We may share that identifier with RevenueCat to link the membership to your account. Founding memberships are no longer sold."
+            "text": "**Stripe.** Processed payments for founding memberships and Beta Lifetime access purchased on our website before the App launched. We keep a record of each such purchase, including its Stripe identifier, so it can be honored in the App. We may share that identifier with RevenueCat to link the membership to your account. These purchases are no longer sold."
           }
         ]
       },
@@ -450,13 +453,10 @@ const SECTIONS: Section[] = [
       {
         "ul": [
           {
-            "text": "**Friends and watchers.** Members you connect with as friends can see your profile and your challenge progress (Challenge Day, completed days, and streak) for as long as the connection remains active.",
+            "text": "**Friends.** Members you connect with as friends can see your profile and your challenge progress (Challenge Day, completed days, and streak) for as long as the connection remains active. Friends' accounts can also access the details of your active goals and your Success Stack, including your identity statement, your Compass, your goal targets, and each daily input with the time and place you plan to do it. **Share Full Journey** controls whether the App displays your identity statement, today's Success Stack, and which inputs you've completed to friends; it is on by default, and you can change it in Settings. It does not limit what a friend's account can access, so connect only with people you trust with this information.",
             "children": [
               {
                 "ul": [
-                  {
-                    "text": "If **Share Full Journey** is on, they can also see your identity statement, today's Success Stack, and which inputs you've completed. The setting is on by default; you can change it in Settings."
-                  },
                   {
                     "text": "You can remove a friend or block a member at any time."
                   }
@@ -531,10 +531,7 @@ const SECTIONS: Section[] = [
         ]
       },
       {
-        "p": "The person you report cannot see the report or who sent it. Our team reviews reports. We may remove content, stop a visitor from sending further messages, or suspend or terminate accounts that violate our Terms."
-      },
-      {
-        "p": "**Notifications to our team.** When a new report arrives, our team receives an automated email notification. It contains only the report category, the kind of content, the time, and the number of open reports. It never includes message text, names, email addresses, or account identifiers."
+        "p": "The person you report cannot see the report or who sent it. Our team reviews reports. We may remove content, restrict further messages from a visitor, or suspend or terminate accounts that violate our Terms."
       }
     ]
   },
