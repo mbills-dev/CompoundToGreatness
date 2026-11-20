@@ -8,6 +8,7 @@ import TermsConditions from './TermsConditions.tsx';
 import Support from './Support.tsx';
 import ResetPassword from './ResetPassword.tsx';
 import { consumeRecoveryParamsFromURL } from './recoveryToken';
+import { scrubAuthFragmentFromURL } from './authFragmentScrub';
 import './index.css';
 
 // Early bootstrap: if the user landed on /reset-password with a recovery token
@@ -17,6 +18,9 @@ import './index.css';
 if (typeof window !== 'undefined' && window.location.pathname === '/reset-password') {
   consumeRecoveryParamsFromURL();
 }
+
+// Then, on every path: drop any auth-token fragment (see authFragmentScrub.ts).
+scrubAuthFragmentFromURL();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
