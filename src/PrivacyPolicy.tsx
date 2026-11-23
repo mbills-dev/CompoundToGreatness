@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-react';
  * 45bd190 (PUBLICATION_DECISIONS_2026-11-16.md) after Kit in Section 4. "**text**" marks bold text.
  * EFFECTIVE_DATE is a placeholder: the owner sets it to the publication date before this page is deployed.
  */
-const EFFECTIVE_DATE = 'November 19, 2026';
+const EFFECTIVE_DATE = 'November 23, 2026';
 
 type ListItem = { text: string; children?: Block[] };
 type Block = { h3: string } | { p: string } | { ul: ListItem[] } | { note: Block[] };
@@ -36,7 +36,7 @@ const SECTIONS: Section[] = [
             "text": "**Email address.** We collect it when you create an account. We use it for login, account recovery, and service-related communications. If you sign in with Apple or Google, we receive the name and email address that service shares with us. With Apple, this may be a private relay address."
           },
           {
-            "text": "**Username.** Other members can find you by your username to send a friend request. Your username also forms the address of your Public Challenge Page."
+            "text": "**Username.** Other members can find you by your username to send a friend request. Other signed-in members can see your username, display name, profile photo, who invited you to CTG, and when you joined. Your username also forms the address of your Public Challenge Page."
           }
         ]
       },
@@ -154,7 +154,7 @@ const SECTIONS: Section[] = [
             "text": "The App saves whether you agreed to or declined AI personalization, when you made the choice, and which version of the disclosure you saw."
           },
           {
-            "text": "This choice is saved on your device. If you reinstall the App or use another device, you choose again; until you agree, the App doesn't use AI."
+            "text": "This choice is saved separately on each device or web browser; it is not currently synced to your account. If you reinstall the App, clear your browser's data, or use another device or browser, you choose again; until you agree there, the App doesn't use AI there. Changing your choice on one device or browser does not change it on your others."
           }
         ]
       },
@@ -376,7 +376,10 @@ const SECTIONS: Section[] = [
             "text": "You can turn AI personalization on or off at any time in Settings → Privacy → AI personalization."
           },
           {
-            "text": "Turning it off stops all future AI requests from the App from that moment. It does not recall information already sent."
+            "text": "Turning it off stops all future AI requests from the App on that device or browser from that moment. It does not recall information already sent."
+          },
+          {
+            "text": "**If you use the App on more than one device or browser, turn AI personalization off on each one.** Your choice is saved per device or browser, so turning it off in one place does not turn it off in another."
           }
         ]
       },
@@ -605,7 +608,7 @@ const SECTIONS: Section[] = [
         "p": "Depending on where you live, you may have rights to access, correct, delete, or receive a copy of your personal information, and to object to certain uses of it. You can exercise most of these rights directly within the App, by editing your profile or deleting your account. For anything else, contact us using the information below."
       },
       {
-        "p": "You can also change your AI personalization choice at any time in Settings → Privacy → AI personalization, and unsubscribe from marketing emails with the link in any marketing email."
+        "p": "You can also change your AI personalization choice at any time in Settings → Privacy → AI personalization on each device or browser you use, and unsubscribe from marketing emails with the link in any marketing email."
       },
       {
         "p": "If you are located in the European Union, you also have rights under the General Data Protection Regulation (GDPR), including the right to lodge a complaint with your local data protection authority."
