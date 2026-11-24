@@ -154,10 +154,34 @@ Local checks: `npm test` (server against a fake Kit + browser signup module), `n
 ## The page
 
 `/early-access` is its own Vite entry (`early-access/index.html` → `src/early-access/`), with its own title, share
-image (`public/early-access/og-early-access.jpg`) and plain CSS; `vercel.json` routes `/early-access` to it.
+image (`public/early-access/og-someday.jpg`) and plain CSS; `vercel.json` routes `/early-access` to it.
 `/early-access?confirmed=1` is the landing Kit redirects to after Confirm. It shows "You're on the list." but is not
 proof of confirmation: Kit is the record.
 
 The featured visual is set in `src/early-access/visuals.ts` (real captures only; originals outside git in
 `~/Projects/CTG-marketing/captures-2026-11-13`). Analytics events are defined in `src/early-access/analytics.ts` and
 are no-ops until a provider is chosen. They never include the email address.
+
+## Messaging (owner-approved 2026-11-24)
+
+- Launch campaign headline: **Someday is not a day.** (page `<h1>`, page title, share image)
+- Core brand tagline: **Small daily actions. Extraordinary results.** (meta description, share image, `?confirmed=1`)
+- Call to action line: **Your Day One starts now.**
+
+Share image: `public/early-access/og-someday.jpg` (1200 × 630, ~180 KB JPEG), referenced by absolute URL in
+`early-access/index.html` only; the main site's `index.html` metadata is separate and unchanged. The previous
+`og-early-access.jpg` is kept so links already shared keep a valid image until platforms re-scrape.
+
+## Background photo: source and licence (verified 2026-11-24)
+
+| | |
+|---|---|
+| Files | `public/early-access/someday-stairs-{1000,2000}.jpg`; also cropped into `og-someday.jpg` |
+| Source | https://unsplash.com/photos/pwvZxGiyu1E ("Person running up stairs in a snowstorm"), published 2025-03-05 |
+| Image | images.unsplash.com/photo-1741175076377-8248180bd1f4 (free library, not Unsplash+) |
+| Photographer | Stas Ostrikov, https://unsplash.com/@stasostrikov |
+| Licence | Unsplash License, https://unsplash.com/license: irrevocable, non-exclusive, worldwide; commercial use and modification allowed; attribution not required. Not allowed: selling unaltered copies, or compiling Unsplash images into a similar/competing service. Neither applies here. |
+| Releases | Unsplash does not supply model/property releases (contributors agree uploads have them; Unsplash gives no guarantee). Users are responsible for third-party rights, e.g. of identifiable people. See help.unsplash.com articles 2612329 and 2646379. |
+| Assessment | Subject is photographed from behind, hood up, at night in heavy snow: face not visible, no logos or distinguishing marks, location not identifiable, so not reasonably identifiable. Unsplash's caption calls the subject "a girl" (possibly a minor), another reason to keep the use non-identifying. Used as atmosphere only; nothing states or implies that the person uses or endorses the app. Low risk. Optional extra assurance: ask the photographer (Unsplash message) whether a release exists. |
+
+Display treatment (grayscale, darkening, crop) is CSS only; the files are unaltered downloads.

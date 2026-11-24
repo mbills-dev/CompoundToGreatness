@@ -19,6 +19,20 @@ export default function EarlyAccess() {
 
   return (
     <div className="ea">
+      {/* Atmosphere only (decorative). Unsplash License, Stas Ostrikov, unsplash.com/photos/pwvZxGiyu1E — source and
+          licence notes in docs/early-access-kit.md. The app visual on the right stays a real capture. */}
+      <div className="ea__bg" aria-hidden="true">
+        <img
+          src="/early-access/someday-stairs-2000.jpg"
+          srcSet="/early-access/someday-stairs-1000.jpg 1000w, /early-access/someday-stairs-2000.jpg 2000w"
+          sizes="100vw"
+          width={2000}
+          height={1333}
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+        />
+      </div>
       <header className="ea__top">
         <a href="/" className="ea__brand" aria-label="Compound to Greatness home">
           <img src="/c2g-wordmark.png" alt="Compound to Greatness" width={400} height={100} />
@@ -101,8 +115,12 @@ function Signup({ attribution }: { attribution: ReturnType<typeof attributionFro
   return (
     <>
       <p className="ea__eyebrow">Early access · iPhone</p>
-      <h1 className="ea__headline">Become the person you know you can be.</h1>
-      <p className="ea__sub">Be the first to know when Compound to Greatness launches.</p>
+      {/* One line per span so the break points are designed, not left to the wrap; the spaces keep it one sentence
+          for screen readers and copy-paste. */}
+      <h1 className="ea__headline ea__headline--hero">
+        <span>Someday</span> <span>is not</span> <span className="ea__accent">a day.</span>
+      </h1>
+      <p className="ea__sub ea__sub--hero">Your Day One starts now.</p>
 
       <form className="ea__form" onSubmit={onSubmit} noValidate aria-busy={busy}>
         <div className="ea__hp" aria-hidden="true">
@@ -149,7 +167,7 @@ function Confirmed() {
       <p className="ea__eyebrow">Early access · iPhone</p>
       <h1 className="ea__headline">You're on the list.</h1>
       <p className="ea__sub">We'll let you know when Compound to Greatness launches.</p>
-      <p className="ea__tagline">Small actions. Extraordinary change.</p>
+      <p className="ea__tagline">Small daily actions. Extraordinary results.</p>
     </>
   );
 }
