@@ -19,15 +19,15 @@ export default function EarlyAccess() {
 
   return (
     <div className="ea">
-      {/* Atmosphere only (decorative). Unsplash License, Stas Ostrikov, unsplash.com/photos/pwvZxGiyu1E — source and
-          licence notes in docs/early-access-kit.md. The app visual on the right stays a real capture. */}
+      {/* Atmosphere only (decorative): owner-supplied, AI-generated image (2026-11-24); provenance and notes in
+          docs/early-access-kit.md. The app visual on the right stays a real capture. */}
       <div className="ea__bg" aria-hidden="true">
         <img
-          src="/early-access/someday-stairs-2000.jpg"
-          srcSet="/early-access/someday-stairs-1000.jpg 1000w, /early-access/someday-stairs-2000.jpg 2000w"
+          src="/early-access/someday-run-1672.jpg"
+          srcSet="/early-access/someday-run-1000.jpg 1000w, /early-access/someday-run-1672.jpg 1672w"
           sizes="100vw"
-          width={2000}
-          height={1333}
+          width={1672}
+          height={941}
           alt=""
           fetchPriority="high"
           decoding="async"

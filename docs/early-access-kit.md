@@ -168,20 +168,21 @@ are no-ops until a provider is chosen. They never include the email address.
 - Core brand tagline: **Small daily actions. Extraordinary results.** (meta description, share image, `?confirmed=1`)
 - Call to action line: **Your Day One starts now.**
 
-Share image: `public/early-access/og-someday.jpg` (1200 × 630, ~180 KB JPEG), referenced by absolute URL in
+Share image: `public/early-access/og-someday.jpg` (1200 × 630, ~220 KB JPEG), referenced by absolute URL in
 `early-access/index.html` only; the main site's `index.html` metadata is separate and unchanged. The previous
 `og-early-access.jpg` is kept so links already shared keep a valid image until platforms re-scrape.
 
-## Background photo: source and licence (verified 2026-11-24)
+## Background image: source and rights (2026-11-24)
 
 | | |
 |---|---|
-| Files | `public/early-access/someday-stairs-{1000,2000}.jpg`; also cropped into `og-someday.jpg` |
-| Source | https://unsplash.com/photos/pwvZxGiyu1E ("Person running up stairs in a snowstorm"), published 2025-03-05 |
-| Image | images.unsplash.com/photo-1741175076377-8248180bd1f4 (free library, not Unsplash+) |
-| Photographer | Stas Ostrikov, https://unsplash.com/@stasostrikov |
-| Licence | Unsplash License, https://unsplash.com/license: irrevocable, non-exclusive, worldwide; commercial use and modification allowed; attribution not required. Not allowed: selling unaltered copies, or compiling Unsplash images into a similar/competing service. Neither applies here. |
-| Releases | Unsplash does not supply model/property releases (contributors agree uploads have them; Unsplash gives no guarantee). Users are responsible for third-party rights, e.g. of identifiable people. See help.unsplash.com articles 2612329 and 2646379. |
-| Assessment | Subject is photographed from behind, hood up, at night in heavy snow: face not visible, no logos or distinguishing marks, location not identifiable, so not reasonably identifiable. Unsplash's caption calls the subject "a girl" (possibly a minor), another reason to keep the use non-identifying. Used as atmosphere only; nothing states or implies that the person uses or endorses the app. Low risk. Optional extra assurance: ask the photographer (Unsplash message) whether a release exists. |
+| Files | `public/early-access/someday-run-{1000,1672}.jpg`; also cropped into `og-someday.jpg` |
+| Source | Owner-supplied, **AI-generated** with ChatGPT on 2026-11-24 (file "Winter Stair Run in Heavy Snow.png", 1672 × 941, downloaded from chatgpt.com). Re-encoded to JPEG only; not otherwise altered. |
+| How it was made | ChatGPT was given desktop and mobile screenshots of this early-access page, which at the time showed the Unsplash photograph "Person running up stairs in a snowstorm" by Stas Ostrikov (unsplash.com/photos/pwvZxGiyu1E, Unsplash License). That scene served as creative inspiration. The generated image shows a fictional athlete deliberately training (running up stairs) in heavy snowfall, with different clothing, body position, lighting and composition. The Unsplash photograph is no longer used on the page or in the repository. |
+| Commercial-use rights | OpenAI's terms assign the user whatever rights OpenAI has in the output, so CTG may use, modify and publish the image commercially. This is a contractual permission from OpenAI, not a guarantee about third parties. |
+| Copyright protection | **Not assumed.** Purely AI-generated material generally can't be registered for copyright in the US, so CTG probably cannot claim exclusive rights or stop others from reusing the image. |
+| Third-party risk | **Reduced, not eliminated.** The reference photograph was licensed (the Unsplash License permits modification and commercial use), and the result differs materially in subject, clothing, pose, light and composition. But the scene, setting and concept are similar, and the model's training sources are unknown, so a similarity claim can't be ruled out. Keep this record; if a claim is ever raised, replace the image (a photograph CTG commissions or licenses would remove the question). |
+| People / releases | No real person is depicted, so no model release applies. The figure is seen from behind (hood up, no face), and any resemblance to a real person would be coincidental. |
+| Trademarks | No logos, brand marks or text are visible (plain shoes and jacket). |
 
-Display treatment (grayscale, darkening, crop) is CSS only; the files are unaltered downloads.
+Display treatment (grayscale, darkening, crop) is CSS only.
