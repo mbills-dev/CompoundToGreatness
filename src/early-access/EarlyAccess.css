@@ -42,9 +42,23 @@ body {
   display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;
   filter: grayscale(1) contrast(1.08) brightness(.82);
 }
+/* Phones: the fade is pinned to the email field, not to the screen height. The headline scales with the width, so the
+   field's top is ~192px + 43.25vw (headline capped at 96px → 253px); the stairs are solid black ~50px above it, so no
+   stair edge lines up with the field. Desktop replaces this gradient below. */
+.ea__bg {
+  --ea-field-top: calc(192px + min(43.25vw, 253px) + max(0px, env(safe-area-inset-top, 0px) - 20px));
+  --ea-fade-end: calc(var(--ea-field-top) - 50px);
+}
 .ea__bg::after {
   content: ''; position: absolute; inset: 0;
-  background: linear-gradient(to bottom, rgba(5,5,5,.55) 0%, rgba(5,5,5,.1) 20%, rgba(5,5,5,.25) 44%, rgba(5,5,5,.86) 68%, var(--ctg-black) 92%);
+  background: linear-gradient(to bottom,
+    rgba(5,5,5,.55) 0, rgba(5,5,5,.1) 20%,
+    rgba(5,5,5,.18) calc(var(--ea-fade-end) - 170px),
+    rgba(5,5,5,.4) calc(var(--ea-fade-end) - 120px),
+    rgba(5,5,5,.7) calc(var(--ea-fade-end) - 72px),
+    rgba(5,5,5,.9) calc(var(--ea-fade-end) - 36px),
+    rgba(5,5,5,.98) calc(var(--ea-fade-end) - 12px),
+    var(--ctg-black) var(--ea-fade-end));
 }
 .ea__brand { display: inline-block; }
 .ea__brand img { display: block; height: 26px; width: auto; }
