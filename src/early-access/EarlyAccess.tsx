@@ -167,7 +167,7 @@ function Confirmed() {
       <p className="ea__eyebrow">Early access · iPhone</p>
       <h1 className="ea__headline">You're on the list.</h1>
       <p className="ea__sub">We'll let you know when Compound to Greatness launches.</p>
-      <p className="ea__tagline">Small daily actions. Extraordinary results.</p>
+      <p className="ea__tagline">Small actions, extraordinary results.</p>
     </>
   );
 }

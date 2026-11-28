@@ -165,7 +165,7 @@ are no-ops until a provider is chosen. They never include the email address.
 ## Messaging (owner-approved 2026-11-24)
 
 - Launch campaign headline: **Someday is not a day.** (page `<h1>`, page title, share image)
-- Core brand tagline: **Small daily actions. Extraordinary results.** (meta description, share image, `?confirmed=1`)
+- Core brand tagline (definitive, 2026-11-28): **Small actions, extraordinary results.** (meta description, share image, `?confirmed=1`). Supersedes "Small daily actions. Extraordinary results." The Kit confirmation email intentionally says "Small actions. Extraordinary results."; leave it. "Daily" stays in product and methodology copy (daily inputs, Success Stack).
 - Call to action line: **Your Day One starts now.**
 
 Share image: `public/early-access/og-someday.jpg` (1200 × 630, ~220 KB JPEG), referenced by absolute URL in
